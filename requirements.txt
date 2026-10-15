@@ -5,7 +5,7 @@
 # 5.2 LTS line on purpose: allauth, DRF and WhiteNoise are all proven against it.
 Django>=5.2,<5.3
 djangorestframework>=3.15,<3.17
-gunicorn>=22,<27
+gunicorn>=26.2.0,<27
 whitenoise>=6.7,<7
 django-allauth[socialaccount]>=65.0,<66
 requests>=2.31,<3
