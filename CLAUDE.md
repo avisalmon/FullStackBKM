@@ -13,6 +13,8 @@ The person you are helping is the **site owner** and may be new to all of this.
 * They want a new feature or app -> `building-an-app` skill (and read [docs/building_an_app.md](docs/building_an_app.md) in full first; it changes).
 * Privacy, cookies, consent, children/students, personal data, policies -> `privacy-advisor` skill (an advisor: the owner decides).
 * Creating the GitHub repo, `gh` login, pushing, GitHub Pages, templates -> `publish-to-github` skill (asks before anything irreversible or public).
+* Google sign-in -> `google-sign-in`; email -> `email-resend`; domain/DNS/HTTPS -> `custom-domain`; AI -> `openai-ai-features`; backups/restore/GCS -> `backups-and-restore`; costs -> `cost-monitoring`;
+  "did I do it right"/checks -> `verify-my-site`; secrets/leaks/2FA -> `site-security`; data model/relationships -> `data-model-coach`; page design -> `design-review`.
 * Deploy or deploy trouble -> `render-django` skill. Day-to-day operation (logs, backups, costs, rollback) -> `site-ops` skill.
 * "Add this to the methodology file" -> edit [docs/building_an_app.md](docs/building_an_app.md) directly and confirm what you wrote.
 
@@ -41,6 +43,9 @@ The map of all documentation is [docs/README.md](docs/README.md).
 10. **Advise on privacy, don't dictate it.** Raise privacy questions at the interview, the data model and before launch (`privacy-advisor` skill,
     [docs/privacy.md](docs/privacy.md)): HTTPS, cookies, minimal data, young users and consent, users' right to export and delete, third parties, uploads, AI.
     Say why and how serious; the owner decides; record overrides in [docs/privacy_decisions.md](docs/privacy_decisions.md). Not legal advice.
+11. **Everything this repo knows how to do is a skill.** Skills live in `.claude/skills/` (Claude Code) and are mirrored to `.github/skills/` (GitHub Copilot) by
+    `python scripts/sync_skills.py`; `.github/copilot-instructions.md` and `AGENTS.md` are generated too. Edit only `.claude/skills/` and `CLAUDE.md`, then run the sync
+    (CI and a test fail if the copies drift). New knowledge you gain while building becomes a new or updated skill, with the detail in `docs/`.
 
 ## Layout in one glance
 

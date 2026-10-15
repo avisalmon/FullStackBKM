@@ -3,75 +3,382 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FullStackBKM</title>
-  <meta name="description" content="A blueprint for building a production full-stack website (Django on Render) by working with Claude.">
+  <title>FullStackBKM: build a real website with an AI by your side</title>
+  <meta name="description" content="Go from an idea to a real, live, safe website. A blueprint (Django on Render) with Claude or GitHub Copilot as your guide and mentor. Clone it, open it, say one sentence.">
+  <meta name="theme-color" content="#4f46e5">
+  <meta property="og:title" content="FullStackBKM: build a real website with an AI by your side">
+  <meta property="og:description" content="From idea to a live, safe website. Clone the blueprint, open it in your AI assistant, say one sentence.">
+  <meta property="og:type" content="website">
   <style>
-    :root { --bg:#ffffff; --fg:#1c2024; --muted:#5b6470; --accent:#2557d6; --border:#d9dde3; --surface:#f5f7fa; }
+    :root {
+      --bg: #fbfbfe; --surface: #ffffff; --surface-2: #f2f3fb; --fg: #14152b; --muted: #5a5d7a;
+      --border: #e2e4f3; --accent: #4f46e5; --accent-2: #0ea5a4; --accent-fg: #ffffff;
+      --claude: #b45309; --claude-bg: #fff3e0; --you: #0f766e; --you-bg: #dcf7f1; --both-bg: #e8e9ff;
+      --ok: #15803d; --shadow: 0 1px 2px rgba(20,21,43,.06), 0 8px 24px rgba(20,21,43,.07);
+      --hero-a: #eef0ff; --hero-b: #e6fbf8; --term: #14152b; --term-fg: #e8eaff;
+    }
     @media (prefers-color-scheme: dark) {
-      :root { --bg:#14171c; --fg:#e8eaed; --muted:#9aa3ae; --accent:#7aa2ff; --border:#2c323b; --surface:#1c2027; }
+      :root {
+        --bg: #0e0f1d; --surface: #16182b; --surface-2: #1d2038; --fg: #ecedf8; --muted: #a0a4c4;
+        --border: #2a2d4a; --accent: #8b87ff; --accent-2: #3dd6d0; --accent-fg: #0e0f1d;
+        --claude: #fbbf6a; --claude-bg: #3a2a12; --you: #5eead4; --you-bg: #11332f; --both-bg: #25284f;
+        --ok: #4ade80; --shadow: 0 1px 2px rgba(0,0,0,.4), 0 8px 24px rgba(0,0,0,.35);
+        --hero-a: #17183a; --hero-b: #0e2a2d; --term: #090a14; --term-fg: #e8eaff;
+      }
     }
     * { box-sizing: border-box; }
-    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
-    main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
-    h1 { font-size: 2rem; margin: 0 0 .25rem; }
-    h2 { margin-top: 2.25rem; font-size: 1.25rem; }
-    .lede { color: var(--muted); font-size: 1.1rem; margin-top: 0; }
-    a { color: var(--accent); }
-    .say { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; font-size: 1.15rem; }
-    ol, ul { padding-left: 1.25rem; }
-    li { margin: .35rem 0; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
-    th { width: 9rem; color: var(--muted); font-weight: 600; }
-    code { background: var(--surface); padding: .1rem .3rem; border-radius: 4px; }
-    footer { margin-top: 3rem; color: var(--muted); font-size: .9rem; }
+    html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: var(--accent); text-underline-offset: 3px; }
+    a:hover { text-decoration-thickness: 2px; }
+    code, pre, kbd { font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace; font-size: .92em; }
+    code { background: var(--surface-2); padding: .12rem .38rem; border-radius: 6px; }
+    .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+    .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-fg); padding: .5rem 1rem; z-index: 100; }
+    .skip:focus { left: 0; }
+
+    /* nav */
+    .nav { position: sticky; top: 0; z-index: 50; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    .nav .wrap { display: flex; align-items: center; gap: 1rem; min-height: 3.4rem; }
+    .brand { font-weight: 800; letter-spacing: -.02em; text-decoration: none; color: var(--fg); display: flex; align-items: center; gap: .5rem; }
+    .brand i { display: inline-block; width: 1.5rem; height: 1.5rem; border-radius: 7px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); }
+    .nav ul { display: flex; gap: 1.1rem; list-style: none; margin: 0 0 0 auto; padding: 0; flex-wrap: wrap; }
+    .nav ul a { color: var(--muted); text-decoration: none; font-size: .95rem; }
+    .nav ul a:hover { color: var(--fg); }
+    .gh { margin-left: .25rem; }
+    @media (max-width: 52rem) { .nav ul { display: none; } .gh { margin-left: auto; } }
+
+    /* buttons */
+    .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.2rem; border-radius: 10px; font-weight: 650; text-decoration: none; border: 1px solid var(--border); background: var(--surface); color: var(--fg); cursor: pointer; font-size: 1rem; font-family: inherit; }
+    .btn:hover { border-color: var(--accent); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, var(--accent-2))); color: var(--accent-fg); border-color: transparent; box-shadow: 0 6px 18px color-mix(in srgb, var(--accent) 35%, transparent); }
+    .btn.primary:hover { filter: brightness(1.06); }
+    .btn.small { padding: .4rem .8rem; font-size: .9rem; }
+    :focus-visible { outline: 3px solid var(--accent-2); outline-offset: 2px; border-radius: 6px; }
+
+    /* hero */
+    .hero { background: radial-gradient(60rem 28rem at 15% -10%, var(--hero-a), transparent 60%), radial-gradient(50rem 26rem at 95% 10%, var(--hero-b), transparent 60%); padding: 4.2rem 0 3.2rem; }
+    .hero .wrap { display: grid; gap: 2.5rem; grid-template-columns: 1.1fr .9fr; align-items: center; }
+    @media (max-width: 52rem) { .hero .wrap { grid-template-columns: 1fr; } .hero { padding-top: 2.5rem; } }
+    .eyebrow { display: inline-block; font-size: .85rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); background: var(--both-bg); padding: .25rem .7rem; border-radius: 999px; }
+    h1 { font-size: clamp(2.1rem, 4.6vw, 3.4rem); line-height: 1.08; letter-spacing: -.03em; margin: .9rem 0 1rem; }
+    h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lede { font-size: 1.2rem; color: var(--muted); max-width: 36rem; margin: 0 0 1.6rem; }
+    .cta { display: flex; flex-wrap: wrap; gap: .8rem; }
+    .trust { display: flex; flex-wrap: wrap; gap: .4rem 1.1rem; margin-top: 1.4rem; color: var(--muted); font-size: .93rem; }
+    .trust span::before { content: "\2713\00a0"; color: var(--ok); font-weight: 800; }
+
+    /* terminal card */
+    .term { background: var(--term); color: var(--term-fg); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; border: 1px solid var(--border); }
+    .term header { display: flex; gap: .4rem; align-items: center; padding: .65rem .9rem; background: rgba(255,255,255,.06); font-size: .8rem; color: #9aa0c8; }
+    .term header b { width: .7rem; height: .7rem; border-radius: 50%; background: #ff5f57; display: inline-block; }
+    .term header b:nth-child(2) { background: #febc2e; } .term header b:nth-child(3) { background: #28c840; }
+    .term header span { margin-left: .5rem; }
+    .term .body { padding: 1.1rem 1.2rem 1.3rem; font-size: .95rem; line-height: 1.55; }
+    .term .you { color: #fff; font-weight: 600; } .term .you::before { content: "you \203a\00a0"; color: #8b87ff; }
+    .term .ai { color: #c8ccee; margin-top: .8rem; } .term .ai::before { content: "ai \203a\00a0"; color: #3dd6d0; }
+    .term .ai ul { margin: .4rem 0 0; padding-left: 1.2rem; color: #aab0dc; }
+    .term .ok { color: #4ade80; }
+    .caret { display: inline-block; width: .55rem; height: 1.05em; background: #8b87ff; vertical-align: -.15em; animation: blink 1.1s steps(2) infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* sections */
+    section { padding: 4rem 0; }
+    section.alt { background: var(--surface-2); }
+    h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -.02em; line-height: 1.15; margin: 0 0 .6rem; }
+    .sub { color: var(--muted); font-size: 1.1rem; max-width: 44rem; margin: 0 0 2rem; }
+    h3 { margin: 0 0 .35rem; font-size: 1.1rem; }
+    .grid { display: grid; gap: 1.1rem; }
+    .g4 { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); }
+    .g3 { grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); }
+    .g2 { grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr)); }
+    .card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.3rem; box-shadow: var(--shadow); }
+    .card p { margin: 0; color: var(--muted); font-size: .97rem; }
+    .ico { width: 2.5rem; height: 2.5rem; border-radius: 12px; background: var(--both-bg); display: grid; place-items: center; margin-bottom: .8rem; color: var(--accent); }
+    .ico svg { width: 1.4rem; height: 1.4rem; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+    /* steps */
+    .steps { display: grid; gap: 1.1rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); counter-reset: s; }
+    .step { position: relative; padding-top: 2.6rem; }
+    .step::before { counter-increment: s; content: counter(s); position: absolute; top: -1rem; left: 1.2rem; width: 2.2rem; height: 2.2rem; border-radius: 50%; display: grid; place-items: center; font-weight: 800; color: var(--accent-fg); background: linear-gradient(135deg, var(--accent), var(--accent-2)); box-shadow: var(--shadow); }
+    .step ul { margin: .5rem 0 0; padding-left: 1.2rem; color: var(--muted); font-size: .97rem; }
+    .say { display: flex; align-items: center; gap: .8rem; flex-wrap: wrap; background: var(--term); color: var(--term-fg); border-radius: 12px; padding: .8rem 1rem; margin-top: .8rem; }
+    .say q { quotes: none; font-weight: 700; font-size: 1.05rem; flex: 1 1 14rem; }
+    .copied { color: var(--ok); font-size: .9rem; min-height: 1.2em; margin-top: .4rem; }
+    .tools { display: grid; gap: .5rem; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); margin-top: 1.4rem; }
+    .tool { display: flex; gap: .7rem; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .7rem .9rem; text-decoration: none; color: var(--fg); }
+    .tool:hover { border-color: var(--accent); }
+    .tool small { display: block; color: var(--muted); }
+
+    /* timeline */
+    .tl { list-style: none; margin: 0; padding: 0 0 0 1.6rem; border-left: 3px solid var(--border); display: grid; gap: 1rem; }
+    .tl li { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem; }
+    .tl li::before { content: ""; position: absolute; left: -2.18rem; top: 1.25rem; width: 1rem; height: 1rem; border-radius: 50%; background: var(--bg); border: 3px solid var(--accent); }
+    .tl h3 { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+    .tl p { margin: .15rem 0 .4rem; color: var(--muted); font-size: .97rem; }
+    .tl .links { font-size: .93rem; display: flex; flex-wrap: wrap; gap: .3rem 1rem; }
+    .chip { font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 999px; }
+    .chip.claude { color: var(--claude); background: var(--claude-bg); }
+    .chip.you { color: var(--you); background: var(--you-bg); }
+    .chip.both { color: var(--accent); background: var(--both-bg); }
+    .legend { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; align-items: center; margin-bottom: 1.4rem; color: var(--muted); font-size: .95rem; }
+
+    /* misc */
+    pre { background: var(--term); color: var(--term-fg); padding: 1rem 1.1rem; border-radius: 12px; overflow-x: auto; line-height: 1.5; margin: .8rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; }
+    /* the inline-code highlight must not leak into a dark code block: light text on a light chip is unreadable */
+    pre code { background: none; color: inherit; padding: 0; border-radius: 0; }
+    table { width: 100%; border-collapse: collapse; background: var(--surface); border-radius: 14px; overflow: hidden; border: 1px solid var(--border); }
+    th, td { text-align: left; padding: .7rem 1rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { width: 10rem; color: var(--muted); font-weight: 650; background: var(--surface-2); }
+    tr:last-child th, tr:last-child td { border-bottom: 0; }
+    .scroll { overflow-x: auto; }
+    ul.ticks { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .45rem; }
+    ul.ticks li { padding-left: 1.6rem; position: relative; }
+    ul.ticks li::before { content: "\2713"; position: absolute; left: 0; color: var(--ok); font-weight: 800; }
+    details { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .2rem 1.1rem; margin-bottom: .7rem; }
+    summary { cursor: pointer; font-weight: 650; padding: .8rem 0; }
+    details p { margin: 0 0 1rem; color: var(--muted); }
+    footer { border-top: 1px solid var(--border); padding: 2.2rem 0 3rem; color: var(--muted); font-size: .95rem; }
+    footer .wrap { display: flex; flex-wrap: wrap; gap: 1rem 2rem; justify-content: space-between; }
+    footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
+    .banner { background: var(--both-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem; margin-top: 1.4rem; }
+    .banner p { margin: 0; }
   </style>
 </head>
 <body>
-<main>
-  <h1>FullStackBKM</h1>
-  <p class="lede">A blueprint for building a real full-stack website, Django on Render, by working with Claude.</p>
+<a class="skip" href="#main">Skip to content</a>
 
-  <h2>Start</h2>
-  <ol>
-    <li>Install Python 3.12, Git, the GitHub CLI, and Claude Code (signed in).</li>
-    <li>Use this repo as a <strong>private</strong> template for your site, and clone your copy.</li>
-    <li>Open the folder in Claude Code and say:</li>
-  </ol>
-  <p class="say"><strong>&ldquo;Help me build my full stack site&rdquo;</strong></p>
-  <p>Claude interviews you, sets everything up, deploys it, and does all it can on its own. When it needs you (an account, a card,
-  a consent screen, a DNS record) it tells you exactly what to click.</p>
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top"><i aria-hidden="true"></i>FullStackBKM</a>
+    <ul>
+      <li><a href="#have">What you get</a></li>
+      <li><a href="#start">Start</a></li>
+      <li><a href="#journey">The journey</a></li>
+      <li><a href="#learn">Learn</a></li>
+      <li><a href="#verify">Check your work</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+    <a class="btn small gh" href="https://github.com/avisalmon/FullStackBKM">GitHub</a>
+  </div>
+</nav>
 
-  <h2>What you will learn</h2>
-  <p>Claude mentors you as it builds: <a href="tutorial/index.html">how a Django site works</a>, then the lesson that matters most,
-  <a href="tutorial/data-models.html">data models and relationships</a> (what they are and why they decide whether a site is easy or painful to grow),
-  plus a <a href="docs/design_guide.md">practical design guide</a> and <a href="docs/privacy.md">privacy advice</a> (HTTPS, cookies, young users, consent; advice, not rules: you decide). A checker, <code>scripts/verify_site.py</code>, tells you whether you did it right.</p>
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">A blueprint, a mentor and a safety net</span>
+      <h1>Go from &ldquo;I have an idea&rdquo; to a <em>real, live, safe</em> website.</h1>
+      <p class="lede">Clone this repo, open it in your AI assistant, and say one sentence. It interviews you, builds the site with you, deploys it, explains every step, and checks your work. You decide; it does the heavy lifting.</p>
+      <div class="cta">
+        <a class="btn primary" href="#start">Get started in 3 steps</a>
+        <a class="btn" href="#journey">See the whole journey</a>
+      </div>
+      <div class="trust">
+        <span>Claude Code or GitHub Copilot</span>
+        <span>About $7 a month to host</span>
+        <span>Private by default</span>
+      </div>
+    </div>
+    <div class="term" aria-label="Example conversation">
+      <header><b></b><b></b><b></b><span>your AI assistant</span></header>
+      <div class="body">
+        <div class="you">Help me build my full stack site</div>
+        <div class="ai">Great. A few questions first, so I build the right thing:
+          <ul>
+            <li>What is the site for, and who will use it?</li>
+            <li>Could any users be under 18? Which countries?</li>
+            <li>What are the main <em>things</em> people will create or manage?</li>
+          </ul>
+        </div>
+        <div class="ai"><span class="ok">&#10003;</span> Local site running, 150+ tests green<br><span class="ok">&#10003;</span> Private GitHub repo created<br>Next: your Render account (that one is yours, I'll show you exactly where to click)<span class="caret" aria-hidden="true"></span></div>
+      </div>
+    </div>
+  </div>
+</header>
 
-  <h2>What you get</h2>
-  <table>
-    <tr><th>Hosting</th><td>Render, HTTPS, auto-deploy from GitHub, about $7.25/month</td></tr>
-    <tr><th>Data</th><td>SQLite on a persistent disk; media and static files handled</td></tr>
-    <tr><th>Sign-in</th><td>Email + password and Google</td></tr>
-    <tr><th>Email</th><td>Transactional email through Resend</td></tr>
-    <tr><th>Domain</th><td>Your own domain with HTTPS</td></tr>
-    <tr><th>AI</th><td>OpenAI with a monthly spend cap and per-user limits</td></tr>
-    <tr><th>Backups</th><td>Scheduled, offsite to a Google Cloud Storage bucket, restore procedure included</td></tr>
-    <tr><th>Costs</th><td>Monthly cost report and budget alert</td></tr>
-    <tr><th>Safety</th><td>Private repo, secrets never in git (scanned), safe-by-default settings</td></tr>
-    <tr><th>Method</th><td>Data model first, encapsulated apps, REST API for everything, tests that can fail</td></tr>
-  </table>
+<main id="main">
 
-  <h2>Read more</h2>
-  <ul>
-    <li><a href="README.md">README</a>: the full start-up guide</li>
-    <li><a href="tutorial/index.html">Tutorial: how it works</a> and <a href="tutorial/data-models.html">data models</a></li>
-    <li><a href="docs/new_site_checklist.md">The journey, phase by phase</a></li>
-    <li><a href="docs/building_an_app.md">How we build apps</a></li>
-    <li><a href="docs/security.md">Keeping your site and accounts safe</a></li>
-    <li><a href="docs/README.md">All documentation</a></li>
-  </ul>
+<section id="have">
+  <div class="wrap">
+    <h2>What you will have</h2>
+    <p class="sub">Not a demo and not a mock-up: a real website on the internet, with the things a real site needs.</p>
+    <div class="grid g4">
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div><h3>Your own address</h3><p>Your domain with the padlock, hosted on Render, updated by one command.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></div><h3>Sign in, two ways</h3><p>Email and password, or one click with Google.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><h3>A database that remembers</h3><p>Your data and uploaded photos survive every update.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><h3>Email that arrives</h3><p>Password resets and alerts through a real mail service.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></div><h3>AI when you want it</h3><p>OpenAI built in, with a monthly spending cap and per-user limits.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/><path d="M12 8v4l3 2"/></svg></div><h3>Backups on autopilot</h3><p>Scheduled, copied to a Google Cloud bucket, with a restore you have practised.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 20h18M6 16V9m6 7V5m6 11v-4"/></svg></div><h3>No bill surprises</h3><p>A monthly cost report and a budget alert in your inbox.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Safe and private by design</h3><p>Private repo, no secrets in code, privacy tools and a &ldquo;My data&rdquo; page for your users.</p></div>
+    </div>
+  </div>
+</section>
 
-  <footer>Built from the practices of a production Django site on Render.</footer>
+<section id="start" class="alt">
+  <div class="wrap">
+    <h2>Start in three steps</h2>
+    <p class="sub">About an hour to your first live site, most of it signing up for accounts.</p>
+    <div class="steps">
+      <div class="card step">
+        <h3>Install the basics, once</h3>
+        <p>Only what you don&rsquo;t already have.</p>
+        <ul>
+          <li>Python 3.12 and Git</li>
+          <li>A GitHub account and the GitHub CLI</li>
+          <li>An AI assistant: Claude Code or GitHub Copilot</li>
+          <li>VS Code, if you want an editor</li>
+        </ul>
+      </div>
+      <div class="card step">
+        <h3>Make your private copy</h3>
+        <p>On the repo page choose <strong>Use this template</strong>, then <strong>Create a new repository</strong>, then <strong>Private</strong>. Clone <em>your</em> copy.</p>
+        <p style="margin-top:.8rem"><a class="btn primary small" href="https://github.com/avisalmon/FullStackBKM/generate">Use this template</a></p>
+        <pre><code>git clone https://github.com/YOU/YOUR-SITE.git
+cd YOUR-SITE</code></pre>
+      </div>
+      <div class="card step">
+        <h3>Open it and say one sentence</h3>
+        <p>Open the folder in your assistant and type:</p>
+        <div class="say"><q id="magic">Help me build my full stack site</q><button class="btn small" id="copy" type="button" data-copy="Help me build my full stack site">Copy</button></div>
+        <div class="copied" id="copied" role="status" aria-live="polite"></div>
+        <p>It takes it from there, and tells you exactly what to click when it needs <em>you</em>.</p>
+      </div>
+    </div>
+
+    <div class="tools" aria-label="Downloads">
+      <a class="tool" href="https://www.python.org/downloads/"><span><strong>Python 3.12</strong><small>python.org</small></span></a>
+      <a class="tool" href="https://git-scm.com/downloads"><span><strong>Git</strong><small>git-scm.com</small></span></a>
+      <a class="tool" href="https://cli.github.com"><span><strong>GitHub CLI</strong><small>cli.github.com</small></span></a>
+      <a class="tool" href="https://claude.com/claude-code"><span><strong>Claude Code</strong><small>claude.com/claude-code</small></span></a>
+      <a class="tool" href="https://github.com/features/copilot"><span><strong>GitHub Copilot</strong><small>in VS Code, agent mode</small></span></a>
+      <a class="tool" href="https://code.visualstudio.com"><span><strong>VS Code</strong><small>code.visualstudio.com</small></span></a>
+    </div>
+
+    <div class="grid g2" style="margin-top:1.6rem">
+      <div class="card"><h3>Using Claude Code</h3><p>The playbooks are in <code>.claude/skills/</code> and load automatically. Say the sentence and the <code>build-my-site</code> skill starts.</p></div>
+      <div class="card"><h3>Using GitHub Copilot</h3><p>The same playbooks are in <code>.github/skills/</code>, and <code>.github/copilot-instructions.md</code> lists every one with its trigger phrases. Open Copilot Chat in agent mode and say the sentence.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="journey">
+  <div class="wrap">
+    <h2>The journey, phase by phase</h2>
+    <p class="sub">Your assistant does everything it can by itself. When something needs a human (an account, a card, a consent screen, a DNS record) it tells you exactly what to do and waits.</p>
+    <div class="legend">
+      <span><span class="chip claude">Assistant</span> does it</span>
+      <span><span class="chip you">You</span> only you can</span>
+      <span><span class="chip both">Together</span> a conversation</span>
+    </div>
+    <ol class="tl">
+      <li><h3><span class="chip you">You</span> 0. Prerequisites</h3><p>Install Python, Git, the GitHub CLI and your AI assistant; log in once.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/README.md">README</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Full checklist</a></div></li>
+      <li><h3><span class="chip both">Together</span> 1. Your idea, and a privacy conversation</h3><p>An interview about what the site is for, who uses it (ages, countries) and what personal data it needs. The assistant advises; you decide, and it writes your decisions down.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy.md">Privacy guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy_decisions.md">Your decisions log</a></div></li>
+      <li><h3><span class="chip claude">Assistant</span> 2. Your local site</h3><p>Virtual environment, dependencies, a fresh secret key, the database, tests, and the site running on your own computer.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Checklist</a></div></li>
+      <li><h3><span class="chip both">Together</span> 3. A private GitHub repo</h3><p>The assistant installs and logs in the GitHub CLI (you type one code in your browser), checks for secrets, and creates your <strong>private</strong> repository.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/.claude/skills/publish-to-github/SKILL.md">The publish playbook</a></div></li>
+      <li><h3><span class="chip both">Together</span> 4. Go live on Render</h3><p>You open the account, add a card and click <em>New &rarr; Blueprint</em>. The assistant then reads the logs, checks the health endpoint and tests the live site.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/deploy_to_render.md">Deploy to Render</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/debug_failed_deploy.md">If it fails</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gotchas.md">30 known traps</a></div></li>
+      <li><h3><span class="chip both">Together</span> 5. Google sign-in <small>(optional)</small></h3><p>You create the Google OAuth client; the assistant wires it in and tests the button.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/auth_google_oauth.md">Google sign-in</a></div></li>
+      <li><h3><span class="chip both">Together</span> 6. Email <small>(optional)</small></h3><p>You verify a domain at Resend; the assistant sets the keys and sends a test.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/email_resend.md">Email with Resend</a></div></li>
+      <li><h3><span class="chip both">Together</span> 7. Your own domain <small>(optional)</small></h3><p>You buy it and add the DNS records; the assistant attaches it to Render and fixes the settings.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/custom_domain_dns.md">Custom domain</a></div></li>
+      <li><h3><span class="chip both">Together</span> 8. AI features <small>(optional)</small></h3><p>You set a spend limit and create a key; the assistant builds on a metered helper with caps, so AI can never run away with your money.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/openai.md">AI with OpenAI</a></div></li>
+      <li><h3><span class="chip both">Together</span> 9. Backups and costs</h3><p>Scheduled backups, an offsite copy in a Google Cloud bucket, a restore you practise once, and a monthly cost report with a budget alert.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/backup_restore.md">Backup and restore</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gcs_bucket.md">Storage bucket</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/cost_monitoring.md">Cost monitoring</a></div></li>
+      <li><h3><span class="chip both">Together</span> 10. Build your apps</h3><p>Each feature starts with an interview, then a <strong>data model you approve</strong>, then tests and code. The assistant teaches you the data model first.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/building_an_app.md">How we build apps</a><a href="tutorial/data-models.html">Data models lesson</a></div></li>
+    </ol>
+  </div>
+</section>
+
+<section id="learn" class="alt">
+  <div class="wrap">
+    <h2>Learn as you build</h2>
+    <p class="sub">You will not just receive a site; you will understand it. Your assistant acts as a mentor, and these are the materials it teaches from.</p>
+    <div class="grid g4">
+      <a class="card" href="tutorial/index.html" style="text-decoration:none;color:inherit"><h3>How a Django site works</h3><p>A ten-minute tour and the shared vocabulary, so you and your assistant speak the same language.</p></a>
+      <a class="card" href="tutorial/data-models.html" style="text-decoration:none;color:inherit"><h3>Data models and relationships</h3><p>The most important lesson: what a model is, why relationships matter, the four shapes, with diagrams and quizzes.</p></a>
+      <a class="card" href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/design_guide.md" style="text-decoration:none;color:inherit"><h3>Design for non-designers</h3><p>Hierarchy, spacing, mobile, forms and empty states, with the checklist your assistant reviews each screen against.</p></a>
+      <a class="card" href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy.md" style="text-decoration:none;color:inherit"><h3>Privacy, as advice</h3><p>HTTPS, cookies, collecting less, young users and consent, people&rsquo;s rights. The assistant advises; you decide.</p></a>
+    </div>
+  </div>
+</section>
+
+<section id="verify">
+  <div class="wrap">
+    <h2>How you know you did it right</h2>
+    <p class="sub">One read-only command checks your repository, your local site and your live site, and tells you exactly what to fix.</p>
+    <div class="grid g2">
+      <div>
+<pre><code>python scripts/verify_site.py
+python scripts/verify_site.py --url http://127.0.0.1:8000
+python scripts/verify_site.py --url https://your-site.onrender.com</code></pre>
+        <p style="color:var(--muted);margin:.8rem 0 0">Each line is a pass, a warning (worth a look) or a fail (fix first), with a hint.</p>
+      </div>
+      <div class="card">
+        <h3>You have graduated when</h3>
+        <ul class="ticks">
+          <li>the checker shows no FAIL</li>
+          <li>your tests pass</li>
+          <li>you have practised one restore</li>
+          <li>you can explain, in your own words, what your data model is and why its main relationship exists</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="wrap">
+    <h2>Honest expectations</h2>
+    <div class="scroll"><table>
+      <tr><th>Time</th><td>A live site in about an hour. Google sign-in, email, domain, AI and backups take minutes each, at your pace.</td></tr>
+      <tr><th>Cost</th><td>Hosting about <strong>$7.25 a month</strong>; a domain about $10&ndash;15 a year; Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go <strong>and capped</strong>.</td></tr>
+      <tr><th>Your part</th><td>Opening accounts, adding a card, clicking consent screens, creating DNS records, and deciding what your site is for. Never pasting a secret into a chat.</td></tr>
+      <tr><th>Its part</th><td>Code, configuration, tests, deploys, logs, backups, documentation, and explaining it as it goes.</td></tr>
+      <tr><th>Not magic</th><td>The first deploy can hit a snag; every platform does. The repo records 30 known traps and a debugging routine, and your assistant reads the logs and fixes things in front of you.</td></tr>
+      <tr><th>Not for</th><td>Sites with strict compliance needs (payments, medical data, children&rsquo;s data) without proper advice. This is a solid, privacy-minded foundation, not a legal review.</td></tr>
+    </table></div>
+    <div class="banner"><p><strong>You stay in charge.</strong> Nothing goes live without your say-so, every product and privacy decision is yours, and your choices are written down in your own decisions log.</p></div>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <h2>Questions</h2>
+    <details><summary>Do I need to know how to code?</summary><p>No. You need to know what you want and be willing to answer questions. You will pick up the vocabulary as you go, and the tutorial makes it faster.</p></details>
+    <details><summary>Which AI assistants work?</summary><p>Claude Code and GitHub Copilot (agent mode in VS Code). The playbooks ship twice, in <code>.claude/skills/</code> and <code>.github/skills/</code>, and are kept identical by a script and a test. <code>AGENTS.md</code> serves other tools.</p></details>
+    <details><summary>What if something breaks?</summary><p>The assistant reads the deploy logs first, as the playbook requires, then makes one targeted fix. There is a rollback guide, a backup and restore guide, and a list of 30 traps that already bit a real production site.</p></details>
+    <details><summary>Is my code and data private?</summary><p>Your site repo is created <strong>private</strong>. Secrets live in a git-ignored file and in Render, never in the code, and the repo scans every commit for keys. Only this blueprint is public.</p></details>
+    <details><summary>Can I disagree with the privacy advice?</summary><p>Yes. It is advice, not a gate. Your assistant explains why it recommends something and how serious it thinks it is; if you choose differently it records your decision and reason and helps you do it as safely as possible. It is not legal advice, and for children&rsquo;s data you should talk to a lawyer.</p></details>
+    <details><summary>Can I use a different host or database?</summary><p>The blueprint is built for Render and SQLite on a persistent disk, which keeps it simple and cheap. Moving to Postgres or another host is possible later and is on the roadmap.</p></details>
+  </div>
+</section>
+
 </main>
+
+<footer>
+  <div class="wrap">
+    <div><strong>FullStackBKM</strong><br>Built from the practices of a production Django site on Render.</div>
+    <ul>
+      <li><a href="https://github.com/avisalmon/FullStackBKM">Repository</a></li>
+      <li><a href="https://github.com/avisalmon/FullStackBKM/blob/main/README.md">README</a></li>
+      <li><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/README.md">Documentation</a></li>
+      <li><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/security.md">Security</a></li>
+      <li><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/experiment_guide.md">Run the experiment</a></li>
+    </ul>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    var button = document.getElementById("copy"), note = document.getElementById("copied");
+    if (!button) return;
+    button.addEventListener("click", function () {
+      var text = button.getAttribute("data-copy");
+      var done = function (ok) { note.textContent = ok ? "Copied. Paste it into your assistant." : "Select the sentence and copy it."; };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+      } else { done(false); }
+    });
+  })();
+</script>
 </body>
 </html>

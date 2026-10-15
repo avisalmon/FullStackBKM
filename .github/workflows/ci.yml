@@ -12,10 +12,17 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0 # secret scan reads history
-      - name: Secret scan
-        uses: gitleaks/gitleaks-action@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Not gitleaks-action: on a repository's very first push it asks for the parent of the root
+      # commit, fails, and never scans. Running the pinned binary over the full history has no such trap.
+      - name: Secret scan (gitleaks, full history)
+        run: |
+          v=8.24.3
+          base=https://github.com/gitleaks/gitleaks/releases/download/v$v
+          curl -sSfL -o gl.tgz $base/gitleaks_${v}_linux_x64.tar.gz
+          curl -sSfL -o sums.txt $base/gitleaks_${v}_checksums.txt
+          grep " gitleaks_${v}_linux_x64.tar.gz$" sums.txt | sed 's/  .*/  gl.tgz/' | sha256sum -c -
+          tar xzf gl.tgz gitleaks
+          ./gitleaks detect --source . --redact --no-banner --verbose
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
@@ -26,6 +33,8 @@ jobs:
         run: ruff check . && ruff format --check .
       - name: Tests
         run: pytest -q
+      - name: Claude and Copilot skills are identical
+        run: python scripts/sync_skills.py --check
       - name: Django system checks
         run: python manage.py check
       - name: Deploy checks (production settings)

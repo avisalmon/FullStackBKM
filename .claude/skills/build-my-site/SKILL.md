@@ -49,6 +49,19 @@ rather than working from memory; they change as the owner learns. Tick boxes in 
 10. Detect the OS (the environment tells you). Windows: PowerShell syntax and `.\env\Scripts\python.exe`. macOS/Linux: `env/bin/python`.
    The virtualenv is always the folder `env/` (never `.env`, which is the variables file). Run Python via the venv interpreter explicitly.
 
+## Skills map (hand over to these; each has its own triggers)
+
+| Need | Skill |
+|---|---|
+| Teach, explain, quiz, certify understanding | `site-mentor`, `data-model-coach`, `design-review` |
+| Privacy advice (the owner decides) | `privacy-advisor` |
+| GitHub repo, `gh` login, push, Pages | `publish-to-github` |
+| Deploy and deploy trouble | `render-django` |
+| Google sign-in / email / domain / AI | `google-sign-in`, `email-resend`, `custom-domain`, `openai-ai-features` |
+| Backups, restore, costs | `backups-and-restore`, `cost-monitoring` |
+| Check the work, security | `verify-my-site`, `site-security` |
+| New feature or app, day-to-day operation | `building-an-app`, `site-ops` |
+
 ## The journey
 
 ### Phase 0: prerequisites
@@ -103,22 +116,27 @@ decide safeguards for young users if relevant, remind about 2FA, test one deleti
 It is their decision; record anything they decline in `docs/privacy_decisions.md`.
 
 ### Phase 5: Google sign-in
+*Use the `google-sign-in` skill for the detail.*
 Human steps per [auth_google_oauth.md](../../../docs/procedures/auth_google_oauth.md). Then copy both values to Render, wait for the redeploy, test the
 Google button (`curl -sI https://<host>/accounts/google/login/` should redirect toward accounts.google.com).
 
 ### Phase 6: email
+*Use the `email-resend` skill for the detail.*
 [email_resend.md](../../../docs/procedures/email_resend.md). After keys are set, send a test through `render_api.py job --command "python manage.py shell -c ..."`
 or ask the owner to try "forgot password".
 
 ### Phase 7: own domain
+*Use the `custom-domain` skill for the detail.*
 [custom_domain_dns.md](../../../docs/procedures/custom_domain_dns.md). Human: buy + DNS. You: `render_api.py domain`, `env-set ALLOWED_HOSTS` / `SITE_DOMAIN`, update the
 Google redirect URI reminder, `gh variable set SITE_URL`, verify HTTPS with `curl -sI`.
 
 ### Phase 8: OpenAI
+*Use the `openai-ai-features` skill for the detail.*
 [openai.md](../../../docs/procedures/openai.md): spend limit first, then the key. You set the env var and verify metering by calling `/ai/chat/` as a signed-in
 user (or `manage.py shell`), then `report_costs`.
 
 ### Phase 9: backups and costs
+*Use the `backups-and-restore` and `cost-monitoring` skill for the detail.*
 Local backup works out of the box. When the data matters: [gcs_bucket.md](../../../docs/procedures/gcs_bucket.md) (human: bucket + service account; you: env vars, run
 `backup_db`, verify objects exist). Have the owner **practise a restore** once ([backup_restore.md](../../../docs/procedures/backup_restore.md)). Run `report_costs`.
 
