@@ -42,4 +42,6 @@ If you are looking for something and this file does not name it, the file is in 
 
 ## For the blueprint's maintainer
 
+[experiment_guide.md](experiment_guide.md): how to run the "give it to a newcomer" experiment and what to record.
+
 [blueprint_roadmap.md](blueprint_roadmap.md): what is verified, what is not, what was deliberately left out.

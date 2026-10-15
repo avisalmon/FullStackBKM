@@ -140,7 +140,7 @@ The blueprint backs this up with git-ignored secrets, secret scanning, fail-shut
 
 ## Honest status
 
-The code and its 90+ tests run locally and in CI. A few steps talk to real services (Render Blueprint creation, GCS, OpenAI, the Render API's deploy/env endpoints) and were written
+The code and its 120+ tests run locally and in CI, and a fresh clone has been installed and run end to end. A few steps talk to real services (Render Blueprint creation, GCS, OpenAI, the Render API's deploy/env endpoints) and were written
 from a working production site's proven calls and the vendors' docs, but have not yet all been exercised end to end. They are listed in
 [docs/blueprint_roadmap.md](docs/blueprint_roadmap.md); if one misbehaves, Claude reads the logs, fixes it in your copy and tells you.
 

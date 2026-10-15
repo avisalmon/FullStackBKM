@@ -2,11 +2,13 @@
 
 For whoever maintains the blueprint itself (not for site owners who cloned it).
 
-## Verified here (automated, 76+ tests)
+## Verified here (automated, 127 tests, plus repeated cold-start clones)
 
 Settings safety (secret-key refusal, host/CSRF derivation), health check, media with DEBUG off, notes CRUD API with
 refusals, `bootstrap_site` idempotency, local + offsite backup logic (against a fake bucket), OpenAI metering/caps
-(against a fake HTTP layer), cost adapters, the task endpoint's fail-shut behaviour, deploy-config guards, secret scan.
+(against a fake HTTP layer), cost adapters, the task endpoint's fail-shut behaviour, deploy-config guards, secret scan, privacy export/erase (rows and files),
+consent records, cookie and header hardening, `verify_site.py` logic (against fake sites), tutorial structure and links, markdown links, test isolation from a configured `.env`.
+A fresh clone installs, migrates, passes all tests, serves every page and passes `verify_site.py` against a live local server.
 
 ## NOT yet verified against the real services
 
@@ -21,6 +23,19 @@ The first person to deploy should confirm each and fix the blueprint:
 - [ ] `scheduled-tasks.yml` against a live `SITE_URL`
 - [ ] Gitleaks pre-commit hook version pin, `gitleaks-action` on a private personal repo
 - [ ] Python 3.12.6 available on Render's builder
+- [ ] `verify_site.py` against a real https site (HSTS, cookie flags, https redirect checks only run there)
+- [ ] The `build-my-site` skill actually triggers from the phrase "Help me build my full stack site" in a fresh clone, and Claude follows it end to end (the experiment: [experiment_guide.md](experiment_guide.md))
+- [ ] `privacy-advisor` tone: advisory, not nagging, in a real conversation
+- [ ] Tutorial quizzes and picker clicked through in real browsers (structure is tested; behaviour was only read)
+- [ ] The privacy guide's legal statements (COPPA, GDPR ages, Israel) reviewed by a lawyer; they are hedged guidance, not advice
+
+## Known gaps in what was built
+
+- Uploads are served from public `/media/` (random names, not private). Private/authenticated file serving is documented ([privacy.md](privacy.md) section 7) but not built; build it when an app stores sensitive files.
+- The guardian-consent *gate* is infrastructure only (`ConsentRecord`, `has_consent`); each app decides its own gate.
+- `/privacy/` and `/terms/` are drafts by design; they need the owner's review.
+- No built-in two-factor sign-in (recommended on provider accounts; allauth's MFA module could be enabled).
+- No rate limiting on the AI endpoint beyond the token limits.
 
 ## Deliberately left out of the reference site (and why)
 
