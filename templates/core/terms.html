@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Terms{% endblock %}
+{% block content %}
+  <h1>Terms of use</h1>
+  {% if not reviewed %}
+    <p class="draft-banner" role="note"><strong>Draft.</strong> A starting point only, not legal advice. The site owner should replace it with terms that fit this
+    site, then set <code>PRIVACY_REVIEWED=True</code>.</p>
+  {% endif %}
+  <p>By using this site you agree to use it lawfully and respectfully, to keep your sign-in details to yourself, and not to upload content you
+  do not have the right to share.</p>
+  <p>You own what you create. You allow the site to store and display it as needed to run the service. You can delete it, and your account, at any time
+  (see <a href="{% url 'privacy' %}">Privacy</a>).</p>
+  <p>The site is provided as it is. We may change or stop it, and we may remove content or accounts that break these terms.</p>
+  <p>{% if contact_email %}Contact: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.{% endif %}</p>
+{% endblock %}

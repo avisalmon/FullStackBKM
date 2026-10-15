@@ -29,5 +29,10 @@
     {% endif %}
     {% block content %}{% endblock %}
   </main>
+  <footer class="site-footer">
+    <a href="{% url 'privacy' %}">Privacy</a>
+    <a href="{% url 'terms' %}">Terms</a>
+    {% if user.is_authenticated %}<a href="{% url 'my_data' %}">My data</a>{% endif %}
+  </footer>
 </body>
 </html>

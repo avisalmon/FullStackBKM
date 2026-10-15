@@ -10,6 +10,8 @@ If you are looking for something and this file does not name it, the file is in 
 | [new_site_checklist.md](new_site_checklist.md) | The whole journey, phase by phase, with who does what (Claude / you) |
 | [security.md](security.md) | What protects you and the few things only you can do |
 | [../tutorial/index.html](../tutorial/index.html) | **Learn first**: how a Django site works, then data models and relationships (interactive, works offline) |
+| [privacy.md](privacy.md) | **Privacy advice**: HTTPS, cookies, minimal data, young users and consent, rights, uploads, breaches. Advice, not rules; you decide |
+| [privacy_decisions.md](privacy_decisions.md) | Your recorded privacy choices, including where you overrode the advice |
 | [design_guide.md](design_guide.md) | Practical design advice and the review checklist Claude uses on every screen |
 
 ## How we build

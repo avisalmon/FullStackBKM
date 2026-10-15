@@ -1,11 +1,16 @@
 import io
+import json
+import os
 from decimal import Decimal
 
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
 from django.core.management import call_command
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.utils.crypto import constant_time_compare
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_POST
@@ -13,7 +18,7 @@ from django.views.static import serve
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from . import ai, costs
+from . import ai, costs, privacy
 from .models import CostRecord
 
 
@@ -27,7 +32,7 @@ def healthz(request):
 
 
 def robots_txt(request):
-    private = ["/admin/", "/accounts/", "/notes/", "/ops/", "/internal/"]
+    private = ["/admin/", "/accounts/", "/notes/", "/ops/", "/internal/", "/privacy/my-data/"]
     body = "User-agent: *\n" + "".join(f"Disallow: {p}\n" for p in private)
     return HttpResponse(body, content_type="text/plain")
 
@@ -119,3 +124,85 @@ def costs_page(request):
             "adapters": costs.ADAPTERS,
         },
     )
+
+
+# --- privacy: the policy pages and a person's own rights over their data ----------------------
+
+
+def third_parties():
+    """Who else touches visitors' data, built from what is actually switched on in settings."""
+    parties = [("Render", "hosts the site and its database", "https://render.com/privacy")]
+    if settings.GOOGLE_LOGIN_ENABLED:
+        parties.append(("Google", "sign-in with Google", "https://policies.google.com/privacy"))
+    if settings.RESEND_API_KEY:
+        parties.append(("Resend", "delivers our emails", "https://resend.com/legal/privacy-policy"))
+    if settings.OPENAI_API_KEY:
+        parties.append(
+            (
+                "OpenAI",
+                "powers AI features (text you submit to them)",
+                "https://openai.com/policies/privacy-policy",
+            )
+        )
+    if os.environ.get("GCS_BUCKET"):
+        parties.append(
+            (
+                "Google Cloud Storage",
+                "holds our encrypted backups",
+                "https://policies.google.com/privacy",
+            )
+        )
+    if settings.PLAUSIBLE_DOMAIN:
+        parties.append(
+            ("Plausible", "privacy-friendly analytics, no cookies", "https://plausible.io/privacy")
+        )
+    return parties
+
+
+def privacy_page(request):
+    return render(
+        request,
+        "core/privacy.html",
+        {
+            "third_parties": third_parties(),
+            "contact_email": settings.OWNER_EMAIL,
+            "reviewed": settings.PRIVACY_REVIEWED,
+            "session_days": settings.SESSION_COOKIE_AGE // 86400,
+        },
+    )
+
+
+def terms_page(request):
+    return render(
+        request,
+        "core/terms.html",
+        {"contact_email": settings.OWNER_EMAIL, "reviewed": settings.PRIVACY_REVIEWED},
+    )
+
+
+@login_required
+def my_data(request):
+    return render(request, "core/my_data.html")
+
+
+@login_required
+def my_data_export(request):
+    """Download everything the site holds about the signed-in person, as JSON."""
+    payload = json.dumps(privacy.export_user_data(request.user), indent=2, default=str)
+    response = HttpResponse(payload, content_type="application/json")
+    response["Content-Disposition"] = 'attachment; filename="my-data.json"'
+    return response
+
+
+@login_required
+@require_POST
+def my_data_delete(request):
+    """Delete the signed-in person's account and data. They must type their username."""
+    if request.POST.get("confirm", "").strip() != request.user.get_username():
+        messages.error(request, "To delete your account, type your username exactly to confirm.")
+        return redirect("my_data")
+    user = request.user
+    logout(request)
+    privacy.erase_user_data(user)
+    messages.success(request, "Your account and data have been deleted.")
+    return redirect("home")

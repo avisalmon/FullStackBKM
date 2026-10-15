@@ -32,6 +32,7 @@ def test_the_skills_the_docs_promise_exist():
     assert {
         "build-my-site",
         "site-mentor",
+        "privacy-advisor",
         "building-an-app",
         "render-django",
         "site-ops",

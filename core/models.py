@@ -49,3 +49,39 @@ class CostRecord(models.Model):
 
     def __str__(self):
         return f"{self.service} {self.period}: ${self.amount_usd}"
+
+
+class ConsentRecord(models.Model):
+    """A recorded decision to agree (or withdraw), kept as history, never edited.
+
+    Infrastructure for consent of any kind: terms of service, a guardian agreeing for a young
+    person, opting in to emails. The *gate* (who must consent to what before using what) is a
+    product decision per app; see docs/privacy.md. `source` says who actually gave it, because a
+    parent's consent and a user's own click are different facts.
+    """
+
+    SELF, GUARDIAN, ADMIN = "self", "guardian", "admin"
+    SOURCES = [
+        (SELF, "The person themselves"),
+        (GUARDIAN, "Parent/guardian"),
+        (ADMIN, "Entered by staff"),
+    ]
+
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="+")
+    kind = models.CharField(
+        max_length=50, help_text="e.g. terms, privacy, guardian, marketing-email"
+    )
+    version = models.CharField(max_length=20, blank=True, help_text="Which text they agreed to")
+    granted = models.BooleanField(default=True, help_text="False records a withdrawal")
+    source = models.CharField(max_length=10, choices=SOURCES, default=SELF)
+    recorded_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL, related_name="+"
+    )
+    note = models.CharField(max_length=300, blank=True)
+    recorded_at = models.DateTimeField(auto_now_add=True, db_index=True)
+
+    class Meta:
+        ordering = ["-recorded_at", "-id"]
+
+    def __str__(self):
+        return f"{self.user_id} {self.kind} {'granted' if self.granted else 'withdrawn'}"

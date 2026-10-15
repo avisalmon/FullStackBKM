@@ -291,6 +291,52 @@ def check_hsts(site):
     )
 
 
+def check_privacy_headers(site):
+    r = site.request("GET", "/")
+    h = {k.lower(): v for k, v in r.headers.items()}
+    missing = [
+        name
+        for name in ("x-content-type-options", "referrer-policy", "permissions-policy")
+        if name not in h
+    ]
+    return Result(
+        PASS if not missing else WARN,
+        "Privacy/security headers are sent (nosniff, referrer policy, permissions policy)",
+        ""
+        if not missing
+        else f"Missing: {', '.join(missing)}. See docs/privacy.md section 'Headers'.",
+    )
+
+
+def check_cookie_flags(site):
+    if urlparse(site.base).scheme != "https":
+        return None
+    r = site.request("GET", "/accounts/login/")
+    cookies = r.headers.get("Set-Cookie", "")
+    if "csrftoken" not in cookies:
+        return Result(INFO, "No cookie to inspect on the login page")
+    ok = "secure" in cookies.lower() and "samesite" in cookies.lower()
+    return Result(
+        PASS if ok else WARN,
+        "Cookies are marked Secure and SameSite",
+        "" if ok else "Set DEBUG=False on the live site (cookie flags are tied to it).",
+    )
+
+
+def check_privacy_pages(site):
+    page = site.request("GET", "/privacy/")
+    if page.status_code != 200:
+        return Result(WARN, "No /privacy/ page", "Visitors are owed one: docs/privacy.md")
+    if 'class="draft-banner"' in page.text:
+        return Result(
+            WARN,
+            "Privacy policy is still marked DRAFT",
+            "Read /privacy/ and /terms/, adjust them to your real practices, then set "
+            "PRIVACY_REVIEWED=True. (Your call. Record it in docs/privacy_decisions.md.)",
+        )
+    return Result(PASS, "Privacy policy page exists and has been reviewed by the owner")
+
+
 def check_google_button(site):
     r = site.request("GET", "/")
     on = "Continue with Google" in r.text
@@ -311,6 +357,9 @@ LIVE_CHECKS = [
     check_ops_private,
     check_https,
     check_hsts,
+    check_privacy_headers,
+    check_cookie_flags,
+    check_privacy_pages,
     check_google_button,
 ]
 

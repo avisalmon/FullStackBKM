@@ -1,5 +1,16 @@
+import uuid
+from pathlib import Path
+
 from django.conf import settings
 from django.db import models
+
+
+def note_image_path(instance, filename):
+    """Store uploads under a random name. People name files after themselves and their children
+    (`dana-levi-passport.jpg`), and /media/ is served to anyone who has the URL, so the original
+    name must never be part of it. This makes the URL unguessable; it does NOT make it private
+    (see docs/privacy.md, 'Uploaded files')."""
+    return f"notes/{uuid.uuid4().hex}{Path(filename).suffix.lower()}"
 
 
 class Note(models.Model):
@@ -17,7 +28,7 @@ class Note(models.Model):
     title = models.CharField(max_length=200)
     body = models.TextField(blank=True)
     # Lives under MEDIA_ROOT (the persistent disk on Render): survives redeploys.
-    image = models.ImageField(upload_to="notes/", blank=True, null=True)
+    image = models.ImageField(upload_to=note_image_path, blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

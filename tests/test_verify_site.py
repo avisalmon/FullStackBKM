@@ -30,10 +30,16 @@ GOOD = {
     "/": Resp(
         200,
         '<link href="/static/css/site.css"> Continue with Google',
-        {"Strict-Transport-Security": "max-age=31536000"},
+        {
+            "Strict-Transport-Security": "max-age=31536000",
+            "X-Content-Type-Options": "nosniff",
+            "Referrer-Policy": "same-origin",
+            "Permissions-Policy": "camera=()",
+        },
     ),
+    "/privacy/": Resp(200, "<h1>Privacy</h1>"),
     "/static/css/site.css": Resp(200, "body{}"),
-    "/accounts/login/": Resp(200),
+    "/accounts/login/": Resp(200, "", {"Set-Cookie": "csrftoken=x; Secure; SameSite=Lax"}),
     "/accounts/signup/": Resp(200),
     "/admin/login/": Resp(200),
     ("POST", "/internal/run/costs/"): Resp(403),
@@ -146,3 +152,18 @@ def test_debug_on_is_fine_locally_but_a_failure_on_a_live_site():
 
     assert verify.check_debug_off(make("http://127.0.0.1:8000")).status == verify.INFO
     assert verify.check_debug_off(make("https://example.onrender.com")).status == verify.FAIL
+
+
+def test_privacy_checks_warn_but_never_block():
+    """The owner may override privacy advice, so these are WARN (advice), not FAIL (blocker)."""
+    draft = {**GOOD, "/privacy/": Resp(200, '<p class="draft-banner">Draft</p>')}
+    assert verify.check_privacy_pages(FakeSite(draft)).status == verify.WARN
+    assert (
+        verify.check_privacy_pages(FakeSite({**GOOD, "/privacy/": Resp(404)})).status == verify.WARN
+    )
+    assert verify.check_privacy_pages(FakeSite(GOOD)).status == verify.PASS
+    bare = {**GOOD, "/": Resp(200, "", {})}
+    assert verify.check_privacy_headers(FakeSite(bare)).status == verify.WARN
+    loose = {**GOOD, "/accounts/login/": Resp(200, "", {"Set-Cookie": "csrftoken=x"})}
+    assert verify.check_cookie_flags(FakeSite(loose)).status == verify.WARN
+    assert verify.check_cookie_flags(FakeSite(GOOD)).status == verify.PASS

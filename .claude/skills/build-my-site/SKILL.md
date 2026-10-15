@@ -57,7 +57,8 @@ the checklist and wait. `gh auth login` is a human step (browser).
 
 ### Phase 1: interview and thin spec
 Ask (a few questions at a time, not a wall): what is the site for, who uses it, what must it never be, roughly what features, anything private
-or sensitive about the data. Then write the intro of `docs/spec.md` section 0 in plain words and get approval. Fill the site name.
+or sensitive about the data. **Also run the privacy interview** from the `privacy-advisor` skill (ages of users, countries, personal/sensitive data, uploads, AI, any school
+or organisation) and fill the profile table in `docs/privacy_decisions.md`. You are an advisor: the owner decides, and you record it. Then write the intro of `docs/spec.md` section 0 in plain words and get approval. Fill the site name.
 
 ### Phase 2: local site
 ```powershell
@@ -93,6 +94,11 @@ errors -> run the smoke test list. Then schedule jobs: generate `TASK_TRIGGER_TO
 (`gh secret set TASK_TRIGGER_TOKEN`, `gh variable set SITE_URL --body https://<host>`), and run the *Scheduled tasks* workflow once
 (`gh workflow run scheduled-tasks.yml -f task=backup`; `gh run watch`).
 Set `OWNER_EMAIL` and a `MONTHLY_BUDGET_USD` they're comfortable with.
+
+### Privacy review before launch (advisory, before the owner tells anyone about the site)
+Use the `privacy-advisor` skill: HTTPS and cookie checks via `verify_site.py --url`, read `/privacy/` and `/terms/` with the owner and adjust, confirm cookies/third parties match,
+decide safeguards for young users if relevant, remind about 2FA, test one deletion (`/privacy/my-data/`). Then ask whether to set `PRIVACY_REVIEWED=True` on Render.
+It is their decision; record anything they decline in `docs/privacy_decisions.md`.
 
 ### Phase 5: Google sign-in
 Human steps per [auth_google_oauth.md](../../../docs/procedures/auth_google_oauth.md). Then copy both values to Render, wait for the redeploy, test the

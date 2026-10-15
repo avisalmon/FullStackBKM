@@ -19,6 +19,7 @@ Materials already in the repo (use them; don't re-invent):
 * [tutorial/index.html](../../../tutorial/index.html): how a Django site works + the shared vocabulary.
 * [tutorial/data-models.html](../../../tutorial/data-models.html): data models, relationships, how to find your models, mistakes, quizzes.
 * [docs/design_guide.md](../../../docs/design_guide.md): practical design rules and the review checklist.
+* [docs/privacy.md](../../../docs/privacy.md): privacy advice (HTTPS, cookies, minors, rights); the `privacy-advisor` skill applies it. Teach *why* privacy belongs in the data model.
 * [scripts/verify_site.py](../../../scripts/verify_site.py): the "did I do it right?" checker.
 * [docs/building_an_app.md](../../../docs/building_an_app.md): the rules and the mistakes behind them.
 

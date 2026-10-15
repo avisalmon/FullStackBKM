@@ -85,6 +85,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",  # must sit directly after Security
+    "core.middleware.PermissionsPolicyMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -198,6 +199,22 @@ SECURE_REDIRECT_EXEMPT = [r"^healthz$"]
 SECURE_HSTS_SECONDS = 0 if DEBUG else 31536000
 SECURE_HSTS_INCLUDE_SUBDOMAINS = not DEBUG
 SECURE_HSTS_PRELOAD = not DEBUG
+# Cookie hygiene. HttpOnly keeps scripts from reading the session; SameSite=Lax stops other sites
+# from riding your visitors' sessions; a two-week session is a privacy default (shared computers).
+SESSION_COOKIE_HTTPONLY = True
+SESSION_COOKIE_SAMESITE = "Lax"
+CSRF_COOKIE_SAMESITE = "Lax"
+SESSION_COOKIE_AGE = int(os.environ.get("SESSION_COOKIE_AGE", str(14 * 24 * 3600)))
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_REFERRER_POLICY = (
+    "same-origin"  # don't tell other sites which of your pages sent the visitor
+)
+X_FRAME_OPTIONS = "DENY"
+# Browser features the site may use. Empty parentheses = none. See core/middleware.py.
+PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+# Flip to True (env var) once YOU have read /privacy/ and /terms/ and are happy with them: the
+# "draft" banner on those pages disappears. Until then verify_site.py reminds you.
+PRIVACY_REVIEWED = env_bool("PRIVACY_REVIEWED", False)
 
 # --------------------------------------------------------------------------
 # Auth: django-allauth (email login, optional Google OAuth)

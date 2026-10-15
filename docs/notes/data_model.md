@@ -22,3 +22,14 @@ Ordering: newest first. Deleting a user deletes their notes. Deleting a note lea
 ## Relationships to other apps
 
 None. If Notes ever needs per-user settings, they go in a `NotesProfile` with a `OneToOneField` to the user, inside this app.
+
+## Personal data (Rule 7)
+
+| Field | Personal? | Sensitive? | Why we keep it | Who sees it | Kept |
+|---|---|---|---|---|---|
+| `owner` | yes (links to a person) | no | so notes belong to someone | the person; staff in admin | until the account is deleted |
+| `title`, `body` | possibly (free text a person writes) | possibly | it is the product | the owner only | until the note or account is deleted |
+| `image` | possibly (photos of people) | possibly | optional attachment | **anyone with the URL** (public `/media/`, random file name) | until deleted; the eraser removes the file |
+
+Export: `notes/privacy.py` (`export_notes`). Erase: `erase_notes` deletes image files; the user delete cascades to the rows. Test: `tests/test_privacy.py`.
+Decision to revisit if notes become sensitive: move images to private storage (see [privacy.md](../privacy.md) section 7).

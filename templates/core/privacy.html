@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Privacy{% endblock %}
+{% block content %}
+  <h1>Privacy</h1>
+  {% if not reviewed %}
+    <p class="draft-banner" role="note"><strong>Draft.</strong> This page was generated from how the site is configured. The site owner has not
+    yet reviewed it. It is not legal advice. (Owner: read it, adjust it to your real practices, then set <code>PRIVACY_REVIEWED=True</code>.)</p>
+  {% endif %}
+
+  <h2>What we keep about you</h2>
+  <ul>
+    <li><strong>Your account:</strong> your email address, a username, and a scrambled (hashed) password. We cannot read your password.</li>
+    <li><strong>What you add:</strong> the content you create on the site, such as notes and pictures you upload.</li>
+    <li><strong>Technical logs:</strong> the server records requests (time, page, error messages) for security and debugging.</li>
+  </ul>
+
+  <h2>Cookies</h2>
+  <p>We use only the cookies the site needs in order to work. We do not use advertising or tracking cookies.</p>
+  <table>
+    <tr><th>Cookie</th><th>Purpose</th><th>Lasts</th></tr>
+    <tr><td><code>sessionid</code></td><td>Keeps you signed in</td><td>{{ session_days }} days or until you sign out</td></tr>
+    <tr><td><code>csrftoken</code></td><td>Protects forms from being submitted by other sites</td><td>About a year</td></tr>
+  </table>
+  <p>Because these are strictly necessary, no cookie banner is shown. If we later add analytics or anything else that sets cookies, this page and a consent choice will be updated first.</p>
+
+  <h2>Who else handles your data</h2>
+  <ul>
+    {% for name, purpose, url in third_parties %}
+      <li><a href="{{ url }}" rel="noopener">{{ name }}</a>: {{ purpose }}</li>
+    {% endfor %}
+  </ul>
+
+  <h2>Your rights</h2>
+  <p>You can see and download your data, and delete your account and everything you created, at any time:
+  {% if user.is_authenticated %}<a href="{% url 'my_data' %}">My data</a>.{% else %}sign in and open &ldquo;My data&rdquo; in the footer.{% endif %}
+  Deleted data disappears from the live site immediately and from backups as they are replaced (within about 30 days).</p>
+
+  <h2>Contact</h2>
+  <p>{% if contact_email %}Questions or requests: <a href="mailto:{{ contact_email }}">{{ contact_email }}</a>.{% else %}Contact details: the site owner has not added them yet.{% endif %}</p>
+{% endblock %}

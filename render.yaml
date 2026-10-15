@@ -27,6 +27,9 @@ services:
         value: /var/data
       - key: SITE_NAME
         value: My Site
+      # Flip to "True" once you have read /privacy/ and /terms/ (docs/privacy.md section 13).
+      - key: PRIVACY_REVIEWED
+        value: "False"
       # Render invents a strong random value once; you never see or paste it.
       - key: SECRET_KEY
         generateValue: true

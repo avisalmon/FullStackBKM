@@ -30,6 +30,7 @@
     <li><a href="#example">A full worked example</a></li>
     <li><a href="#mistakes">Common mistakes</a></li>
     <li><a href="#migrations">Why we agree on this first (migrations)</a></li>
+    <li><a href="#privacy">Privacy belongs in the data model</a></li>
     <li><a href="#yourturn">Your turn: the data model document</a></li>
   </ol>
 </div>
@@ -290,7 +291,33 @@ Member    1 --- N  Review    ...and was written by one member</code></pre>
 </ul>
 <p>So the order is: <strong>interview &rarr; thin spec &rarr; data model on paper, approved by you &rarr; only then code.</strong> An hour spent here saves weeks. And later changes are fine; they're just cheaper when you've thought first.</p>
 
-<h2 id="yourturn">10. Your turn: the data model document</h2>
+<h2 id="privacy">10. Privacy belongs in the data model</h2>
+<p>Every field you add is something about a <em>person</em> you now have to protect, explain, hand back on request and delete when asked. So privacy is not a layer you add at the end:
+it is decided here, field by field, and the cheapest privacy is data you never collected.</p>
+<p>For each model, Claude will ask you (and you should ask yourself) seven short questions:</p>
+<table>
+<tr><th>Question</th><th>Example answer for a Recipe site's Member</th></tr>
+<tr><td>Is it <strong>personal</strong> data?</td><td>Email: yes. Display name: yes. Recipe title: no.</td></tr>
+<tr><td>Is it <strong>sensitive</strong>?</td><td>Birth year of a teenager: yes, handle with care. Favourite colour: no.</td></tr>
+<tr><td><strong>Why</strong> do we keep it?</td><td>"To sign them in." If you cannot finish the sentence, do not collect it.</td></tr>
+<tr><td>Who can <strong>see</strong> it?</td><td>The person; staff in the admin; never the public.</td></tr>
+<tr><td>How long do we <strong>keep</strong> it?</td><td>Until they delete the account; inactive accounts after two years.</td></tr>
+<tr><td>Are <strong>files</strong> involved?</td><td>A profile photo is a file: deleting the row does not delete the file unless you tell it to.</td></tr>
+<tr><td>Does it leak into <strong>logs, emails, backups or AI prompts</strong>?</td><td>Never put it in a log line. Backups keep it ~30 days after deletion.</td></tr>
+</table>
+<div class="callout warn"><strong>Collect less, by design:</strong> a birth <em>year</em> instead of a birth date; a display name instead of a real name; a town instead of an address;
+nothing at all for ID numbers. And if any user might be under 18, the data model is where guardian consent and "private by default" get designed in, not bolted on.</div>
+<p>This is <strong>advice, not a rule</strong>: you may decide differently, for good reasons of your own. Claude will say why it recommends what it does, and write your decision down in
+<code>docs/privacy_decisions.md</code>. The full guide is <a href="../docs/privacy.md">docs/privacy.md</a>.</p>
+<div class="quiz" data-answer="b" data-why="A cascade removes database rows, never files on disk. Without an eraser, the photo outlives the person, and a copy sits in your backups.">
+  <p>A member deletes their account. Their profile photo was uploaded as an ImageField. What happens to the image file if you do nothing special?</p>
+  <button data-choice="a">It is deleted with the row</button>
+  <button data-choice="b">It stays on disk until you write code to remove it</button>
+  <button data-choice="c">Django moves it to a trash folder</button>
+  <div class="feedback" role="status"></div>
+</div>
+
+<h2 id="yourturn">11. Your turn: the data model document</h2>
 <p>For each app, Claude writes <code>docs/&lt;app&gt;/data_model.md</code> and waits for your approval. Before you say "approved", run this checklist:</p>
 <div class="callout good"><ul style="margin:0;padding-left:1.2rem">
   <li>Can I name every box in plain words, and say why it exists?</li>
@@ -300,6 +327,7 @@ Member    1 --- N  Review    ...and was written by one member</code></pre>
   <li>Is any fact stored in two places? Is any list hiding in a text field?</li>
   <li>Can the model answer the five questions I'll care about in a year?</li>
   <li>Do the fields have the right types (numbers as numbers, choices as choices)?</li>
+  <li>Have I marked which fields are personal or sensitive, why we keep each, who sees it, and how long we keep it?</li>
 </ul></div>
 <p>Template Claude uses:</p>
 <pre><code># &lt;App&gt; - data model
@@ -319,7 +347,11 @@ Member    1 --- N  Review    ...and was written by one member</code></pre>
 - One member writes many recipes. If the member is deleted: their recipes are ____.
 
 ## Questions this model must answer
-1. ...</code></pre>
+1. ...
+
+## Personal data
+| Field | Personal? | Sensitive? | Why we keep it | Who sees it | Kept |
+|---|---|---|---|---|---|</code></pre>
 
 <h3>Things you can say to Claude</h3>
 <ul>

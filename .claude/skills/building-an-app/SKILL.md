@@ -24,7 +24,8 @@ adds to ("add this to the methodology file" means: edit that doc directly, in th
    2. **Thin intro spec** (`docs/<app>/spec.md`): what the app is, in plain terms. Not the full spec.
    3. **Standalone data model** (`docs/<app>/data_model.md`): main classes and relationships. **Teach it first** (use the `site-mentor` skill's data-model
       walkthrough and [tutorial/data-models.html](../../../tutorial/data-models.html): nouns to models, why relationships matter, the four shapes, `on_delete`,
-      read every line aloud as a sentence). Include a box-and-line picture, the relationships in words, and the questions the model must answer.
+      read every line aloud as a sentence). Include a box-and-line picture, the relationships in words, the questions the model must answer, and a **Personal data**
+      section (`privacy-advisor` skill).
       **Stop and wait for approval.**
    4. **Full spec**, high-level chapters, only after approval.
    5. **Normal flow**: `docs/<app>/backlog.md`, sprints, test-first, scaled to the app's size.
@@ -39,6 +40,8 @@ adds to ("add this to the methodology file" means: edit that doc directly, in th
 4. Own `docs/<app>/`: spec.md, backlog.md, data_model.md (separate), optional dashboard.
 5. Migrate and deploy scoped to the app (`migrate <app_label>`); don't bundle unrelated work.
 6. Every app gets a full documented CRUD REST API (DRF): deny by default, queryset scoped to the owner, owner never client-supplied.
+7. Personal data is declared (Personal data section in data_model.md), exportable and erasable (register in `core.privacy`, eraser removes files), and tested. Advise on
+   minimal collection via the `privacy-advisor` skill; the owner decides; record overrides in `docs/privacy_decisions.md`.
 
 ## While building
 

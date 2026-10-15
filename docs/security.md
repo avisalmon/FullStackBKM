@@ -50,6 +50,8 @@ boring sentence (see "a key, without giving it the house" in [building_an_app.md
 
 ## Personal data
 
+The full privacy guide, with advice on cookies, young users and consent, is [privacy.md](privacy.md). The summary:
+
 If your site stores other people's data (accounts, uploads), you own that responsibility: publish a privacy page,
 collect only what you need, keep backups encrypted at rest (GCS does by default) and delete on request. Never
 commit a production database snapshot. For minors' data, take proper advice before launching.

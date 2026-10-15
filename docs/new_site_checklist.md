@@ -20,6 +20,7 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 
 - [ ] Claude asks what the site is for, who uses it, what it must never be
 - [ ] Claude writes the thin intro to `docs/spec.md`; you approve it
+- [ ] **Privacy conversation**: who your users are (ages, countries), what personal data, uploads, AI. Claude advises, you decide; recorded in [privacy_decisions.md](privacy_decisions.md)
 
 ## Phase 2 - Local site (Claude)
 
@@ -44,6 +45,14 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 - [ ] **Claude:** finds the service, checks `/healthz`, reads logs, smoke-tests the live site
 - [ ] **Claude:** `python scripts/verify_site.py --url https://<your-host>`: no FAIL lines
 - [ ] **Claude:** generates `TASK_TRIGGER_TOKEN`, sets it on Render and in GitHub, sets `SITE_URL` ([backup_restore.md](procedures/backup_restore.md))
+
+## Before you tell anyone: privacy review (advisory)
+
+- [ ] **Claude and you:** read `/privacy/` and `/terms/` together; adjust to your real practices ([privacy.md](privacy.md) section 13)
+- [ ] HTTPS, cookie flags and headers verified (`verify_site.py --url ...`)
+- [ ] Young users? Safeguards decided and recorded; guardian consent infrastructure if needed
+- [ ] A deletion tested at `/privacy/my-data/`; 2FA on your admin accounts
+- [ ] You set `PRIVACY_REVIEWED=True` (or recorded why not)
 
 ## Phase 5 - Sign-in with Google (optional but recommended)
 

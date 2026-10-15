@@ -114,3 +114,11 @@ def test_page_renders_with_its_own_layout(client, alice):
     assert 'id="notes-list"' in html
     # Rule 3: the app brings its own chrome and never the site's.
     assert 'class="site-header"' not in html
+
+
+def test_uploaded_files_never_keep_the_original_name(api, media_root):
+    upload = png_upload("dana-levi-passport.PNG")
+    response = api.post(API, {"title": "x", "image": upload}, format="multipart")
+    name = response.json()["image"]
+    assert "dana" not in name and "passport" not in name
+    assert name.endswith(".png")

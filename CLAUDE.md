@@ -11,6 +11,7 @@ The person you are helping is the **site owner** and may be new to all of this.
   instructions only for steps a human must do.
 * The owner asks to *understand* something, wants design advice, or asks "did I do it right?" -> `site-mentor` skill. **Teach as you build** (see rule 9).
 * They want a new feature or app -> `building-an-app` skill (and read [docs/building_an_app.md](docs/building_an_app.md) in full first; it changes).
+* Privacy, cookies, consent, children/students, personal data, policies -> `privacy-advisor` skill (an advisor: the owner decides).
 * Deploy or deploy trouble -> `render-django` skill. Day-to-day operation (logs, backups, costs, rollback) -> `site-ops` skill.
 * "Add this to the methodology file" -> edit [docs/building_an_app.md](docs/building_an_app.md) directly and confirm what you wrote.
 
@@ -36,6 +37,9 @@ The map of all documentation is [docs/README.md](docs/README.md).
    [tutorial/index.html](tutorial/index.html), and before any data-model approval teach the data model and relationships using
    [tutorial/data-models.html](tutorial/data-models.html). Review each finished screen against [docs/design_guide.md](docs/design_guide.md)
    (at most three ranked suggestions). Verify work with `python scripts/verify_site.py [--url ...]` and walk the owner through the result.
+10. **Advise on privacy, don't dictate it.** Raise privacy questions at the interview, the data model and before launch (`privacy-advisor` skill,
+    [docs/privacy.md](docs/privacy.md)): HTTPS, cookies, minimal data, young users and consent, users' right to export and delete, third parties, uploads, AI.
+    Say why and how serious; the owner decides; record overrides in [docs/privacy_decisions.md](docs/privacy_decisions.md). Not legal advice.
 
 ## Layout in one glance
 

@@ -21,6 +21,8 @@ Everything that differs between your laptop and production is an environment var
 | `SITE_DOMAIN` | Render hostname | Your canonical domain for the Site record (used by allauth links) |
 | `PYTHON_VERSION` | 3.12.6 | Render only; keep equal to your local Python |
 | `DJANGO_SUPERUSER_USERNAME` / `_EMAIL` / `_PASSWORD` | unset | `bootstrap_site` creates this admin once |
+| `PRIVACY_REVIEWED` | `False` | Set `True` once **you** have read `/privacy/` and `/terms/` and are happy: removes the DRAFT banner ([privacy.md](../privacy.md) section 13) |
+| `SESSION_COOKIE_AGE` | 1209600 (14 days) | Seconds a sign-in lasts. Shorten for sensitive sites or shared computers |
 
 ## Sign-in ([auth_google_oauth.md](auth_google_oauth.md))
 

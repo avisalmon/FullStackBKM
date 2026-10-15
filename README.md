@@ -17,6 +17,8 @@ In an afternoon you will have a **real website on the internet**, not a demo and
 * **A cost dashboard and a budget alert**, so the bill never surprises you (the baseline is about $7 a month).
 * **A site that is safe by default**: a private code repository, no passwords or keys in your code, scanning on every change,
   and an automatic checker that tells you if you did something risky.
+* **Privacy built in**, advised not imposed: HTTPS and safe cookies, policy and terms pages generated from how your site really works,
+  a "My data" page where people download or delete their own data, consent records, and guidance for sites used by young people.
 
 ## What you will be able to do
 
@@ -38,6 +40,8 @@ You will not just receive a site; you will understand it. Claude acts as your **
   **[tutorial/index.html](tutorial/index.html)** (open it in your browser, it works offline).
 * **How to judge design**: hierarchy, spacing, mobile, forms, empty states. Claude reviews each screen with you using a real checklist
   ([docs/design_guide.md](docs/design_guide.md)).
+* **How to think about privacy**: cookies, what to collect (and not), consent, students and minors, people's rights. Claude is your **advisor**: it explains what it
+  recommends and why, you decide, and your choices are recorded ([docs/privacy.md](docs/privacy.md)). It is not legal advice.
 * **How to work with an AI engineer well**: what to decide yourself, what to delegate, and what to double-check.
 
 ## What to expect (honestly)
@@ -50,7 +54,7 @@ You will not just receive a site; you will understand it. Claude acts as your **
 | **Claude's part** | Everything else: code, configuration, tests, deploys, logs, backups, documentation, and explaining it as it goes |
 | **Not magic** | The first deploy can hit a snag (every platform does). The repo records 30 known traps and a debugging routine, and Claude reads the logs and fixes things in front of you |
 | **You stay in charge** | Nothing goes live without your say-so, no secret ever needs to be pasted into chat, and every decision about your product is yours |
-| **Not for** | Sites with strict compliance needs (payments, medical data, minors' data) without proper advice. This gets you a solid foundation, not a legal review |
+| **Not for** | Sites with strict compliance needs (payments, medical data, minors' data) without proper advice. This gets you a solid foundation and privacy-minded defaults, not a legal review |
 
 ---
 
@@ -101,7 +105,7 @@ what your data model is and why its main relationship exists. Ask Claude "quiz m
 
 ```
 CLAUDE.md                   Claude's standing instructions for this repo
-.claude/skills/             The playbooks: build-my-site, site-mentor, building-an-app, render-django, site-ops
+.claude/skills/             The playbooks: build-my-site, site-mentor, privacy-advisor, building-an-app, render-django, site-ops
 tutorial/                   Interactive lessons: how Django works, data models and relationships
 mysite/                     Django project (production-ready settings, URLs)
 core/                       Home page, health check, OpenAI helper, cost report, GCS client, backup & ops commands

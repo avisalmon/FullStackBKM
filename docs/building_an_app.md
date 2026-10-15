@@ -12,6 +12,8 @@ templates, docs. The example is [notes/](../notes/) with docs in [docs/notes/](n
 
 ## Core rules (strong defaults)
 
+> Seven rules below. Rule 7 (personal data) was added when privacy became part of the blueprint.
+
 A default means: this is what we do unless a specific case needs something else, and **that exception gets
 written down when it happens**, not assumed silently.
 
@@ -46,6 +48,12 @@ The API is the infrastructure; pages are consumers of it. DRF's browsable API is
 permission is deny (`IsAuthenticated`) and each viewset scopes its queryset (`filter(owner=request.user)`), so
 other people's objects don't exist for you.
 
+**Rule 7 - Personal data is declared, exportable and erasable.**
+Every app that stores something about a person says so, in three places: (1) a **Personal data** section in `docs/<app>/data_model.md` (for each field: personal? sensitive? why
+collected? who sees it? how long kept? public or private file?); (2) an **exporter and an eraser** registered in `core.privacy` from the app's `AppConfig.ready()` (the eraser removes what
+a cascade will not: uploaded **files**); (3) a **test** that erasing a person removes their rows and files and leaves everyone else's alone. Collect the least you can. This is advice, not
+a lock: the owner can choose otherwise, and the choice goes in `docs/privacy_decisions.md`. See [privacy.md](privacy.md).
+
 ---
 
 ## Starting a new app: the kickoff sequence
@@ -69,6 +77,7 @@ the `core` catch-all, give it `app_name` + a namespace, its own `templates/<name
 ## Per-app checklist
 
 - [ ] `docs/<app>/{spec,backlog,data_model}.md`, data model approved
+- [ ] Personal data section in the data model; exporter + eraser registered; erase test (Rule 7)
 - [ ] Models + migrations (`makemigrations --check` clean)
 - [ ] DRF serializers + viewsets + router, permission and queryset scoping tested (the refusals first)
 - [ ] Own base template; classes prefixed with the app name

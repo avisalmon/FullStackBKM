@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}My data{% endblock %}
+{% block content %}
+  <h1>My data</h1>
+  <p>You are signed in as <strong>{{ user.get_username }}</strong>. This is your control panel for what the site holds about you.</p>
+
+  <h2>Download a copy</h2>
+  <p>Everything we hold about you, in a file you can keep.</p>
+  <p><a href="{% url 'my_data_export' %}" download>Download my data (JSON)</a></p>
+
+  <h2>Delete my account</h2>
+  <p>This permanently deletes your account and everything you created, including uploaded pictures. It cannot be undone.</p>
+  <form method="post" action="{% url 'my_data_delete' %}">{% csrf_token %}
+    <p><label for="confirm">Type your username (<strong>{{ user.get_username }}</strong>) to confirm</label><br>
+    <input id="confirm" name="confirm" type="text" autocomplete="off" required></p>
+    <button type="submit">Delete everything</button>
+  </form>
+{% endblock %}
