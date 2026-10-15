@@ -10,7 +10,7 @@ whitenoise>=6.7,<7
 django-allauth[socialaccount]>=65.0,<66
 requests>=2.31,<3
 Pillow>=10.0,<13
-python-dotenv>=1.0,<2
+python-dotenv>=1.2.4,<2
 # Transactional email via Resend. Only used when RESEND_API_KEY is set; otherwise
 # email prints to the console. See docs/procedures/email_resend.md.
 django-anymail[resend]>=12.0,<13
