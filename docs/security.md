@@ -7,7 +7,7 @@ you, and the few things only you can do.
 
 | Risk | Protection |
 |---|---|
-| Secrets in git | `.gitignore` excludes `.env`, `env/`, databases, media, backups, keys. `pre-commit` runs **gitleaks** before each commit; CI scans history; `tests/test_no_secrets_committed.py` fails on anything key-shaped |
+| Secrets in git | `.gitignore` excludes `.env`, `env/`, databases, media, backups, keys. `pre-commit` runs a pure-Python check on every commit (key-shaped strings, `.env` files, databases, private keys; it needs nothing to download, so it can never block your first commit); CI runs **gitleaks** over the full history; `tests/test_no_secrets_committed.py` fails on anything key-shaped |
 | Secrets in the cloud config | `render.yaml` holds no secret values: `sync: false` (you type them in Render) or `generateValue` (Render invents them). A test enforces it |
 | Weak production key | Boot **refuses** to start with `DEBUG=False` and no real `SECRET_KEY` |
 | Plain-http traffic | HTTPS redirect, secure cookies, HSTS (all on when `DEBUG=False`); `check --deploy` runs in CI |

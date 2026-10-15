@@ -6,7 +6,8 @@ If you are looking for something and this file does not name it, the file is in 
 
 | File | What it is |
 |---|---|
-| [../README.md](../README.md) | How to clone and begin. One page. |
+| [../README.md](../README.md) | How to begin. One page. |
+| [get_started.md](get_started.md) | **Start here if you are new**: from zero to an editor with an AI chat, step by step |
 | [new_site_checklist.md](new_site_checklist.md) | The whole journey, phase by phase, with who does what (Claude / you) |
 | [security.md](security.md) | What protects you and the few things only you can do |
 | [../tutorial/index.html](../tutorial/index.html) | **Learn first**: how a Django site works, then data models and relationships (interactive, works offline) |

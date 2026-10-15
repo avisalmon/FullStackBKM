@@ -14,7 +14,7 @@ Source of truth: [docs/security.md](../../../docs/security.md) (and [docs/privac
 
 ## What is already protecting the owner (explain, don't re-build)
 
-`.gitignore` for `.env`/`env/`/databases/backups/keys; gitleaks in pre-commit and CI; a test that fails on key-shaped strings; `render.yaml` holds no secret values (`sync: false` / `generateValue`, enforced by a test); boot **refuses** to start on the dev `SECRET_KEY`;
+`.gitignore` for `.env`/`env/`/databases/backups/keys; a pre-commit check (`scripts/check_staged_secrets.py`) plus gitleaks over the full history in CI; a test that fails on key-shaped strings; `render.yaml` holds no secret values (`sync: false` / `generateValue`, enforced by a test); boot **refuses** to start on the dev `SECRET_KEY`;
 HTTPS redirect, secure/HttpOnly/SameSite cookies, HSTS, Permissions-Policy; deny-by-default API with owner-scoped querysets; a fail-shut machine endpoint with constant-time token compare; AI spend caps; Dependabot.
 
 ## What only the owner can do (walk them through, one at a time)

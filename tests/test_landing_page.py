@@ -9,7 +9,7 @@ from urllib.parse import urldefrag, urlparse
 ROOT = Path(__file__).resolve().parent.parent
 PAGE = ROOT / "index.html"
 REPO = "https://github.com/avisalmon/FullStackBKM"
-SENTENCE = "Help me build my full stack site"
+SENTENCE = "Tell me what to do"
 
 
 class Page(HTMLParser):
@@ -159,3 +159,19 @@ def test_code_blocks_are_readable():
 def test_terminal_prompts_keep_a_space_after_the_chevron():
     css = PAGE.read_text(encoding="utf-8")
     assert css.count(r"\203a\00a0") == 2
+
+
+def test_the_start_section_walks_the_whole_path_from_zero():
+    """The newcomer's path: account, git, editor, an AI engine, template, open, one sentence."""
+    html = PAGE.read_text(encoding="utf-8")
+    for needed in (
+        "github.com/signup", "git-scm.com", "code.visualstudio.com", "Copilot", "Claude Code",
+        "Use this template", "Yes, I trust the authors", "docs/get_started.md", "Agent",
+    ):  # fmt: skip
+        assert needed in html, needed
+
+
+def test_the_page_says_the_chat_installs_python_not_the_visitor():
+    html = PAGE.read_text(encoding="utf-8")
+    assert "installs what is missing itself" in html
+    assert "Do I need to install Python myself?" in html

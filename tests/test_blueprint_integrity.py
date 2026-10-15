@@ -82,3 +82,19 @@ def test_runtime_requirements_cover_the_start_command():
 
 def test_python_version_is_pinned_for_render():
     assert re.fullmatch(r"3\.\d+\.\d+", env_vars()["PYTHON_VERSION"]["value"])
+
+
+def test_build_script_runs_even_if_the_executable_bit_is_lost():
+    """Found by an audit, not a deploy: build.sh was committed from Windows as mode 100644, so
+    `./build.sh` would have died with 'Permission denied' on the very first Render build.
+    Two independent things now hold it (gotcha #1): git records the executable bit, AND the
+    build command runs it through bash, so losing either one does not break the deploy."""
+    assert render_service()["buildCommand"].startswith("bash "), "call it as `bash build.sh`"
+    import shutil
+    import subprocess
+
+    if shutil.which("git") and (ROOT / ".git").exists():
+        mode = subprocess.run(
+            ["git", "ls-files", "-s", "build.sh"], cwd=ROOT, capture_output=True, text=True
+        ).stdout.split()
+        assert mode and mode[0] == "100755", f"build.sh git mode is {mode[:1]}, want 100755"

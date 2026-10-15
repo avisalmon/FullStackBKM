@@ -58,33 +58,38 @@ You will not just receive a site; you will understand it. Claude acts as your **
 
 ---
 
-## Start in three steps
+## Start here
 
-**1. Install the basics once** (only what you don't already have):
+You do a few things once; after that the chat guides you and does the work.
 
-* [Python 3.12](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads)
-* A [GitHub](https://github.com) account and the [GitHub CLI](https://cli.github.com) (then run `gh auth login`)
-* [Claude Code](https://claude.com/claude-code): the VS Code extension, the desktop app, or the terminal CLI, signed in to your Claude account
-* [VS Code](https://code.visualstudio.com) if you want an editor
+**1. Get this page.** You are here. Everything below is the whole path.
 
-**2. Get your own private copy**
+**2. Set up your tools, once (20-40 minutes, mostly downloads and sign-ups).** Full step-by-step, with "you know it worked when" checks, is in
+**[docs/get_started.md](docs/get_started.md)**. In short:
 
-On this repo's GitHub page click **Use this template -> Create a new repository -> Private**, name it after your site, then clone *your* new repo:
+* a free [GitHub](https://github.com/signup) account (turn on two-factor authentication),
+* [Git](https://git-scm.com/downloads),
+* [VS Code](https://code.visualstudio.com),
+* an AI engine inside VS Code: **GitHub Copilot** (agent mode) **or** **Claude Code**; sign in to it.
 
-```bash
-git clone https://github.com/<you>/<your-site>.git
-cd <your-site>
-```
+**3. Make your private copy and open it.** On this repo's GitHub page click **Use this template -> Create a new repository -> Private**, name it after your site.
+Then in VS Code: *Ctrl+Shift+P -> Git: Clone* -> paste your new repo's address -> open it, and click **Yes, I trust the authors**.
 
-(Alternative: `git clone` this repo directly; Claude will create your private repo for you in the next step.)
+**4. Open the AI chat** (Copilot: set it to **Agent** mode; Claude Code: open its panel) **and type:**
 
-**3. Open the folder in Claude Code and say:**
+> **Tell me what to do**
 
-> **Help me build my full stack site**
+**5. Follow the chat.** It checks your computer and **installs what is missing itself** (Python, the GitHub CLI, the project's tools), asks what your site is for, builds it with you,
+and tells you exactly what to click whenever a step needs *you*. Come back any day, say the same sentence, and it resumes where you stopped.
 
-Claude takes it from there: it interviews you about the site, sets everything up on your computer, creates your private repo, deploys to Render, and, only if you want them,
-adds Google sign-in, email, your own domain, AI, backups and cost monitoring. The whole journey, phase by phase and who does what, is in
-[docs/new_site_checklist.md](docs/new_site_checklist.md).
+| You do (once) | The chat does (for you) |
+|---|---|
+| Create a GitHub account; install Git and VS Code | Installs Python and the GitHub CLI, fixes PATH problems, builds the project environment |
+| Install and sign in to Copilot or Claude Code | Interviews you, writes the plan and the data model with you, builds the site, runs the tests |
+| Click through accounts that only you can open (Render, Google, Resend, OpenAI, a domain registrar) and add a card | Creates your private repo, deploys, reads the logs, sets the keys without you pasting them, sets up backups and cost alerts |
+| Decide what your site is for and what to collect | Teaches you as it goes, reviews each screen, checks your work |
+
+The whole journey, phase by phase and who does what, is in [docs/new_site_checklist.md](docs/new_site_checklist.md).
 
 ## How you know you did it right
 
@@ -105,10 +110,10 @@ what your data model is and why its main relationship exists. Ask Claude "quiz m
 
 ```
 CLAUDE.md                   Claude's standing instructions for this repo
-.claude/skills/             17 playbooks for Claude Code: build-my-site, publish-to-github, render-django, site-ops, building-an-app, site-mentor,
+.claude/skills/             18 playbooks for Claude Code: build-my-site, setup-my-computer, publish-to-github, render-django, site-ops, building-an-app, site-mentor,
                             privacy-advisor, google-sign-in, email-resend, custom-domain, openai-ai-features, backups-and-restore,
                             cost-monitoring, verify-my-site, site-security, data-model-coach, design-review
-.github/skills/             The same 17 playbooks for GitHub Copilot (generated copy, kept identical by CI)
+.github/skills/             The same 18 playbooks for GitHub Copilot (generated copy, kept identical by CI)
 .github/copilot-instructions.md, AGENTS.md   Generated instructions + an index of every skill and its trigger phrases
 tutorial/                   Interactive lessons: how Django works, data models and relationships
 mysite/                     Django project (production-ready settings, URLs)
@@ -154,7 +159,7 @@ from a working production site's proven calls and the vendors' docs, but have no
 
 ## Share it
 
-To help a friend build a site: *"Read the README of this repo and good luck: `<this repo's URL>`."* That is the whole instruction.
+To help a friend build a site, send them the page: **https://avisalmon.github.io/FullStackBKM/** . It leads them through setting up an editor with an AI chat, and from there the chat does the rest.
 
 ## GitHub Pages
 

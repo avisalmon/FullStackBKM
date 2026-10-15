@@ -15,10 +15,10 @@ spec.loader.exec_module(sync)
 CLAUDE = ROOT / ".claude" / "skills"
 COPILOT = ROOT / ".github" / "skills"
 EXPECTED = {
-    "build-my-site", "publish-to-github", "render-django", "site-ops", "building-an-app",
-    "site-mentor", "privacy-advisor", "google-sign-in", "email-resend", "custom-domain",
-    "openai-ai-features", "backups-and-restore", "cost-monitoring", "verify-my-site",
-    "site-security", "data-model-coach", "design-review",
+    "build-my-site", "setup-my-computer", "publish-to-github", "render-django", "site-ops",
+    "building-an-app", "site-mentor", "privacy-advisor", "google-sign-in", "email-resend",
+    "custom-domain", "openai-ai-features", "backups-and-restore", "cost-monitoring",
+    "verify-my-site", "site-security", "data-model-coach", "design-review",
 }  # fmt: skip
 
 

@@ -39,3 +39,16 @@ def test_missing_api_key_is_a_clear_error(monkeypatch, tmp_path):
     with pytest.raises(SystemExit) as info:
         render_api.load_key()
     assert "RENDER_API_KEY" in str(info.value)
+
+
+def test_services_lists_the_live_url_so_a_newcomer_can_open_the_site(monkeypatch, capsys):
+    fake = [
+        {"service": {"id": "srv-1", "name": "my-site", "type": "web_service",
+                     "serviceDetails": {"url": "https://my-site-ab12.onrender.com"}}},
+        {"service": {"id": "srv-2", "name": "worker", "type": "background_worker"}},
+    ]  # fmt: skip
+    monkeypatch.setattr(render_api, "call", lambda *a, **k: fake)
+    render_api.cmd_services(None)
+    out = capsys.readouterr().out
+    assert "srv-1" in out and "https://my-site-ab12.onrender.com" in out
+    assert "srv-2" in out  # a service with no URL is still listed

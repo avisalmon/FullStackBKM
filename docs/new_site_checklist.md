@@ -1,18 +1,25 @@
 # From clone to live site: the checklist
 
-The `build-my-site` skill walks you through this. Tell Claude **"Help me build my full stack site"** and it
-does everything marked **Claude** itself and stops with exact instructions for each **You** step.
+The `build-my-site` skill walks you through this. Once your editor and AI chat are open on your copy of the project ([get_started.md](get_started.md)), type **"Tell me what to do"** and it
+does everything marked **Assistant/Claude** itself and stops with exact instructions for each **You** step. Say it again in any later session to resume from the first unticked box.
 Claude updates the tick-boxes here (this file becomes your site's journey log).
 
 Legend: **Claude** = automated, no action needed. **You** = only a human can do it (accounts, payments, consent screens).
 
-## Phase 0 - Prerequisites (You, once per computer)
+## Phase 0 - Get to a working chat (You, once per computer): [get_started.md](get_started.md)
 
-- [ ] Python 3.12 (https://www.python.org/downloads/)
-- [ ] Git (https://git-scm.com/downloads)
-- [ ] GitHub account + GitHub CLI: https://cli.github.com, then `gh auth login`
-- [ ] Claude Code (VS Code extension, desktop app or CLI), signed in
-- [ ] A code editor if you don't have one (VS Code)
+- [ ] A GitHub account, with two-factor authentication on
+- [ ] Git installed (`git --version` works in a new terminal)
+- [ ] VS Code installed
+- [ ] GitHub Copilot (agent mode) **or** Claude Code installed in VS Code and signed in
+- [ ] Your private copy of the project created from the template, cloned, opened in VS Code and trusted
+- [ ] You typed **"Tell me what to do"** in the chat and it answered
+
+## Phase 0b - Tools on your computer (the chat does this: `setup-my-computer`)
+
+- [ ] Python 3.12 (3.11-3.13 work) installed and found
+- [ ] GitHub CLI installed (no admin rights needed) and **you** logged in once in the browser
+- [ ] The project environment `env/` created and dependencies installed
 
 ## Phase 1 - Understand what you're building (Claude interviews you)
 

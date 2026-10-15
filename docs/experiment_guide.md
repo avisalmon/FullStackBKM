@@ -7,14 +7,14 @@ becomes a fix in the blueprint, and the next person goes further.
 
 - [ ] Repo published, marked as a **template** (Settings -> General -> Template repository), README renders well on GitHub
 - [ ] GitHub Pages enabled if you want the tutorial online (Settings -> Pages -> `main`, `/`)
-- [ ] CI green on `main` (Actions tab). First run also proves `gitleaks-action` works on your account type
+- [ ] CI green on `main` (Actions tab); it runs the pinned gitleaks binary over the full history
 - [ ] You have **practised the journey yourself** at least as far as the first Render deploy, so the roadmap's unverified items ([blueprint_roadmap.md](blueprint_roadmap.md)) are verified or fixed
 - [ ] Pick a tester who is **motivated, not technical** (the target user), with a real, small idea for a site
 - [ ] Agree what they may spend (about $7.25 for the first month) and who owns the accounts: **theirs**, not yours
 
 ## What you give them
 
-One message: *"Read the README of this repo and good luck: `<repo URL>`."* Nothing else. If you answer questions mid-way, each answer is a **gap in the docs**: write it down.
+One message: *"Here is the page: https://avisalmon.github.io/FullStackBKM/ . Follow it, and good luck."* Nothing else. (The page leads to the setup guide, then to the one sentence *"Tell me what to do"*.) If you answer questions mid-way, each answer is a **gap in the docs**: write it down.
 
 ## What to watch (observe, don't rescue)
 
@@ -23,9 +23,10 @@ Record, with timestamps:
 
 | Moment | What to note |
 |---|---|
-| Installing prerequisites | Which step lost time? Was anything unclear or missing from the README? |
+| Setting up tools (account, Git, VS Code, Copilot or Claude Code) | Which step lost time? Was anything unclear or missing in the page or `docs/get_started.md`? Which AI engine did they pick, and did the plan/limits get in the way? |
 | Template / clone | Did "Use this template -> Private" make sense? |
-| First words to Claude | Did "Help me build my full stack site" trigger the `build-my-site` skill? (If not, `CLAUDE.md` or the skill description needs work) |
+| First words to the chat | Did "Tell me what to do" trigger the `build-my-site` skill, in **both** Copilot and Claude Code? Did it check the computer first and install what was missing (Python, GitHub CLI) without asking the person to? (If not, `CLAUDE.md`, `copilot-instructions.md` or the skill needs work) |
+| Coming back | In a second session, did "Tell me what to do" resume from the checklist instead of starting over? |
 | The interview | Did Claude ask good questions? Did the privacy questions feel natural or heavy? |
 | Each **human-only step** (accounts, card, consent screens, DNS) | Were Claude's instructions exact? Where did the person click the wrong thing? |
 | Secrets | Did they ever paste a secret into the chat? Why? (It means the instruction for where to put it was unclear) |

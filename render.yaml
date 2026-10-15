@@ -12,7 +12,7 @@ services:
     runtime: python
     plan: starter # a persistent disk requires a paid instance
     branch: main
-    buildCommand: ./build.sh
+    buildCommand: bash build.sh
     # bootstrap_site = migrate + superuser + Site record, idempotent, fails loudly.
     # Keep this line simple: no `|| true` chains (gotchas.md #23).
     startCommand: python manage.py bootstrap_site && gunicorn mysite.wsgi:application --bind 0.0.0.0:$PORT --timeout 120

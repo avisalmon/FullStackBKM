@@ -1,9 +1,15 @@
 repos:
-  # Blocks a commit that contains a key, token or password. Install once: pre-commit install
-  - repo: https://github.com/gitleaks/gitleaks
-    rev: v8.21.2
+  # Pure-Python secret/private-file check: needs only Python and git, so it cannot fail on a
+  # newcomer's machine and block commits. (CI also runs gitleaks over the full history.)
+  # Install once, inside the env:  pre-commit install
+  - repo: local
     hooks:
-      - id: gitleaks
+      - id: no-secrets
+        name: no secrets or private files in this commit
+        entry: python scripts/check_staged_secrets.py
+        language: python
+        pass_filenames: false
+        always_run: true
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.13
     hooks:

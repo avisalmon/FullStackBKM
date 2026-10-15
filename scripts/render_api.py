@@ -82,7 +82,8 @@ def logs_params(owner_id: str, service: str, minutes: int, now=None) -> dict:
 def cmd_services(args):
     for item in call("GET", "/services", params={"limit": 20}):
         svc = item.get("service", item)
-        print(f"{svc['id']}  {svc['name']:<24} {svc.get('type', '')}  {svc.get('suspended', '')}")
+        url = (svc.get("serviceDetails") or {}).get("url", "")
+        print(f"{svc['id']}  {svc['name']:<24} {svc.get('type', '')}  {url}")
 
 
 def cmd_logs(args):

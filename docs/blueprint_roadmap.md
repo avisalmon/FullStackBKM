@@ -24,10 +24,10 @@ The first person to deploy should confirm each and fix the blueprint:
 - [ ] Real Google Cloud Storage upload/list/delete via `core.gcs.Bucket`
 - [ ] Real OpenAI call shape and the pricing table in `core/ai.py`
 - [ ] `scheduled-tasks.yml` against a live `SITE_URL`
-- [ ] Gitleaks pre-commit hook version pin, `gitleaks-action` on a private personal repo
+- [ ] `pre-commit install` and the local `no-secrets` hook run on a newcomer's machine (the hook is pure Python; ruff's hook downloads on first run)
 - [ ] Python 3.12.6 available on Render's builder
 - [ ] `verify_site.py` against a real https site (HSTS, cookie flags, https redirect checks only run there)
-- [ ] The `build-my-site` skill actually triggers from the phrase "Help me build my full stack site" in a fresh clone, and Claude follows it end to end (the experiment: [experiment_guide.md](experiment_guide.md))
+- [ ] The `build-my-site` skill actually triggers from "Tell me what to do" in a fresh clone (Claude Code **and** GitHub Copilot agent mode), checks the computer, installs Python and the GitHub CLI itself (`setup-my-computer`), resumes from the checklist in a later session, and follows the journey end to end (the experiment: [experiment_guide.md](experiment_guide.md))
 - [ ] `privacy-advisor` tone: advisory, not nagging, in a real conversation
 - [ ] Tutorial quizzes and picker clicked through in real browsers (structure is tested; behaviour was only read)
 - [ ] The privacy guide's legal statements (COPPA, GDPR ages, Israel) reviewed by a lawyer; they are hedged guidance, not advice
@@ -54,5 +54,5 @@ the mail "guard" wrapper (caps per-recipient sends), Hebrew/RTL i18n, dashboards
 
 - Optional "recipes": content moderation for uploads; mail guard; GCS-backed media storage wired behind a flag; Postgres option
   (Render managed DB) for when SQLite's single-writer limit bites; Cloudflare automation; uptime monitor (UptimeRobot on `/healthz`).
-- A `blueprint-update` skill: `git fetch blueprint` and merge improvements into a site that has diverged.
+- Not built yet: a way to pull blueprint improvements into a site that has diverged (`git fetch blueprint`, then merge), ideally as its own skill.
 - Dashboard generated from each app's spec/backlog with a test that fails when it drifts.

@@ -20,7 +20,10 @@ Everything that differs between your laptop and production is an environment var
 | `CSRF_TRUSTED_ORIGINS` | derived | Derived from `ALLOWED_HOSTS` (https). Use only for extras |
 | `SITE_DOMAIN` | Render hostname | Your canonical domain for the Site record (used by allauth links) |
 | `PYTHON_VERSION` | 3.12.6 | Render only; keep equal to your local Python |
-| `DJANGO_SUPERUSER_USERNAME` / `_EMAIL` / `_PASSWORD` | unset | `bootstrap_site` creates this admin once |
+| `DJANGO_SUPERUSER_USERNAME` | unset | Your admin login name. `bootstrap_site` creates the admin once, only if it does not exist yet |
+| `DJANGO_SUPERUSER_EMAIL` | unset | Your admin's email address |
+| `DJANGO_SUPERUSER_PASSWORD` | unset | Your admin password (type it into Render's prompt or `.env`; use a password manager; it is never reset on redeploy) |
+| `RENDER_EXTERNAL_HOSTNAME` | set by Render | **Do not set this yourself.** Render provides your `*.onrender.com` hostname; the settings trust it automatically |
 | `PRIVACY_REVIEWED` | `False` | Set `True` once **you** have read `/privacy/` and `/terms/` and are happy: removes the DRAFT banner ([privacy.md](../privacy.md) section 13) |
 | `SESSION_COOKIE_AGE` | 1209600 (14 days) | Seconds a sign-in lasts. Shorten for sensitive sites or shared computers |
 
