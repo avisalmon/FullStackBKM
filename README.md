@@ -105,7 +105,11 @@ what your data model is and why its main relationship exists. Ask Claude "quiz m
 
 ```
 CLAUDE.md                   Claude's standing instructions for this repo
-.claude/skills/             The playbooks: build-my-site, publish-to-github, site-mentor, privacy-advisor, building-an-app, render-django, site-ops
+.claude/skills/             17 playbooks for Claude Code: build-my-site, publish-to-github, render-django, site-ops, building-an-app, site-mentor,
+                            privacy-advisor, google-sign-in, email-resend, custom-domain, openai-ai-features, backups-and-restore,
+                            cost-monitoring, verify-my-site, site-security, data-model-coach, design-review
+.github/skills/             The same 17 playbooks for GitHub Copilot (generated copy, kept identical by CI)
+.github/copilot-instructions.md, AGENTS.md   Generated instructions + an index of every skill and its trigger phrases
 tutorial/                   Interactive lessons: how Django works, data models and relationships
 mysite/                     Django project (production-ready settings, URLs)
 core/                       Home page, health check, OpenAI helper, cost report, GCS client, backup & ops commands
@@ -150,5 +154,5 @@ To help a friend build a site: *"Read the README of this repo and good luck: `<t
 
 ## GitHub Pages
 
-[index.html](index.html) is a one-page overview of this blueprint and the tutorial is under `/tutorial/`, both served at `https://<user>.github.io/<repo>/` when Pages is enabled
-(Settings -> Pages -> Deploy from branch `main`, folder `/`). Your own site's pages are served by Render, not GitHub Pages.
+[index.html](index.html) is the blueprint's landing page and the tutorial is under `/tutorial/`. They are live at **https://avisalmon.github.io/FullStackBKM/**
+(Settings -> Pages -> Deploy from branch `main`, folder `/`). Your own site's pages are served by Render, not GitHub Pages, and a private repo cannot use Pages on the free plan.

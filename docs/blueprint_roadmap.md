@@ -2,13 +2,16 @@
 
 For whoever maintains the blueprint itself (not for site owners who cloned it).
 
-## Verified here (automated, 127 tests, plus repeated cold-start clones)
+## Verified here (automated, 166 tests, CI green on GitHub, repeated cold-start clones)
 
 Settings safety (secret-key refusal, host/CSRF derivation), health check, media with DEBUG off, notes CRUD API with
 refusals, `bootstrap_site` idempotency, local + offsite backup logic (against a fake bucket), OpenAI metering/caps
 (against a fake HTTP layer), cost adapters, the task endpoint's fail-shut behaviour, deploy-config guards, secret scan, privacy export/erase (rows and files),
 consent records, cookie and header hardening, `verify_site.py` logic (against fake sites), tutorial structure and links, markdown links, test isolation from a configured `.env`.
 A fresh clone installs, migrates, passes all tests, serves every page and passes `verify_site.py` against a live local server.
+Publishing was done for real (2026-10-15): `gh` install and login, account check, commit-identity rewrite, public repo and template flag, push, CI (secret scan, lint, tests,
+skills sync, deploy checks, migrations) green on Linux, GitHub Pages built and the landing page and tutorial fetched live, and a fresh Windows clone from GitHub passes all tests.
+The 17 skills are mirrored to `.github/skills/` for GitHub Copilot (CI checks they stay identical).
 
 ## NOT yet verified against the real services
 
@@ -22,7 +25,6 @@ The first person to deploy should confirm each and fix the blueprint:
 - [ ] Real OpenAI call shape and the pricing table in `core/ai.py`
 - [ ] `scheduled-tasks.yml` against a live `SITE_URL`
 - [ ] Gitleaks pre-commit hook version pin, `gitleaks-action` on a private personal repo
-- [ ] `publish-to-github`: repo creation, push, Pages and template steps run end to end (login, account check and pre-push check are verified)
 - [ ] Python 3.12.6 available on Render's builder
 - [ ] `verify_site.py` against a real https site (HSTS, cookie flags, https redirect checks only run there)
 - [ ] The `build-my-site` skill actually triggers from the phrase "Help me build my full stack site" in a fresh clone, and Claude follows it end to end (the experiment: [experiment_guide.md](experiment_guide.md))
@@ -31,6 +33,10 @@ The first person to deploy should confirm each and fix the blueprint:
 - [ ] The privacy guide's legal statements (COPPA, GDPR ages, Israel) reviewed by a lawyer; they are hedged guidance, not advice
 
 ## Known gaps in what was built
+
+- No `LICENSE` file yet: ask the owner (MIT is the usual choice). Until then the public repo is viewable and forkable but not clearly reusable.
+- GitHub Copilot's skill discovery (`.github/skills/`) is assumed to follow the Agent Skills format; the generated `copilot-instructions.md` and `AGENTS.md` index every skill with
+  its trigger phrases as a fallback. Not yet tried in a real Copilot session.
 
 - Uploads are served from public `/media/` (random names, not private). Private/authenticated file serving is documented ([privacy.md](privacy.md) section 7) but not built; build it when an app stores sensitive files.
 - The guardian-consent *gate* is infrastructure only (`ConsentRecord`, `has_consent`); each app decides its own gate.

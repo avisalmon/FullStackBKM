@@ -12,8 +12,8 @@ description: >
 # Publish to GitHub
 
 Part of the build journey ([build-my-site](../build-my-site/SKILL.md), Phase 3). Based on the owner's own GitHub runbook plus what actually happened
-when this blueprint was first published. **Steps marked (verified) have been run for real; steps marked (not yet verified) are written from the docs. Say which
-when you use them.**
+when this blueprint was first published. **Every step below was run for real when this blueprint was published (2026-10-15): the install, login, account check, identity rewrite, pre-push check, repo creation,
+push, template flag, Pages, and CI. Gotchas marked (found) bit us for real.**
 
 ## Rules (non-negotiable)
 
@@ -61,16 +61,18 @@ confirm with the owner which one before logging in or creating anything. If the 
 If the browser flow is impossible on this machine, the fallback is a **token created just for this machine** (classic, scopes `repo`, `read:org`, `gist`, plus `workflow` if needed,
 90-day expiry, named after the machine), pasted into `gh auth login` at its hidden prompt. Never saved anywhere else.
 
-## 3. Commit identity: don't publish a work email (verified problem, fix not yet verified)
+## 3. Commit identity: don't publish a work email (verified)
 
 Commits carry an author email, and **a public repo publishes it**. On this blueprint's first publish, all commits were authored with the owner's employer address.
 
 * Look: `git log --format="%an <%ae>" | sort -u` and `git config user.email`.
 * Use the account's **noreply** address: `<numeric-id>+<username>@users.noreply.github.com` (the id is in the public API lookup; the owner can also confirm at https://github.com/settings/emails).
   Set it: `git config --global user.email "<that>"` and `git config --global user.name "<Name>"`.
-* **If commits already carry the wrong email and nothing has been pushed yet**, offer to rewrite the author on the local history (e.g. `git rebase -r --root --exec 'git commit --amend --no-edit --reset-author'`
-  after setting the new email, or `git filter-repo --mailmap`). It is safe only before the first push. **If it was already pushed, stop and tell the owner**: removing it means rewriting
-  published history and treating the address as exposed.
+* **If commits already carry the wrong email and nothing has been pushed yet**, offer to rewrite the author on the local history. What worked (commit dates are preserved):
+  `FILTER_BRANCH_SQUELCH_WARNING=1 git filter-branch -f --env-filter 'export GIT_AUTHOR_NAME=...; export GIT_AUTHOR_EMAIL=<noreply>; export GIT_COMMITTER_NAME=...; export GIT_COMMITTER_EMAIL=<noreply>' -- --all`.
+  **Then delete the backup it leaves behind** (`git for-each-ref --format="%(refname)" refs/original`, delete each with `git update-ref -d`, then `git reflog expire --expire=now --all` and `git gc --prune=now`) and verify:
+  searching every commit's author, committer and message for the work domain must find nothing, and neither must `git grep` across `git rev-list --all` (found: the backup ref still held every old commit).
+  This is safe only before the first push. **If it was already pushed, stop and tell the owner**: removing it means rewriting published history and treating the address as exposed.
 
 ## 4. Pre-push check: keep private material out (verified)
 
@@ -89,7 +91,7 @@ python scripts/verify_site.py                     # this repo's own checker (sec
 * Safest: keep private material outside any public repository.
 * Also check size: GitHub rejects files over 100 MB.
 
-## 5. Create the repo and push (not yet verified end to end)
+## 5. Create the repo and push (verified)
 
 Decide visibility with the owner first (rule 4). Then, in the project folder:
 
@@ -101,25 +103,25 @@ gh repo create <account>/<name> --private --source . --remote origin --push --de
 Use `--public` only when agreed. If a `blueprint` or other remote already exists, keep it under another name (`git remote rename origin blueprint`) before creating `origin`.
 Confirm: `gh repo view --json isPrivate,url` and show the owner.
 
-**Mark a repo as a template** (so others get a clean private copy with "Use this template"), only for the public blueprint: `gh repo edit <account>/<name> --template` (not yet verified;
-fallback: Settings -> General -> Template repository).
+**Mark a repo as a template** (so others get a clean private copy with "Use this template"), only for the public blueprint: `gh repo edit <account>/<name> --template` (verified; fallback: Settings -> General -> Template repository).
+The owner's "Use this template" link is `https://github.com/<account>/<name>/generate`.
 
-## 6. GitHub Pages (only for a public static site; ask first) (not yet verified here)
+## 6. GitHub Pages (only for a public static site; ask first) (verified)
 
 ```
-gh api -X POST repos/<account>/<name>/pages -f "source[branch]=main"        # root of main
+gh api -X POST repos/<account>/<name>/pages -f "source[branch]=main" -f "source[path]=/"   # root of main
 gh api repos/<account>/<name>/pages --jq .html_url
 gh api repos/<account>/<name>/pages --jq .status                            # wait for: built
 ```
 
-* Address: `https://<account>.github.io/<name>/`. First build takes 1-10 minutes. Open it and click through.
+* Address: `https://<account>.github.io/<name>/`. The first build took about a minute. Poll `.status` until `built`, then fetch the live URLs (landing page and any sub-pages) and check the content.
 * Add an empty `.nojekyll` file first (stops Jekyll skipping `_` files). Links must be **relative** (`about.html`, not `/about.html`) because a project site lives under `/<name>/`.
 * Git Bash: prefix `MSYS_NO_PATHCONV=1` if you pass a path like `/docs`. Turning Pages off: `gh api -X DELETE repos/<account>/<name>/pages` (ask first).
 * **Pages is public.** Never publish a private repo's content this way; the owner's real site is served by Render, not Pages.
 
 ## 7. After the push
 
-* **Watch CI:** `gh run list --limit 3`, `gh run watch` (the first run also proves the secret-scan action works for this account type).
+* **Watch CI:** `gh run list --limit 3`, `gh run watch <id> --exit-status`. If the first run fails in the secret scan, read the log before changing anything: see the gitleaks gotcha below.
 * **Updates:** `git add <files>` (never blind `-A` without `git status`), commit with a message saying why, `git push`. A push to a repo connected to Render **deploys production**: only
   push on the owner's say-so ([render-django](../render-django/SKILL.md)).
 * **Scheduled-task secrets** (backups and cost reports): `gh variable set SITE_URL --body <url>` and `gh secret set TASK_TRIGGER_TOKEN` (value from a prompt or a local variable, never typed into chat).
@@ -134,6 +136,12 @@ gh api repos/<account>/<name>/pages --jq .status                            # wa
 * File names are case-sensitive on GitHub and Pages but not on Windows.
 * A background `winget` or installer that waits for a prompt the owner can't see will hang silently: set a time limit and fall back.
 * `gh auth login` in the background needs a stdin file with a newline; the one-time code appears on **stderr**.
+* (found) **PowerShell strips quotes inside arguments to native programs**: `gh repo view --json a,b --jq '.x + .y'` fails with "accepts at most 1 arg(s)". Use `--json ... | ConvertFrom-Json`, or `--jq .field` with no spaces.
+* (found) **`$home` (and `$host`, `$pid`, `$args`) are reserved PowerShell variables**: assigning them fails. Use other names.
+* (found) **`gitleaks/gitleaks-action` fails on a repository's first push**: it scans `<first-commit>^..<head>` and the root commit has no parent, so it aborts without scanning. CI in this blueprint downloads the pinned gitleaks binary, verifies its SHA-256, and scans the whole history instead.
+* (found) **Windows checks files out with CRLF** by default. `.gitattributes` with `* text=auto eol=lf` keeps every checkout identical, so shell scripts run on Render and generated files compare equal.
+* (found) **Dependabot opens pull requests the moment a repo is public.** Leave them for the owner; merge only with green CI.
+* A public repo with no `LICENSE` is "all rights reserved": others may view and fork it on GitHub but have no clear right to reuse it. Ask the owner which licence (MIT is the usual permissive choice); never pick one silently.
 
 ## Hand-off checklist
 
@@ -141,6 +149,8 @@ gh api repos/<account>/<name>/pages --jq .status                            # wa
 - [ ] Commit identity is the noreply address; no work email in history that is about to be public
 - [ ] Pre-push check clean; `.env` and `env/` not tracked
 - [ ] Visibility confirmed with the owner (private for a site, public only if intended)
-- [ ] Repo created, pushed, link shown; CI green
-- [ ] Pages / template only if asked
+- [ ] Repo created, pushed, link shown; CI green (`gh run watch --exit-status`)
+- [ ] Pages / template only if asked; Pages `built` and the live URLs fetched and checked
+- [ ] A fresh clone from GitHub installs and passes the tests (the real proof)
+- [ ] Licence question asked (public repos)
 - [ ] The owner knows: 2FA on, secret scanning on, never paste tokens into chat
