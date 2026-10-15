@@ -1,0 +1,60 @@
+:root {
+  --bg: #ffffff; --fg: #1c2024; --muted: #5b6470; --accent: #2557d6; --border: #d9dde3;
+  --surface: #f5f7fa; --good: #1a7f4b; --bad: #b3261e; --warn-bg: #fff6e0; --good-bg: #e8f6ee;
+  --box: #eaf0ff; --box-line: #2557d6;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171c; --fg: #e8eaed; --muted: #9aa3ae; --accent: #7aa2ff; --border: #2c323b;
+    --surface: #1c2027; --good: #5fd49a; --bad: #ff8a80; --warn-bg: #2d2610; --good-bg: #12281d;
+    --box: #1d2a4a; --box-line: #7aa2ff;
+  }
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+a { color: var(--accent); }
+.wrap { max-width: 50rem; margin: 0 auto; padding: 1.5rem 1rem 5rem; }
+.topnav { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; padding: .75rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface); font-size: .95rem; }
+.topnav strong { margin-right: auto; }
+h1 { font-size: 2rem; line-height: 1.2; margin: 1rem 0 .25rem; }
+h2 { font-size: 1.45rem; margin: 2.75rem 0 .5rem; padding-top: .5rem; border-top: 1px solid var(--border); }
+h3 { font-size: 1.15rem; margin: 1.75rem 0 .25rem; }
+.lede { font-size: 1.15rem; color: var(--muted); margin-top: 0; }
+.toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1.25rem; }
+.toc ol { margin: .25rem 0; padding-left: 1.25rem; }
+code, pre { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .92em; }
+code { background: var(--surface); padding: .1rem .3rem; border-radius: 4px; }
+pre { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .85rem 1rem; overflow-x: auto; line-height: 1.45; }
+pre code { background: none; padding: 0; }
+/* Tables scroll inside themselves on a phone instead of widening the whole page. */
+table { display: block; overflow-x: auto; max-width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .97rem; }
+td code, th code { word-break: break-word; }
+.wrap { overflow-wrap: break-word; }
+.wrap, .callout, figure { min-width: 0; }
+th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--border); }
+th { color: var(--muted); font-weight: 600; }
+.callout { border-left: 4px solid var(--accent); background: var(--surface); padding: .6rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+.callout.warn { border-color: #d89b00; background: var(--warn-bg); }
+.callout.good { border-color: var(--good); background: var(--good-bg); }
+.callout > :first-child { margin-top: 0; } .callout > :last-child { margin-bottom: 0; }
+figure { margin: 1.25rem 0; overflow-x: auto; } figure svg { width: 100%; min-width: 36rem; height: auto; display: block; }
+figcaption { color: var(--muted); font-size: .9rem; text-align: center; margin-top: .25rem; }
+svg text { fill: var(--fg); font: 14px system-ui, sans-serif; }
+svg .box { fill: var(--box); stroke: var(--box-line); stroke-width: 1.5; }
+svg .line { stroke: var(--muted); stroke-width: 1.8; fill: none; }
+svg .arrow { stroke: var(--accent); stroke-width: 2; fill: none; marker-end: url(#head); }
+svg .small { font-size: 12px; fill: var(--muted); }
+svg .bold { font-weight: 700; }
+.quiz { border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1rem; margin: 1rem 0; }
+.quiz p { margin: .25rem 0 .5rem; font-weight: 600; }
+.quiz button { margin: .15rem .3rem .15rem 0; padding: .35rem .8rem; border: 1px solid var(--accent); background: transparent; color: var(--accent); border-radius: 6px; font: inherit; cursor: pointer; }
+.quiz button:hover { background: var(--surface); }
+.quiz .feedback { margin: .5rem 0 0; min-height: 1.5em; }
+.quiz .feedback.ok { color: var(--good); } .quiz .feedback.no { color: var(--bad); }
+.picker { display: grid; gap: .5rem; grid-template-columns: 1fr; }
+.picker label { display: grid; gap: .15rem; font-weight: 600; }
+.picker select { font: inherit; padding: .35rem; border-radius: 6px; border: 1px solid var(--border); background: var(--bg); color: var(--fg); }
+.picker output { display: block; padding: .6rem .8rem; background: var(--surface); border-radius: 8px; border: 1px solid var(--border); }
+.next { display: flex; justify-content: space-between; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
+@media (min-width: 40rem) { .picker { grid-template-columns: 1fr 1fr; } .picker output { grid-column: 1 / -1; } }

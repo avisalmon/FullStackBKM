@@ -4,7 +4,7 @@ The real defences are .gitignore, a private repository and secret scanning (pre-
 see docs/security.md). This catches the case where a key gets pasted into a doc or a test.
 """
 
-import re
+import importlib.util
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -35,16 +35,12 @@ TEXT_SUFFIXES = {
     ".example",
 }
 
-PATTERNS = {
-    "OpenAI key": re.compile(r"sk-(?:proj-|admin-)?[A-Za-z0-9_-]{32,}"),
-    "Google OAuth secret": re.compile(r"GOCSPX-[A-Za-z0-9_-]{20,}"),
-    "Resend key": re.compile(r"\bre_[A-Za-z0-9]{20,}"),
-    "Render API key": re.compile(r"\brnd_[A-Za-z0-9]{20,}"),
-    "GitHub token": re.compile(r"\b(?:ghp|gho|github_pat)_[A-Za-z0-9_]{20,}"),
-    "AWS key id": re.compile(r"\bAKIA[0-9A-Z]{16}\b"),
-    "Private key block": re.compile(r"-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----"),
-    "Service-account JSON": re.compile(r'"private_key_id"\s*:'),
-}
+spec = importlib.util.spec_from_file_location(
+    "secret_patterns", ROOT / "scripts" / "secret_patterns.py"
+)
+_module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(_module)
+PATTERNS = _module.PATTERNS
 
 
 def candidate_files():

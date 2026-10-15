@@ -56,7 +56,9 @@ Each step waits for the owner before the next one starts. It is not a checklist 
 2. **A thin intro spec.** One short chapter, plain words: "this is the app we're talking about." Not the full spec.
 3. **The data model, on its own.** `docs/<app>/data_model.md`: the main classes and how they relate. Not complete,
    but it must give real understanding of what the app will do from the data's point of view.
-   **Stop and wait for the owner's approval.** Getting the shape of the data right early is what everything is built on;
+   **Teach before you ask for approval**: if the owner is new to data modelling, walk them through
+   [the tutorial](../tutorial/data-models.html) (what a model is, why relationships matter, the four shapes, what happens on delete) using *their*
+   entities. **Stop and wait for the owner's approval.** Getting the shape of the data right early is what everything is built on;
    getting it wrong is expensive to unwind.
 4. **The full spec, in high-level chapters**, only after the data model is approved.
 5. **The normal flow:** backlog, sprints, test-first, scaled to the app's size (below).

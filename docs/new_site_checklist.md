@@ -16,6 +16,8 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 
 ## Phase 1 - Understand what you're building (Claude interviews you)
 
+- [ ] **You (10 min, optional but recommended):** open `tutorial/index.html` in your browser: how a Django site works and the shared vocabulary
+
 - [ ] Claude asks what the site is for, who uses it, what it must never be
 - [ ] Claude writes the thin intro to `docs/spec.md`; you approve it
 
@@ -26,6 +28,7 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 - [ ] `python scripts/init_site.py --name <slug> --site-name "<Name>"`
 - [ ] Database migrated, tests green, site running at http://127.0.0.1:8000
 - [ ] **You:** open it in a browser and say it looks right
+- [ ] **Claude:** `python scripts/verify_site.py --url http://127.0.0.1:8000`, explaining each line to you
 
 ## Phase 3 - Private GitHub repo (Claude, after your OK)
 
@@ -39,6 +42,7 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 - [ ] **You:** New -> Blueprint -> pick repo; type admin username/email/password; Deploy
 - [ ] **You:** Render -> Account Settings -> API Keys -> create; put it in `.env` as `RENDER_API_KEY` (local only)
 - [ ] **Claude:** finds the service, checks `/healthz`, reads logs, smoke-tests the live site
+- [ ] **Claude:** `python scripts/verify_site.py --url https://<your-host>`: no FAIL lines
 - [ ] **Claude:** generates `TASK_TRIGGER_TOKEN`, sets it on Render and in GitHub, sets `SITE_URL` ([backup_restore.md](procedures/backup_restore.md))
 
 ## Phase 5 - Sign-in with Google (optional but recommended)
@@ -71,7 +75,7 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 ## Phase 10 - Build your apps
 
 For each feature area, Claude follows [building_an_app.md](building_an_app.md): interview, thin spec,
-**data model for your approval**, full spec, then backlog/sprints with tests. The example `notes` app is removed
+**data model for your approval** (Claude teaches it first: [tutorial/data-models.html](../tutorial/data-models.html)), full spec, then backlog/sprints with tests. The example `notes` app is removed
 when you no longer need it (see below).
 
 ### Removing the example `notes` app
@@ -81,6 +85,13 @@ when you no longer need it (see below).
 3. `templates/core/home.html`: delete the link to `notes:list`; `core/views.py`: remove `/notes/` from robots
 4. Delete `notes/`, `static/notes/`, `docs/notes/`, `tests/test_notes_api.py`
 5. `pytest -q` and `python manage.py check` still pass
+
+## Graduation: how you know you did it right
+
+- [ ] `python scripts/verify_site.py --url https://<your-host>` shows **no FAIL**
+- [ ] `pytest -q` passes
+- [ ] You have practised one restore ([backup_restore.md](procedures/backup_restore.md))
+- [ ] You can explain, in your own words, what your data model is and why its main relationship exists (ask Claude to quiz you)
 
 ## Ongoing
 

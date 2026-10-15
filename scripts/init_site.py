@@ -5,7 +5,7 @@
 
 Rewrites, in place, only the places that carry the placeholder name:
   render.yaml   - service name, disk name, SITE_NAME
-  .env.example  - SITE_NAME
+  .env.example, .env (if present) - SITE_NAME
 Safe to re-run with a different name. See docs/new_site_checklist.md.
 """
 
@@ -33,12 +33,20 @@ def apply(root: Path, name: str, site_name: str) -> list[str]:
         render.write_text(new, encoding="utf-8", newline="\n")
         changed.append("render.yaml")
 
-    env_example = root / ".env.example"
-    text = env_example.read_text(encoding="utf-8")
-    new = re.sub(r"^SITE_NAME=.*$", f"SITE_NAME={site_name}", text, flags=re.M)
-    if new != text:
-        env_example.write_text(new, encoding="utf-8", newline="\n")
-        changed.append(".env.example")
+    # .env is the owner's live copy (already made from .env.example); keep both in step.
+    for env_name in (".env.example", ".env"):
+        env_file = root / env_name
+        if not env_file.exists():
+            continue
+        text = env_file.read_text(encoding="utf-8")
+        line = f"SITE_NAME={site_name}"
+        if re.search(r"^SITE_NAME=", text, flags=re.M):
+            new = re.sub(r"^SITE_NAME=.*$", lambda _: line, text, flags=re.M)
+        else:
+            new = text.rstrip("\n") + "\n" + line + "\n"
+        if new != text:
+            env_file.write_text(new, encoding="utf-8", newline="\n")
+            changed.append(env_name)
     return changed
 
 

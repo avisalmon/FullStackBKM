@@ -43,7 +43,10 @@ rather than working from memory; they change as the owner learns. Tick boxes in 
 8. **Be honest about what isn't verified.** [docs/blueprint_roadmap.md](../../../docs/blueprint_roadmap.md) lists parts of this blueprint not yet
    run against the live services. If one fails: read the logs ([debug_failed_deploy.md](../../../docs/procedures/debug_failed_deploy.md)), fix
    the blueprint file in the owner's repo, tell them what you changed and why, and suggest they report it upstream.
-9. Detect the OS (the environment tells you). Windows: PowerShell syntax and `.\env\Scripts\python.exe`. macOS/Linux: `env/bin/python`.
+9. **Mentor as you go** (the `site-mentor` skill): say why at each decision, introduce a concept when it first matters, point at the tutorial
+   ([tutorial/index.html](../../../tutorial/index.html)), and after each phase run `python scripts/verify_site.py` (add `--url` once there is a site) and walk the owner
+   through the result. Offer the tutorial at the end of Phase 1, before the first data model.
+10. Detect the OS (the environment tells you). Windows: PowerShell syntax and `.\env\Scripts\python.exe`. macOS/Linux: `env/bin/python`.
    The virtualenv is always the folder `env/` (never `.env`, which is the variables file). Run Python via the venv interpreter explicitly.
 
 ## The journey
@@ -67,7 +70,8 @@ Put a fresh `SECRET_KEY` in `.env` (`python -c "import secrets; print(secrets.to
 Choose a slug and display name with the owner, then `python scripts/init_site.py --name <slug> --site-name "<Name>"`.
 Then: `manage.py migrate`, `pytest -q`, `manage.py check`, and start `manage.py runserver` in the background; verify `http://127.0.0.1:8000/healthz`.
 Local admin: tell the owner to run `python manage.py createsuperuser` themselves in the terminal (prefix `!` in Claude Code) so the password never passes through you.
-Ask them to open http://127.0.0.1:8000 and confirm it looks right.
+Ask them to open http://127.0.0.1:8000 and confirm it looks right. Run `python scripts/verify_site.py --url http://127.0.0.1:8000` and explain each line.
+Offer the 10-minute tour: open `tutorial/index.html`.
 
 ### Phase 3: private GitHub repo (ask permission once)
 First `git remote -v` and `gh repo view --json isPrivate,url`. If `origin` is already the owner's own **private** repo (they used "Use this template"),
@@ -109,6 +113,10 @@ user (or `manage.py shell`), then `report_costs`.
 ### Phase 9: backups and costs
 Local backup works out of the box. When the data matters: [gcs_bucket.md](../../../docs/procedures/gcs_bucket.md) (human: bucket + service account; you: env vars, run
 `backup_db`, verify objects exist). Have the owner **practise a restore** once ([backup_restore.md](../../../docs/procedures/backup_restore.md)). Run `report_costs`.
+
+### Graduation
+When the owner says they are done: `verify_site.py --url https://<live-host>` shows no FAIL, `pytest -q` passes, a restore has been practised, and the owner can explain
+their data model and why its main relationship exists (ask them; this is the real test). Say so and congratulate them.
 
 ### Phase 10: the owner's apps
 Hand over to the **building-an-app** skill for each feature area. Offer to remove the example `notes` app when they are done with it.

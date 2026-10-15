@@ -9,6 +9,8 @@ If you are looking for something and this file does not name it, the file is in 
 | [../README.md](../README.md) | How to clone and begin. One page. |
 | [new_site_checklist.md](new_site_checklist.md) | The whole journey, phase by phase, with who does what (Claude / you) |
 | [security.md](security.md) | What protects you and the few things only you can do |
+| [../tutorial/index.html](../tutorial/index.html) | **Learn first**: how a Django site works, then data models and relationships (interactive, works offline) |
+| [design_guide.md](design_guide.md) | Practical design advice and the review checklist Claude uses on every screen |
 
 ## How we build
 

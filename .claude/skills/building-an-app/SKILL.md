@@ -22,7 +22,10 @@ adds to ("add this to the methodology file" means: edit that doc directly, in th
 2. **Starting a new app** -> run the kickoff sequence, one step at a time, waiting for the owner at the gate after step 3:
    1. **Interview** until purpose, audience and boundaries are clear. Don't assume.
    2. **Thin intro spec** (`docs/<app>/spec.md`): what the app is, in plain terms. Not the full spec.
-   3. **Standalone data model** (`docs/<app>/data_model.md`): main classes and relationships. **Stop and wait for approval.**
+   3. **Standalone data model** (`docs/<app>/data_model.md`): main classes and relationships. **Teach it first** (use the `site-mentor` skill's data-model
+      walkthrough and [tutorial/data-models.html](../../../tutorial/data-models.html): nouns to models, why relationships matter, the four shapes, `on_delete`,
+      read every line aloud as a sentence). Include a box-and-line picture, the relationships in words, and the questions the model must answer.
+      **Stop and wait for approval.**
    4. **Full spec**, high-level chapters, only after approval.
    5. **Normal flow**: `docs/<app>/backlog.md`, sprints, test-first, scaled to the app's size.
 3. **Ongoing work on an existing app** -> apply the core rules as defaults unless a recorded exception exists.

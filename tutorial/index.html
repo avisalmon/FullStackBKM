@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How a Django website works</title>
+  <meta name="description" content="A plain-language tour of how a Django website works, so you and Claude speak the same language.">
+  <link rel="stylesheet" href="tutorial.css">
+</head>
+<body>
+<nav class="topnav">
+  <strong>Learn: building with Django</strong>
+  <a href="index.html">1. How it works</a>
+  <a href="data-models.html">2. Data models</a>
+  <a href="../index.html">Blueprint home</a>
+</nav>
+<div class="wrap">
+
+<h1>How a Django website works</h1>
+<p class="lede">Ten minutes now saves hours later. When you and Claude use the same words, you can steer the build instead of just watching it.</p>
+
+<div class="toc"><strong>On this page</strong>
+  <ol>
+    <li><a href="#picture">The whole picture in one diagram</a></li>
+    <li><a href="#request">Follow one click, step by step</a></li>
+    <li><a href="#words">The vocabulary (what Claude will say, and what it means)</a></li>
+    <li><a href="#apps">Why we build in apps</a></li>
+    <li><a href="#map">Where everything lives in this repo</a></li>
+    <li><a href="#try">Try it yourself (15 minutes)</a></li>
+  </ol>
+</div>
+
+<h2 id="picture">1. The whole picture in one diagram</h2>
+<p>A website is a conversation. Someone's browser <strong>asks</strong> for a page; your server <strong>answers</strong>. Django is the machinery that decides how to answer. Almost everything in this course is one of the boxes below.</p>
+
+<figure>
+<svg viewBox="0 0 760 250" role="img" aria-label="Request flow: browser, URL router, view, model and database, template, back to browser">
+  <defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0 L10 5 L0 10 z" fill="#2557d6"/></marker></defs>
+  <rect class="box" x="10" y="20" width="120" height="56" rx="8"/><text x="70" y="44" text-anchor="middle" class="bold">Browser</text><text x="70" y="62" text-anchor="middle" class="small">asks for /notes/</text>
+  <rect class="box" x="170" y="20" width="120" height="56" rx="8"/><text x="230" y="44" text-anchor="middle" class="bold">URLs</text><text x="230" y="62" text-anchor="middle" class="small">which code?</text>
+  <rect class="box" x="330" y="20" width="120" height="56" rx="8"/><text x="390" y="44" text-anchor="middle" class="bold">View</text><text x="390" y="62" text-anchor="middle" class="small">the decision</text>
+  <rect class="box" x="490" y="20" width="120" height="56" rx="8"/><text x="550" y="44" text-anchor="middle" class="bold">Model</text><text x="550" y="62" text-anchor="middle" class="small">the data shape</text>
+  <rect class="box" x="640" y="20" width="110" height="56" rx="8"/><text x="695" y="44" text-anchor="middle" class="bold">Database</text><text x="695" y="62" text-anchor="middle" class="small">the saved rows</text>
+  <path class="arrow" d="M130 48 H168"/><path class="arrow" d="M290 48 H328"/><path class="arrow" d="M450 48 H488"/><path class="arrow" d="M610 48 H638"/>
+  <rect class="box" x="330" y="150" width="120" height="56" rx="8"/><text x="390" y="174" text-anchor="middle" class="bold">Template</text><text x="390" y="192" text-anchor="middle" class="small">the page layout</text>
+  <rect class="box" x="10" y="150" width="120" height="56" rx="8"/><text x="70" y="174" text-anchor="middle" class="bold">Browser</text><text x="70" y="192" text-anchor="middle" class="small">shows the page</text>
+  <path class="arrow" d="M390 76 V148"/><path class="arrow" d="M328 178 H132"/>
+  <text x="400" y="118" class="small">the view hands the data to a template</text>
+  <text x="145" y="168" class="small">finished HTML</text>
+</svg>
+<figcaption>Request in along the top, answer back along the bottom.</figcaption>
+</figure>
+
+<div class="callout good"><strong>The one idea to keep:</strong> the <em>model</em> (what data exists and how it connects) is the foundation. Pages, URLs and styling are built on top of it and are easy to change. The shape of your data is not. That is why we agree on it <em>first</em>: see <a href="data-models.html">the data models lesson</a>.</div>
+
+<h2 id="request">2. Follow one click, step by step</h2>
+<p>You are signed in to the example Notes app and open <code>/notes/</code>. Here is what happens, with the file that does each job.</p>
+<table>
+<tr><th>#</th><th>What happens</th><th>Where</th></tr>
+<tr><td>1</td><td>The browser sends <code>GET /notes/</code> to your server.</td><td>(the internet)</td></tr>
+<tr><td>2</td><td>Django looks through the URL list for a match: <code>notes/</code> belongs to the notes app, and its <code>""</code> entry is the page.</td><td><code>mysite/urls.py</code>, <code>notes/urls.py</code></td></tr>
+<tr><td>3</td><td>The matching <strong>view</strong> runs. It first checks you are signed in (otherwise it redirects to login).</td><td><code>notes/views.py</code> (<code>NotesPage</code>)</td></tr>
+<tr><td>4</td><td>The view picks a <strong>template</strong> and returns it. This page is a shell; it asks the API for the notes.</td><td><code>notes/templates/notes/list.html</code></td></tr>
+<tr><td>5</td><td>Your browser runs a little JavaScript that calls <code>GET /notes/api/notes/</code>.</td><td><code>static/notes/notes.js</code></td></tr>
+<tr><td>6</td><td>That URL reaches the API <strong>viewset</strong>, which asks the <strong>model</strong> for <em>only your</em> notes, and the <strong>serializer</strong> turns rows into JSON.</td><td><code>notes/views.py</code>, <code>serializers.py</code>, <code>models.py</code></td></tr>
+<tr><td>7</td><td>The <strong>database</strong> returns the rows. The JSON goes back, the script draws the list.</td><td><code>/var/data/data/db.sqlite3</code> on Render</td></tr>
+</table>
+<p>Notice the rule we build by: the <strong>API</strong> is the foundation and the <strong>page</strong> is just one customer of it. Tomorrow a phone app could be another customer, with no change to the data layer.</p>
+
+<h2 id="words">3. The vocabulary</h2>
+<p>These are the words Claude will use. If one is fuzzy, ask: "what is a migration, in plain words?" is always a good question.</p>
+<table>
+<tr><th>Word</th><th>Plain meaning</th><th>Here</th></tr>
+<tr><td><strong>Project</strong></td><td>The whole website: settings plus the apps inside it.</td><td><code>mysite/</code></td></tr>
+<tr><td><strong>App</strong></td><td>One feature area as a self-contained folder (Notes, Recipes, Bookings...). Like a room in a house.</td><td><code>notes/</code>, <code>core/</code></td></tr>
+<tr><td><strong>Model</strong></td><td>A description of one kind of thing you store, written as a Python class. It becomes a table.</td><td><code>notes/models.py</code></td></tr>
+<tr><td><strong>Field</strong></td><td>One property of a model: a title, a date, a picture. It becomes a column.</td><td><code>title = CharField(...)</code></td></tr>
+<tr><td><strong>Row / instance</strong></td><td>One actual thing: this particular note.</td><td>a record in the table</td></tr>
+<tr><td><strong>Relationship</strong></td><td>A link between two models: "a note <em>belongs to</em> a person". <a href="data-models.html#relationships">The key lesson.</a></td><td><code>owner = ForeignKey(User)</code></td></tr>
+<tr><td><strong>Migration</strong></td><td>A recorded, replayable instruction that changes the database to match your models. Like a change log for the data's shape.</td><td><code>notes/migrations/</code></td></tr>
+<tr><td><strong>View</strong></td><td>The code that decides what to answer for a given URL.</td><td><code>views.py</code></td></tr>
+<tr><td><strong>URL route</strong></td><td>The rule "this address goes to that view".</td><td><code>urls.py</code></td></tr>
+<tr><td><strong>Template</strong></td><td>An HTML page with holes for data: <code>{{ note.title }}</code>.</td><td><code>templates/</code></td></tr>
+<tr><td><strong>Static files</strong></td><td>Files that ship with your code: CSS, JavaScript, logo.</td><td><code>static/</code></td></tr>
+<tr><td><strong>Media files</strong></td><td>Files your <em>users</em> upload. Stored on the persistent disk.</td><td><code>media/</code></td></tr>
+<tr><td><strong>Admin</strong></td><td>A free back-office for staff to view and edit any model.</td><td><code>/admin/</code></td></tr>
+<tr><td><strong>API / REST</strong></td><td>URLs that speak data (JSON) instead of pages: create, read, update, delete (CRUD).</td><td><code>/notes/api/notes/</code></td></tr>
+<tr><td><strong>Serializer</strong></td><td>Translates a model row to JSON and back, and validates input.</td><td><code>serializers.py</code></td></tr>
+<tr><td><strong>Settings / env var</strong></td><td>Configuration. Secrets and anything that differs between your laptop and production are environment variables.</td><td><code>.env</code>, Render dashboard</td></tr>
+<tr><td><strong>Test</strong></td><td>Code that checks your code. A good test fails when the behaviour breaks.</td><td><code>tests/</code></td></tr>
+<tr><td><strong>Deploy</strong></td><td>Publishing the code to the live server. Here, <code>git push</code> does it, so we push only when you say so.</td><td>Render</td></tr>
+<tr><td><strong>Local vs production</strong></td><td>Your laptop (safe to break) vs the live site (real people).</td><td>always test local first</td></tr>
+</table>
+
+<div class="quiz" data-answer="c" data-why="A migration is the recorded instruction that updates the database to match the models.">
+  <p>You add a "due date" field to a model. What must you do so the database gets the new column?</p>
+  <button data-choice="a">Edit the template</button>
+  <button data-choice="b">Restart your computer</button>
+  <button data-choice="c">Create and apply a migration</button>
+  <div class="feedback" role="status"></div>
+</div>
+<div class="quiz" data-answer="b" data-why="Static files are shipped with your code; media files are uploaded by users at runtime.">
+  <p>A visitor uploads a profile picture. Is that a static file or a media file?</p>
+  <button data-choice="a">Static</button>
+  <button data-choice="b">Media</button>
+  <div class="feedback" role="status"></div>
+</div>
+
+<h2 id="apps">4. Why we build in apps</h2>
+<p>Picture a house. The <strong>project</strong> is the building (plumbing, electricity, the front door). Each <strong>app</strong> is a room with its own furniture. Rules for rooms:</p>
+<ul>
+  <li>A room never reaches into another room's cupboards. (An app never touches another app's data.)</li>
+  <li>Everyone shares the same front door key: one login for the whole building. That is the only thing shared.</li>
+  <li>Each room has its own blueprint on the wall: its <code>docs/&lt;app&gt;/spec.md</code> and <code>data_model.md</code>.</li>
+</ul>
+<p>The payoff: you can change, test, or even delete one feature without breaking the others. The long version, with the real mistakes behind each rule, is <a href="../docs/building_an_app.md">building_an_app.md</a>.</p>
+
+<h2 id="map">5. Where everything lives in this repo</h2>
+<pre><code>mysite/        project settings and the master list of URLs
+core/          site-level pages, health check, AI helper, cost report, backups
+notes/         the example app: models.py  views.py  urls.py  serializers.py  templates/
+templates/     site layout shared by site-level pages
+static/        CSS and JavaScript that ship with the code
+tests/         the safety net
+docs/          the written plan: spec, data model, procedures
+scripts/       helper tools (verify_site.py checks your work)
+render.yaml    how Render should run the site</code></pre>
+
+<h2 id="try">6. Try it yourself (15 minutes)</h2>
+<p>Run the site locally (<code>python manage.py runserver</code>), then:</p>
+<ol>
+  <li><strong>Meet the admin.</strong> Create a local admin with <code>python manage.py createsuperuser</code>, open <code>/admin/</code>, find <em>Notes</em>. This is the model, as a form.</li>
+  <li><strong>Add a note two ways.</strong> Once in the admin, once at <code>/notes/</code>. Then open <code>/notes/api/notes/</code> and see the same data as JSON. Same row, three views of it.</li>
+  <li><strong>Follow the money.</strong> Open <code>notes/models.py</code> and find which field makes a note belong to a person. Ask Claude: "what would break if I deleted that line?"</li>
+  <li><strong>Break a test on purpose.</strong> Open <code>notes/views.py</code>, change <code>filter(owner=self.request.user)</code> to <code>all()</code>, run <code>pytest -q</code>. See which tests fail and read what they say. Then undo it. That test is the reason strangers cannot read each other's notes.</li>
+  <li><strong>Run the checker.</strong> <code>python scripts/verify_site.py --url http://127.0.0.1:8000</code> and read every line.</li>
+</ol>
+
+<div class="next"><span></span><a href="data-models.html"><strong>Next: Data models &rarr;</strong> the most important lesson</a></div>
+</div>
+<script src="quiz.js"></script>
+</body>
+</html>

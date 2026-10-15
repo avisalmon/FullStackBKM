@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data models and relationships</title>
+  <meta name="description" content="What a data model is, why relationships matter, and how to design yours before any code is written.">
+  <link rel="stylesheet" href="tutorial.css">
+</head>
+<body>
+<nav class="topnav">
+  <strong>Learn: building with Django</strong>
+  <a href="index.html">1. How it works</a>
+  <a href="data-models.html">2. Data models</a>
+  <a href="../index.html">Blueprint home</a>
+</nav>
+<div class="wrap">
+
+<h1>Data models and relationships</h1>
+<p class="lede">The most important lesson in this repo. Get the shape of your data right and everything else is easy to change. Get it wrong and every screen inherits the mistake.</p>
+
+<div class="toc"><strong>On this page</strong>
+  <ol>
+    <li><a href="#what">What is a data model?</a></li>
+    <li><a href="#fields">Fields: describing one thing</a></li>
+    <li><a href="#why">Why relationships matter</a></li>
+    <li><a href="#relationships">The four relationships</a></li>
+    <li><a href="#delete">What happens when something is deleted?</a></li>
+    <li><a href="#find">How to find your models</a></li>
+    <li><a href="#example">A full worked example</a></li>
+    <li><a href="#mistakes">Common mistakes</a></li>
+    <li><a href="#migrations">Why we agree on this first (migrations)</a></li>
+    <li><a href="#yourturn">Your turn: the data model document</a></li>
+  </ol>
+</div>
+
+<h2 id="what">1. What is a data model?</h2>
+<p>A data model is the <strong>list of kinds of things your site remembers, what you know about each, and how they connect</strong>. Nothing more. It is not code and not screens. You can describe it with a pen and paper.</p>
+<p>If you have used a spreadsheet, you already know it:</p>
+<table>
+<tr><th>Spreadsheet</th><th>Django</th><th>Example</th></tr>
+<tr><td>A sheet (tab)</td><td><strong>Model</strong> (becomes a database table)</td><td><code>Recipe</code></td></tr>
+<tr><td>A column heading</td><td><strong>Field</strong></td><td><code>title</code>, <code>cooking_time</code></td></tr>
+<tr><td>A row</td><td><strong>Instance</strong> (one record)</td><td>"Shakshuka", 25 min</td></tr>
+<tr><td>A column of IDs that points at another sheet</td><td><strong>Relationship</strong></td><td>the recipe's <code>author</code></td></tr>
+</table>
+<p>Here is one model, as the sheet it becomes:</p>
+<table>
+<tr><th>id</th><th>title</th><th>cooking_time</th><th>author</th></tr>
+<tr><td>1</td><td>Shakshuka</td><td>25</td><td><strong>3</strong></td></tr>
+<tr><td>2</td><td>Lentil soup</td><td>40</td><td><strong>3</strong></td></tr>
+<tr><td>3</td><td>Challah</td><td>180</td><td><strong>5</strong></td></tr>
+</table>
+<p>The <code>id</code> is the row's unique number (the <em>primary key</em>); Django adds it for you. The <code>author</code> column holds a number too: <em>the id of a row in the Author sheet</em>. That little number is a relationship, and it is the subject of this lesson.</p>
+
+<h2 id="fields">2. Fields: describing one thing</h2>
+<p>For each kind of thing, list what you need to know about it. Each fact has a <strong>type</strong>:</p>
+<table>
+<tr><th>You know...</th><th>Field type</th><th>Notes</th></tr>
+<tr><td>a name, a title (short text)</td><td><code>CharField(max_length=200)</code></td><td>One line</td></tr>
+<tr><td>a description, a story (long text)</td><td><code>TextField</code></td><td>Many lines</td></tr>
+<tr><td>a whole number: servings, stars</td><td><code>IntegerField</code> / <code>PositiveIntegerField</code></td><td>Never store numbers as text</td></tr>
+<tr><td>money, exact decimals</td><td><code>DecimalField</code></td><td>Not a float: floats round</td></tr>
+<tr><td>yes or no</td><td><code>BooleanField</code></td><td>"is_published"</td></tr>
+<tr><td>a date, or a moment</td><td><code>DateField</code> / <code>DateTimeField</code></td><td><code>auto_now_add</code> stamps creation time</td></tr>
+<tr><td>one of a fixed set: draft, published</td><td><code>CharField(choices=...)</code></td><td>Not free text: typos become new "statuses"</td></tr>
+<tr><td>a picture or file</td><td><code>ImageField</code> / <code>FileField</code></td><td>The file goes to media storage; the row remembers where</td></tr>
+<tr><td>an email, a web address</td><td><code>EmailField</code> / <code>URLField</code></td><td>Validated for you</td></tr>
+</table>
+<p>For each field also decide: is it <strong>required</strong> or optional? Must it be <strong>unique</strong> (no two users with the same email)? These small decisions prevent bad data forever.</p>
+
+<h2 id="why">3. Why relationships matter</h2>
+<p>Imagine a recipe site that stores the author's name <em>as text inside every recipe</em>:</p>
+<table>
+<tr><th>title</th><th>author_name</th></tr>
+<tr><td>Shakshuka</td><td>Dana Levi</td></tr>
+<tr><td>Lentil soup</td><td>dana levi</td></tr>
+<tr><td>Hummus</td><td>Dana Levy</td></tr>
+</table>
+<p>Look at what is already wrong: three spellings of one person. Now Dana changes her name, or you want "all recipes by Dana", or you want to email Dana, or Dana deletes her account. Every one of those becomes a hunt through every row, and the site will guess wrong.</p>
+<div class="callout good"><strong>The fix is a relationship.</strong> Make <em>Author</em> its own sheet, once. Each recipe stores only the author's <strong>id</strong>. Dana's name lives in exactly one place.</div>
+<p>That is the whole reason relationships exist. They give you:</p>
+<ul>
+  <li><strong>One source of truth.</strong> A fact is stored once, so it can never disagree with itself.</li>
+  <li><strong>Questions become easy.</strong> "All recipes by Dana", "the five best-reviewed recipes", "everyone who reviewed anything" are one-line queries.</li>
+  <li><strong>Safe change.</strong> Rename a category once; every recipe shows it.</li>
+  <li><strong>Privacy and permissions.</strong> "Only the owner can edit" is only possible if the data says who the owner is. A missing <code>owner</code> link is the root of most privacy bugs.</li>
+  <li><strong>The database defends you.</strong> It will refuse a recipe that points at an author who doesn't exist.</li>
+</ul>
+
+<h2 id="relationships">4. The four relationships</h2>
+<p>There are only four shapes. Learn to see them and you can model almost anything. For any two things A and B, ask <strong>two questions</strong>:</p>
+<div class="callout"><ol style="margin:0;padding-left:1.2rem">
+  <li>Can <em>one A</em> have <em>many Bs</em>?</li>
+  <li>Can <em>one B</em> have <em>many As</em>?</li>
+</ol></div>
+
+<h3>Try the two questions</h3>
+<div class="picker" id="picker">
+  <label>Can one A have many Bs?
+    <select id="a-many"><option value="no">No, at most one</option><option value="yes" selected>Yes, many</option></select></label>
+  <label>Can one B have many As?
+    <select id="b-many"><option value="no" selected>No, at most one</option><option value="yes">Yes, many</option></select></label>
+  <output aria-live="polite"></output>
+</div>
+
+<h3>4a. One-to-many (the one you'll use most)</h3>
+<p>One author has many recipes; each recipe has one author. The <strong>"many" side holds the link</strong>: the recipe stores the author's id.</p>
+<figure>
+<svg viewBox="0 0 700 110" role="img" aria-label="Author one to many Recipe">
+  <rect class="box" x="30" y="20" width="190" height="70" rx="8"/><text x="125" y="46" text-anchor="middle" class="bold">Author</text><text x="125" y="68" text-anchor="middle" class="small">name, email</text>
+  <rect class="box" x="480" y="20" width="190" height="70" rx="8"/><text x="575" y="46" text-anchor="middle" class="bold">Recipe</text><text x="575" y="68" text-anchor="middle" class="small">title, time, author &rarr;</text>
+  <path class="line" d="M220 55 H480"/>
+  <text x="232" y="48" class="bold">1</text><text x="458" y="48" class="bold">N</text>
+  <text x="350" y="46" text-anchor="middle" class="small">has many</text>
+</svg>
+<figcaption>One author, many recipes. The arrow in "author &rarr;" is the stored link.</figcaption>
+</figure>
+<pre><code>class Recipe(models.Model):
+    author = models.ForeignKey(Author, on_delete=models.CASCADE, related_name="recipes")
+    title = models.CharField(max_length=200)
+
+recipe.author             # the Author of this recipe
+author.recipes.all()      # every recipe by this author</code></pre>
+<p>Spot it by the words "<em>belongs to</em>": a note belongs to a person, a review belongs to a recipe, an order line belongs to an order.</p>
+
+<h3>4b. Many-to-many</h3>
+<p>A recipe can have many tags (vegan, quick, holiday) and a tag applies to many recipes. Neither side can hold a single id, so the database keeps a small <strong>link table</strong> in between. Django builds it for you:</p>
+<figure>
+<svg viewBox="0 0 700 110" role="img" aria-label="Recipe many to many Tag">
+  <rect class="box" x="30" y="20" width="190" height="70" rx="8"/><text x="125" y="46" text-anchor="middle" class="bold">Recipe</text><text x="125" y="68" text-anchor="middle" class="small">title...</text>
+  <rect class="box" x="480" y="20" width="190" height="70" rx="8"/><text x="575" y="46" text-anchor="middle" class="bold">Tag</text><text x="575" y="68" text-anchor="middle" class="small">name</text>
+  <path class="line" d="M220 55 H480"/>
+  <text x="232" y="48" class="bold">N</text><text x="458" y="48" class="bold">N</text>
+</svg>
+<figcaption>Many recipes, many tags.</figcaption>
+</figure>
+<pre><code>class Recipe(models.Model):
+    tags = models.ManyToManyField(Tag, blank=True, related_name="recipes")</code></pre>
+
+<div class="callout warn"><strong>The "link carries data" trap.</strong> Recipes have ingredients, and each link has facts of its own: <em>200 g</em> of flour. That quantity doesn't belong to the recipe or to the ingredient; it belongs to the <em>link</em>. When the link has its own facts, make it a real model:
+<figure>
+<svg viewBox="0 0 700 130" role="img" aria-label="Recipe to RecipeIngredient to Ingredient">
+  <rect class="box" x="10" y="30" width="170" height="70" rx="8"/><text x="95" y="58" text-anchor="middle" class="bold">Recipe</text><text x="95" y="80" text-anchor="middle" class="small">title</text>
+  <rect class="box" x="265" y="30" width="170" height="70" rx="8"/><text x="350" y="58" text-anchor="middle" class="bold">RecipeIngredient</text><text x="350" y="80" text-anchor="middle" class="small">quantity, unit</text>
+  <rect class="box" x="520" y="30" width="170" height="70" rx="8"/><text x="605" y="58" text-anchor="middle" class="bold">Ingredient</text><text x="605" y="80" text-anchor="middle" class="small">name</text>
+  <path class="line" d="M180 65 H265"/><path class="line" d="M435 65 H520"/>
+  <text x="190" y="58" class="bold">1</text><text x="244" y="58" class="bold">N</text><text x="445" y="58" class="bold">N</text><text x="500" y="58" class="bold">1</text>
+</svg>
+</figure>
+A many-to-many becomes <em>two</em> one-to-many relationships joined by a model in the middle. Other examples: <em>Student &harr; Course</em> with a <code>grade</code>, <em>Order &harr; Product</em> with a <code>quantity</code> and <code>price</code>, <em>Person &harr; Group</em> with a <code>role</code>.
+</div>
+
+<h3>4c. One-to-one</h3>
+<p>Each person has at most one profile; each profile belongs to exactly one person. Use it to <strong>extend something you don't own</strong>. Our rule: if an app needs to remember something extra about a user (a preference, a role), it creates its <em>own</em> profile model linked one-to-one to the user. It never adds fields to the shared <code>User</code>. That keeps every app removable.</p>
+<pre><code>class NotesProfile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    default_view = models.CharField(max_length=20, default="list")</code></pre>
+
+<h3>4d. The fourth shape: "many-to-one" is just one-to-many seen from the other side</h3>
+<p>"Many recipes belong to one author" and "one author has many recipes" are the same relationship. In Django there is only one stored link (the <code>ForeignKey</code> on the many side); the other direction is free (<code>author.recipes</code>).</p>
+
+<table>
+<tr><th>One A has many Bs?</th><th>One B has many As?</th><th>Relationship</th><th>Django</th></tr>
+<tr><td>no</td><td>no</td><td>one-to-one</td><td><code>OneToOneField</code></td></tr>
+<tr><td>yes</td><td>no</td><td>one-to-many</td><td><code>ForeignKey</code> on B</td></tr>
+<tr><td>no</td><td>yes</td><td>one-to-many</td><td><code>ForeignKey</code> on A</td></tr>
+<tr><td>yes</td><td>yes</td><td>many-to-many</td><td><code>ManyToManyField</code> (or a "through" model)</td></tr>
+</table>
+
+<h3>Check yourself</h3>
+<div class="quiz" data-answer="a" data-why="A person writes many reviews, but each review has one writer. The link lives on the review.">
+  <p>Reviews and the people who write them. What goes where?</p>
+  <button data-choice="a">Review has a ForeignKey to User</button>
+  <button data-choice="b">User has a ForeignKey to Review</button>
+  <button data-choice="c">A ManyToMany between them</button>
+  <div class="feedback" role="status"></div>
+</div>
+<div class="quiz" data-answer="c" data-why="A student takes many courses and a course has many students, and a grade belongs to the pairing, so a through model (Enrollment) is right.">
+  <p>Students, courses, and each student's grade in each course.</p>
+  <button data-choice="a">ForeignKey from Course to Student</button>
+  <button data-choice="b">A grade field on Student</button>
+  <button data-choice="c">An Enrollment model (student, course, grade)</button>
+  <div class="feedback" role="status"></div>
+</div>
+<div class="quiz" data-answer="b" data-why="Each passport belongs to one person and each person has one passport: one-to-one.">
+  <p>People and their passports (one each).</p>
+  <button data-choice="a">ForeignKey</button>
+  <button data-choice="b">OneToOneField</button>
+  <button data-choice="c">ManyToManyField</button>
+  <div class="feedback" role="status"></div>
+</div>
+<div class="quiz" data-answer="b" data-why="A product can be in many categories and a category has many products. Neither side can hold one id.">
+  <p>An online shop where a product can be in several categories.</p>
+  <button data-choice="a">ForeignKey on Product</button>
+  <button data-choice="b">ManyToManyField</button>
+  <button data-choice="c">A text field listing category names</button>
+  <div class="feedback" role="status"></div>
+</div>
+
+<h2 id="delete">5. What happens when something is deleted?</h2>
+<p>Every <code>ForeignKey</code> forces you to answer: <strong>if the thing it points at is deleted, what happens to me?</strong> That is <code>on_delete</code>:</p>
+<table>
+<tr><th>Choice</th><th>Meaning</th><th>Use when</th></tr>
+<tr><td><code>CASCADE</code></td><td>Delete me too.</td><td>I only make sense with it: a note when its owner is deleted, a review line when its review is deleted.</td></tr>
+<tr><td><code>PROTECT</code></td><td>Refuse to delete it while I exist.</td><td>I'm valuable history: an invoice that points at a customer.</td></tr>
+<tr><td><code>SET_NULL</code></td><td>Keep me, forget the link (field must allow empty).</td><td>I stand alone: a recipe stays when its category is removed.</td></tr>
+</table>
+<p>Say the sentence out loud for each link: "<em>When a user is deleted, their notes should ______.</em>" It is a product decision, and it's yours to make, not Claude's.</p>
+
+<h2 id="find">6. How to find your models</h2>
+<p>Describe your site in plain sentences, then read the nouns and verbs:</p>
+<ol>
+  <li><strong>Nouns are candidate models.</strong> "Members post <u>recipes</u>, filed in <u>categories</u>, with <u>photos</u>, and other members leave <u>reviews</u>." &rarr; Recipe, Category, Photo, Review, Member.</li>
+  <li><strong>Test each noun.</strong> Is there more than one? Does it have facts of its own? Do I need to refer to it from elsewhere? If yes to these, it's a model. If it's just one fact about something else ("the recipe's title"), it's a field.</li>
+  <li><strong>Facts are fields.</strong> "A recipe has a title, a method, a cooking time."</li>
+  <li><strong>Verbs between nouns are relationships.</strong> "Members <em>write</em> recipes" (one-to-many), "recipes <em>have</em> tags" (many-to-many), "members <em>review</em> recipes" (a Review belongs to both).</li>
+  <li><strong>Ask "who owns this?"</strong> for every model that holds personal content. That is an owner link, and it's what privacy depends on.</li>
+  <li><strong>Draw boxes and lines</strong> on paper. If you can't draw it, you don't understand it yet. That's the point of this step.</li>
+  <li><strong>Test it with questions your site must answer</strong>: "Show all recipes by a member." "Average rating of a recipe." "What did this member review?" If a question is awkward to answer from your drawing, the model needs work.</li>
+</ol>
+<div class="callout"><strong>Questions Claude will ask you in the interview</strong> (it helps to have thought about them):
+<ul style="margin:.4rem 0 0">
+  <li>What are the main <em>things</em> people will create, see or manage?</li>
+  <li>For each: who creates it, who can see it, who can change it?</li>
+  <li>Can one of these belong to several of those, or just one?</li>
+  <li>What must happen to it when its owner leaves?</li>
+  <li>What will you want to <em>count, search or report on</em> in a year?</li>
+</ul></div>
+
+<h2 id="example">7. A full worked example: a recipe-sharing site</h2>
+<p>"Members share recipes, filed under one category, tagged with several tags, made from ingredients with quantities. Other members review them." Here is the data model that falls out of that sentence:</p>
+<figure>
+<svg viewBox="0 0 760 400" role="img" aria-label="Entity relationship diagram of a recipe site">
+  <rect class="box" x="20" y="20" width="130" height="64" rx="8"/><text x="85" y="46" text-anchor="middle" class="bold">Category</text><text x="85" y="66" text-anchor="middle" class="small">name</text>
+  <rect class="box" x="315" y="20" width="130" height="64" rx="8"/><text x="380" y="46" text-anchor="middle" class="bold">Recipe</text><text x="380" y="66" text-anchor="middle" class="small">title, method, time</text>
+  <rect class="box" x="610" y="20" width="130" height="64" rx="8"/><text x="675" y="46" text-anchor="middle" class="bold">Member (User)</text><text x="675" y="66" text-anchor="middle" class="small">login</text>
+  <rect class="box" x="20" y="170" width="130" height="64" rx="8"/><text x="85" y="196" text-anchor="middle" class="bold">Tag</text><text x="85" y="216" text-anchor="middle" class="small">name</text>
+  <rect class="box" x="315" y="170" width="130" height="64" rx="8"/><text x="380" y="192" text-anchor="middle" class="bold">RecipeIngredient</text><text x="380" y="212" text-anchor="middle" class="small">quantity, unit</text>
+  <rect class="box" x="610" y="170" width="130" height="64" rx="8"/><text x="675" y="196" text-anchor="middle" class="bold">Review</text><text x="675" y="216" text-anchor="middle" class="small">stars, comment</text>
+  <rect class="box" x="315" y="310" width="130" height="64" rx="8"/><text x="380" y="336" text-anchor="middle" class="bold">Ingredient</text><text x="380" y="356" text-anchor="middle" class="small">name</text>
+  <path class="line" d="M150 52 H315"/><text x="156" y="46" class="bold">1</text><text x="298" y="46" class="bold">N</text>
+  <path class="line" d="M610 52 H445"/><text x="594" y="46" class="bold">1</text><text x="452" y="46" class="bold">N</text>
+  <path class="line" d="M95 170 L335 84"/><text x="100" y="160" class="bold">N</text><text x="318" y="100" class="bold">N</text>
+  <path class="line" d="M380 84 V170"/><text x="386" y="100" class="bold">1</text><text x="386" y="164" class="bold">N</text>
+  <path class="line" d="M380 234 V310"/><text x="386" y="250" class="bold">N</text><text x="386" y="304" class="bold">1</text>
+  <path class="line" d="M640 170 L430 84"/><text x="620" y="162" class="bold">N</text><text x="432" y="100" class="bold">1</text>
+  <path class="line" d="M675 84 V170"/><text x="681" y="100" class="bold">1</text><text x="681" y="164" class="bold">N</text>
+</svg>
+<figcaption>Read any line as a sentence: "one Member writes many Recipes"; "one Recipe has many Reviews"; "Recipes and Tags are many-to-many".</figcaption>
+</figure>
+<p>In plain words, this is what you would approve:</p>
+<pre><code>Member    1 --- N  Recipe    a member writes many recipes
+Category  1 --- N  Recipe    a recipe sits in one category
+Recipe    N --- N  Tag       many tags per recipe, and the reverse
+Recipe    1 --- N  RecipeIngredient --- N..1 Ingredient
+                             (quantity lives on the link)
+Recipe    1 --- N  Review    a review belongs to one recipe...
+Member    1 --- N  Review    ...and was written by one member</code></pre>
+<p>And the questions it answers with no awkwardness: all recipes by a member, all vegan recipes, every recipe using lentils, the average rating of a recipe, who reviewed what. <strong>That</strong> is how you know the model is good.</p>
+<div class="quiz" data-answer="c" data-why="Review ties a Member to a Recipe: it belongs to both. That makes Member-Recipe a many-to-many with a Review in the middle.">
+  <p>On this diagram, what lets a member review many recipes and a recipe have many reviews?</p>
+  <button data-choice="a">A list of review texts stored inside the Recipe</button>
+  <button data-choice="b">A ManyToMany between Member and Recipe with no extra data</button>
+  <button data-choice="c">The Review model, which belongs to both a Member and a Recipe</button>
+  <div class="feedback" role="status"></div>
+</div>
+
+<h2 id="mistakes">8. Common mistakes</h2>
+<table>
+<tr><th>Mistake</th><th>Why it hurts</th><th>Do this instead</th></tr>
+<tr><td>A list in a text field: <code>tags = "pasta, vegan"</code></td><td>Can't search reliably, typos multiply, can't rename a tag</td><td>A <code>Tag</code> model and a many-to-many</td></tr>
+<tr><td>Real data in a JSON/text file or JSON blob</td><td>The app can't see, edit or query it; seeding on every deploy wipes edits</td><td>Models. Seed once, check for existing rows</td></tr>
+<tr><td>Copying a fact into many rows (author name in each recipe)</td><td>It drifts out of sync</td><td>Store it once; link to it</td></tr>
+<tr><td>Status as free text ("Done", "done ", "DONE")</td><td>Three statuses, one meaning</td><td><code>choices=[...]</code></td></tr>
+<tr><td>No owner on personal content</td><td>You cannot enforce privacy</td><td>An <code>owner</code> ForeignKey, scoped in every query</td></tr>
+<tr><td>Adding your fields to the shared <code>User</code></td><td>Your app can't be removed; other apps break</td><td>Your own profile model, one-to-one</td></tr>
+<tr><td>One giant model with 40 fields</td><td>Half the columns are empty for most rows</td><td>Split into related models</td></tr>
+<tr><td>Storing a number as text, or money as float</td><td>Sorting and arithmetic go wrong</td><td>Integer / Decimal fields</td></tr>
+<tr><td>Storing what you can calculate (an average rating)</td><td>It goes stale</td><td>Compute it from the reviews</td></tr>
+<tr><td>No created/updated timestamps</td><td>You will want them in a month</td><td><code>created_at</code>, <code>updated_at</code></td></tr>
+</table>
+
+<h2 id="migrations">9. Why we agree on this first (migrations)</h2>
+<p>When you change a model, Django writes a <strong>migration</strong>: an instruction like "add a column called due_date". Running it changes the database. While the site is empty that is trivial. But once real people have real data:</p>
+<ul>
+  <li>Adding a field is easy. Renaming or splitting one means moving data carefully.</li>
+  <li>Changing a relationship (say, from one-to-many to many-to-many) means rebuilding the links for every existing row.</li>
+  <li>A migration that goes wrong on production data is the kind of mistake you cannot simply undo with <code>git revert</code> (see the <a href="../docs/procedures/rollback.md">rollback guide</a>).</li>
+</ul>
+<p>So the order is: <strong>interview &rarr; thin spec &rarr; data model on paper, approved by you &rarr; only then code.</strong> An hour spent here saves weeks. And later changes are fine; they're just cheaper when you've thought first.</p>
+
+<h2 id="yourturn">10. Your turn: the data model document</h2>
+<p>For each app, Claude writes <code>docs/&lt;app&gt;/data_model.md</code> and waits for your approval. Before you say "approved", run this checklist:</p>
+<div class="callout good"><ul style="margin:0;padding-left:1.2rem">
+  <li>Can I name every box in plain words, and say why it exists?</li>
+  <li>Does every line read as a true sentence in both directions ("one X has many Y", "each Y belongs to one X")?</li>
+  <li>Have I decided <code>on_delete</code> for each link, in a sentence?</li>
+  <li>Does every model holding personal content have an owner?</li>
+  <li>Is any fact stored in two places? Is any list hiding in a text field?</li>
+  <li>Can the model answer the five questions I'll care about in a year?</li>
+  <li>Do the fields have the right types (numbers as numbers, choices as choices)?</li>
+</ul></div>
+<p>Template Claude uses:</p>
+<pre><code># &lt;App&gt; - data model
+
+## Picture
+(boxes and lines, or the plain-words list as above)
+
+## Models
+### Recipe
+| Field | Type | Notes |
+|---|---|---|
+| author | FK -&gt; User, CASCADE | set by the server, never by the client |
+| title | Char(200) | required |
+...
+
+## Relationships in words
+- One member writes many recipes. If the member is deleted: their recipes are ____.
+
+## Questions this model must answer
+1. ...</code></pre>
+
+<h3>Things you can say to Claude</h3>
+<ul>
+  <li>"Draw the data model as boxes and lines, then explain each line as a sentence."</li>
+  <li>"What happens to X when Y is deleted?"</li>
+  <li>"Is there anything stored twice, or hiding in a text field?"</li>
+  <li>"Show me three questions this model answers well and one it answers badly."</li>
+  <li>"What would it cost to change this later, once there is real data?"</li>
+</ul>
+
+<div class="next"><a href="index.html">&larr; How it works</a><a href="../docs/building_an_app.md">The app-building rules &rarr;</a></div>
+</div>
+<script src="quiz.js"></script>
+</body>
+</html>

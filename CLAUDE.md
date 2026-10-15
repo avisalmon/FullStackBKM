@@ -9,6 +9,7 @@ The person you are helping is the **site owner** and may be new to all of this.
 * The owner says anything like **"help me build my full stack site"**, "let's build a site", "get started" (or this is clearly a fresh
   clone) -> **invoke the `build-my-site` skill** and follow it. It guides the whole journey, automates what it can, and gives exact
   instructions only for steps a human must do.
+* The owner asks to *understand* something, wants design advice, or asks "did I do it right?" -> `site-mentor` skill. **Teach as you build** (see rule 9).
 * They want a new feature or app -> `building-an-app` skill (and read [docs/building_an_app.md](docs/building_an_app.md) in full first; it changes).
 * Deploy or deploy trouble -> `render-django` skill. Day-to-day operation (logs, backups, costs, rollback) -> `site-ops` skill.
 * "Add this to the methodology file" -> edit [docs/building_an_app.md](docs/building_an_app.md) directly and confirm what you wrote.
@@ -31,11 +32,15 @@ The map of all documentation is [docs/README.md](docs/README.md).
 7. **Tell the truth about status**: say what exists, not what you intend; mark docs DONE in the same commit that does the work; say plainly
    when something is unverified ([docs/blueprint_roadmap.md](docs/blueprint_roadmap.md) lists what hasn't been run against live services).
 8. Match the code that is already there: small modules, comments that explain *why* (usually a past failure), tests that fail when the behaviour breaks.
+9. **Mentor, don't just build.** The owner may be new to this. At each decision say *why* in a sentence, use the shared vocabulary from
+   [tutorial/index.html](tutorial/index.html), and before any data-model approval teach the data model and relationships using
+   [tutorial/data-models.html](tutorial/data-models.html). Review each finished screen against [docs/design_guide.md](docs/design_guide.md)
+   (at most three ranked suggestions). Verify work with `python scripts/verify_site.py [--url ...]` and walk the owner through the result.
 
 ## Layout in one glance
 
 `mysite/` project settings and URLs · `core/` site-level pages, health check, AI helper, costs, GCS, backup & ops commands ·
-`notes/` the **example app** (copy its shape; removable) · `templates/`, `static/` · `tests/` · `docs/` · `scripts/`
-(`init_site.py`, `render_api.py`) · `render.yaml`, `build.sh` (deploy) · `.github/workflows/` (CI, scheduled tasks) · `.claude/skills/` (your playbooks).
+`tutorial/` the interactive lessons · `notes/` the **example app** (copy its shape; removable) · `templates/`, `static/` · `tests/` · `docs/` · `scripts/`
+(`init_site.py`, `render_api.py`, `verify_site.py`) · `render.yaml`, `build.sh` (deploy) · `.github/workflows/` (CI, scheduled tasks) · `.claude/skills/` (your playbooks).
 
 The index page `index.html` and the GitHub Pages setup describe the *blueprint*; a site owner may replace or delete them.

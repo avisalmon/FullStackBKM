@@ -1,37 +1,71 @@
-# FullStuckBKM: build a real full-stack website with Claude
+# FullStuckBKM
 
-A blueprint for building, deploying and running a **production full-stack website** (Django on Render) by
-working with Claude. It carries every skill, best practice and piece of infrastructure from a real production site,
-so Claude can walk you from zero to a live, safe site and do almost all of the work for you.
+### Go from "I have an idea" to a real, live, safe website, with Claude building it beside you.
 
-**What you end up with**
+---
+
+## What you will have
+
+In an afternoon you will have a **real website on the internet**, not a demo and not a mock-up:
+
+* **Your own address** (`https://your-name.com`) with the padlock, served from a professional host.
+* **Visitors who can sign up and sign in**, with an email and password or with one click through Google.
+* **A database that remembers things**, uploaded photos and files included, that survives every update.
+* **Email that actually arrives**: password resets, notifications, alerts to you.
+* **AI built in** when you want it, with a spending cap so it can never run away with your money.
+* **Backups running by themselves**, a copy stored in a separate Google Cloud bucket, and a restore you have practised.
+* **A cost dashboard and a budget alert**, so the bill never surprises you (the baseline is about $7 a month).
+* **A site that is safe by default**: a private code repository, no passwords or keys in your code, scanning on every change,
+  and an automatic checker that tells you if you did something risky.
+
+## What you will be able to do
+
+* **Add a feature by describing it.** "Members should be able to post recipes and review each other's." Claude interviews you,
+  designs the data with you, builds it with tests, and you review it on your screen before anything goes live.
+* **Ship with confidence.** You push when *you* decide. Every change is tested first, and a bad release can be rolled back.
+* **See and steer your site.** What it costs, what it is doing, what went wrong: ask, and Claude reads the logs and tells you.
+* **Prove it is healthy.** One command (`scripts/verify_site.py`) checks your repo and your live site and tells you exactly what to fix.
+* **Recover from disasters.** Wrong deploy, deleted data, lost disk: there is a written procedure for each, and you will have rehearsed one.
+* **Hand it to someone else.** Everything about how the site works is written down in the repo.
+
+## What you will learn
+
+You will not just receive a site; you will understand it. Claude acts as your **mentor** as it builds:
+
+* **How a web app works**, in plain words, and the shared vocabulary (model, view, migration, API...) so you and Claude speak the same language.
+* **How to design your data**, which is the skill that decides whether a site is easy or painful to grow: what a *data model* is,
+  why *relationships* matter, how to find them in your own idea, and the classic mistakes. There is a short interactive tutorial for it:
+  **[tutorial/index.html](tutorial/index.html)** (open it in your browser, it works offline).
+* **How to judge design**: hierarchy, spacing, mobile, forms, empty states. Claude reviews each screen with you using a real checklist
+  ([docs/design_guide.md](docs/design_guide.md)).
+* **How to work with an AI engineer well**: what to decide yourself, what to delegate, and what to double-check.
+
+## What to expect (honestly)
 
 | | |
 |---|---|
-| Hosting | [Render](https://render.com): Django, HTTPS, auto-deploy from GitHub, about **$7.25/month** |
-| Data | SQLite on a persistent disk; uploaded files (media) and static files handled |
-| Sign-in | Email + password **and** "Continue with Google" |
-| Email | Real transactional email (password resets, alerts) via Resend |
-| Domain | Your own domain name with HTTPS |
-| AI | OpenAI built in, with a monthly spend cap and per-user limits |
-| Storage / backups | Scheduled backups, offsite copy in a Google Cloud Storage bucket, tested restore |
-| Costs | A monthly cost report and a budget alert, so a bill never surprises you |
-| Safety | Private GitHub repo, no secrets in git (scanned on every commit), safe-by-default settings, 2FA guidance |
-| Method | The same way of building apps (data model first, encapsulated apps, REST API, tests) as the reference site |
+| **Time** | A live site in about an hour, most of it signing up for accounts. Google sign-in, email, domain, AI and backups take a few minutes each, at your pace |
+| **Cost** | Hosting about **$7.25/month**; a domain about $10-15/year; Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go **and capped** |
+| **Your part** | Opening accounts, adding a payment card, clicking consent screens, creating DNS records, choosing a password, and *deciding what your site is for*. Claude tells you exactly what to click and waits |
+| **Claude's part** | Everything else: code, configuration, tests, deploys, logs, backups, documentation, and explaining it as it goes |
+| **Not magic** | The first deploy can hit a snag (every platform does). The repo records 30 known traps and a debugging routine, and Claude reads the logs and fixes things in front of you |
+| **You stay in charge** | Nothing goes live without your say-so, no secret ever needs to be pasted into chat, and every decision about your product is yours |
+| **Not for** | Sites with strict compliance needs (payments, medical data, minors' data) without proper advice. This gets you a solid foundation, not a legal review |
+
+---
 
 ## Start in three steps
 
 **1. Install the basics once** (only what you don't already have):
 
 * [Python 3.12](https://www.python.org/downloads/) and [Git](https://git-scm.com/downloads)
-* A [GitHub](https://github.com) account, and the [GitHub CLI](https://cli.github.com) (then run `gh auth login`)
+* A [GitHub](https://github.com) account and the [GitHub CLI](https://cli.github.com) (then run `gh auth login`)
 * [Claude Code](https://claude.com/claude-code): the VS Code extension, the desktop app, or the terminal CLI, signed in to your Claude account
 * [VS Code](https://code.visualstudio.com) if you want an editor
 
 **2. Get your own private copy**
 
-Easiest: on this repo's GitHub page click **Use this template -> Create a new repository -> Private**, name it after your site,
-then clone *your* new repo:
+On this repo's GitHub page click **Use this template -> Create a new repository -> Private**, name it after your site, then clone *your* new repo:
 
 ```bash
 git clone https://github.com/<you>/<your-site>.git
@@ -44,42 +78,45 @@ cd <your-site>
 
 > **Help me build my full stack site**
 
-That's it. Claude takes it from there: it interviews you about the site, sets everything up on your computer, creates your private repo,
-deploys to Render, and then, only if you want them, adds Google sign-in, email, your own domain, AI, backups and cost monitoring.
-Claude does everything it can by itself; when something needs *you* (opening an account, adding a card, a consent screen, a DNS record)
-it tells you exactly what to click and waits. You never need to paste a secret into the chat.
+Claude takes it from there: it interviews you about the site, sets everything up on your computer, creates your private repo, deploys to Render, and, only if you want them,
+adds Google sign-in, email, your own domain, AI, backups and cost monitoring. The whole journey, phase by phase and who does what, is in
+[docs/new_site_checklist.md](docs/new_site_checklist.md).
 
-## What to expect
+## How you know you did it right
 
-| | |
-|---|---|
-| Time | The first live site: about an hour, most of it account sign-ups. The rest at your own pace |
-| Cost | Render Starter + disk ~**$7.25/month**; domain ~$10-15/year; Resend, Google, GitHub free tiers are enough to start; OpenAI is pay-as-you-go **and capped** |
-| You provide | Accounts (Render, Google Cloud, Resend, OpenAI, a domain registrar), a card for Render/OpenAI, passwords for your admin login |
-| Claude provides | Everything else: code, configuration, deploys, tests, logs, backups, documentation |
+Run the checker whenever you like. It is read-only and tells you what to fix:
 
-The full journey, phase by phase, with who does what, is in [docs/new_site_checklist.md](docs/new_site_checklist.md).
+```powershell
+.\env\Scripts\python.exe scripts\verify_site.py                                  # your repository
+.\env\Scripts\python.exe scripts\verify_site.py --url http://127.0.0.1:8000      # + your local site
+.\env\Scripts\python.exe scripts\verify_site.py --url https://your-site.onrender.com   # + your live site
+```
+
+You have **graduated** when: the checker shows no FAIL, your tests pass, you have practised one restore, and you can explain in your own words
+what your data model is and why its main relationship exists. Ask Claude "quiz me" if you want to find out.
+
+---
 
 ## What's in the box
 
 ```
 CLAUDE.md                   Claude's standing instructions for this repo
-.claude/skills/             The playbooks: build-my-site, building-an-app, render-django, site-ops
+.claude/skills/             The playbooks: build-my-site, site-mentor, building-an-app, render-django, site-ops
+tutorial/                   Interactive lessons: how Django works, data models and relationships
 mysite/                     Django project (production-ready settings, URLs)
 core/                       Home page, health check, OpenAI helper, cost report, GCS client, backup & ops commands
 notes/                      A small example app that shows the methodology (copy its shape, delete it later)
 templates/ static/          Site layout and assets
 tests/                      The safety net (deploy-config guards, API refusals, backups, caps, secret scan)
-docs/                       Methodology, procedures, security, checklists. Start at docs/README.md
-scripts/                    init_site.py (rename placeholders), render_api.py (drive Render from the terminal)
+docs/                       Methodology, procedures, security, design guide, checklists. Start at docs/README.md
+scripts/                    init_site.py, render_api.py (drive Render), verify_site.py (check your work)
 render.yaml  build.sh       The Render Blueprint
 .github/workflows/          CI (lint, tests, secret scan), scheduled backup & cost jobs
 ```
 
 ## Doing it by hand (without Claude)
 
-Everything Claude does is written down. Follow [docs/new_site_checklist.md](docs/new_site_checklist.md); each phase links to a step-by-step procedure.
-For a quick local run:
+Everything Claude does is written down. Follow [docs/new_site_checklist.md](docs/new_site_checklist.md); each phase links to a step-by-step procedure. For a quick local run:
 
 ```powershell
 python -m venv env                                  # the virtualenv is ALWAYS the folder `env`
@@ -94,19 +131,20 @@ Copy-Item .env.example .env                         # then edit .env
 ## Safety, in one paragraph
 
 Keep your GitHub repo **private**, turn on two-factor authentication everywhere, set spend limits at OpenAI and Google, and never put a key in a chat or a commit.
-The blueprint backs this up with git-ignored secrets, secret scanning, fail-shut settings, caps and tests, but the few steps only you can do are listed in [docs/security.md](docs/security.md).
+The blueprint backs this up with git-ignored secrets, secret scanning, fail-shut settings, caps, tests and the verify script, but the few steps only you can do are listed in
+[docs/security.md](docs/security.md).
 
 ## Honest status
 
-The code and its 70+ tests run locally and in CI. A few steps talk to real services (Render Blueprint creation, GCS, OpenAI, the Render API's deploy/env endpoints) and
-were written from a working production site's proven calls and the vendors' docs, but have not yet all been exercised end to end.
-They're listed in [docs/blueprint_roadmap.md](docs/blueprint_roadmap.md); if one misbehaves, Claude reads the logs, fixes it in your copy and tells you.
+The code and its 90+ tests run locally and in CI. A few steps talk to real services (Render Blueprint creation, GCS, OpenAI, the Render API's deploy/env endpoints) and were written
+from a working production site's proven calls and the vendors' docs, but have not yet all been exercised end to end. They are listed in
+[docs/blueprint_roadmap.md](docs/blueprint_roadmap.md); if one misbehaves, Claude reads the logs, fixes it in your copy and tells you.
 
 ## Share it
 
-To help a friend build a site: *"Read the README of this repo and good luck: `<this repo's URL>`."* That's the whole instruction.
+To help a friend build a site: *"Read the README of this repo and good luck: `<this repo's URL>`."* That is the whole instruction.
 
 ## GitHub Pages
 
-[index.html](index.html) is a one-page overview of this blueprint, served at `https://<user>.github.io/<repo>/` when Pages is enabled
+[index.html](index.html) is a one-page overview of this blueprint and the tutorial is under `/tutorial/`, both served at `https://<user>.github.io/<repo>/` when Pages is enabled
 (Settings -> Pages -> Deploy from branch `main`, folder `/`). Your own site's pages are served by Render, not GitHub Pages.
