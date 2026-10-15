@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
   <h1>{{ SITE_NAME }}</h1>
-  <p>This site was created from the FullStuckBKM blueprint: Django on Render, SQLite on a
+  <p>This site was created from the FullStackBKM blueprint: Django on Render, SQLite on a
   persistent disk, WhiteNoise for static files, allauth for sign-in.</p>
   {% if user.is_authenticated %}
     <p>Signed in as <strong>{{ user.get_username }}</strong>. Try the example app:

@@ -1,4 +1,4 @@
-# FullStuckBKM
+# FullStackBKM
 
 ### Go from "I have an idea" to a real, live, safe website, with Claude building it beside you.
 
