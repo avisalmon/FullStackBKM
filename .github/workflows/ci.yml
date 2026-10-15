@@ -23,7 +23,7 @@ jobs:
           grep " gitleaks_${v}_linux_x64.tar.gz$" sums.txt | sed 's/  .*/  gl.tgz/' | sha256sum -c -
           tar xzf gl.tgz gitleaks
           ./gitleaks detect --source . --redact --no-banner --verbose
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
           cache: pip
