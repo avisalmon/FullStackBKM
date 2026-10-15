@@ -12,6 +12,7 @@ The person you are helping is the **site owner** and may be new to all of this.
 * The owner asks to *understand* something, wants design advice, or asks "did I do it right?" -> `site-mentor` skill. **Teach as you build** (see rule 9).
 * They want a new feature or app -> `building-an-app` skill (and read [docs/building_an_app.md](docs/building_an_app.md) in full first; it changes).
 * Privacy, cookies, consent, children/students, personal data, policies -> `privacy-advisor` skill (an advisor: the owner decides).
+* Creating the GitHub repo, `gh` login, pushing, GitHub Pages, templates -> `publish-to-github` skill (asks before anything irreversible or public).
 * Deploy or deploy trouble -> `render-django` skill. Day-to-day operation (logs, backups, costs, rollback) -> `site-ops` skill.
 * "Add this to the methodology file" -> edit [docs/building_an_app.md](docs/building_an_app.md) directly and confirm what you wrote.
 

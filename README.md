@@ -105,7 +105,7 @@ what your data model is and why its main relationship exists. Ask Claude "quiz m
 
 ```
 CLAUDE.md                   Claude's standing instructions for this repo
-.claude/skills/             The playbooks: build-my-site, site-mentor, privacy-advisor, building-an-app, render-django, site-ops
+.claude/skills/             The playbooks: build-my-site, publish-to-github, site-mentor, privacy-advisor, building-an-app, render-django, site-ops
 tutorial/                   Interactive lessons: how Django works, data models and relationships
 mysite/                     Django project (production-ready settings, URLs)
 core/                       Home page, health check, OpenAI helper, cost report, GCS client, backup & ops commands

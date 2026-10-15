@@ -75,6 +75,8 @@ Ask them to open http://127.0.0.1:8000 and confirm it looks right. Run `python s
 Offer the 10-minute tour: open `tutorial/index.html`.
 
 ### Phase 3: private GitHub repo (ask permission once)
+**Follow the `publish-to-github` skill for every step here** (install/login to `gh` with no admin rights, choose the right account, privacy-safe commit email, pre-push
+secret check, create the repo PRIVATE, push, check CI). The commands below are only the short version.
 First `git remote -v` and `gh repo view --json isPrivate,url`. If `origin` is already the owner's own **private** repo (they used "Use this template"),
 there is nothing to create: confirm it is private, say so, and skip to `pre-commit install`. If `origin` is still the blueprint's repo (plain clone), do:
 ```powershell

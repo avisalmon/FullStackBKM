@@ -33,6 +33,7 @@ def test_the_skills_the_docs_promise_exist():
         "build-my-site",
         "site-mentor",
         "privacy-advisor",
+        "publish-to-github",
         "building-an-app",
         "render-django",
         "site-ops",

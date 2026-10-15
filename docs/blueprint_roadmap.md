@@ -22,6 +22,7 @@ The first person to deploy should confirm each and fix the blueprint:
 - [ ] Real OpenAI call shape and the pricing table in `core/ai.py`
 - [ ] `scheduled-tasks.yml` against a live `SITE_URL`
 - [ ] Gitleaks pre-commit hook version pin, `gitleaks-action` on a private personal repo
+- [ ] `publish-to-github`: repo creation, push, Pages and template steps run end to end (login, account check and pre-push check are verified)
 - [ ] Python 3.12.6 available on Render's builder
 - [ ] `verify_site.py` against a real https site (HSTS, cookie flags, https redirect checks only run there)
 - [ ] The `build-my-site` skill actually triggers from the phrase "Help me build my full stack site" in a fresh clone, and Claude follows it end to end (the experiment: [experiment_guide.md](experiment_guide.md))
