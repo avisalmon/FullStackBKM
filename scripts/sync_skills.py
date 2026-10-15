@@ -115,13 +115,18 @@ def expected_files() -> dict[Path, bytes]:
     return out
 
 
+def normalise(data: bytes) -> bytes:
+    """Line endings are not content: a Windows checkout may use CRLF."""
+    return data.replace(b"\r\n", b"\n")
+
+
 def drift() -> list[str]:
     problems = []
     expected = expected_files()
     for path, content in expected.items():
         if not path.exists():
             problems.append(f"missing: {path.relative_to(ROOT)}")
-        elif path.read_bytes() != content:
+        elif normalise(path.read_bytes()) != normalise(content):
             problems.append(f"out of date: {path.relative_to(ROOT)}")
     if COPY.exists():
         for path in COPY.rglob("*"):
@@ -142,7 +147,7 @@ def write() -> list[str]:
             if not any(folder.iterdir()):
                 shutil.rmtree(folder)
     for path, content in expected.items():
-        if not path.exists() or path.read_bytes() != content:
+        if not path.exists() or normalise(path.read_bytes()) != normalise(content):
             path.parent.mkdir(parents=True, exist_ok=True)
             path.write_bytes(content)
             changed.append(f"wrote {path.relative_to(ROOT)}")

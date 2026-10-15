@@ -44,7 +44,7 @@ def test_every_source_file_is_mirrored_byte_for_byte():
         if src.is_file():
             copy = COPILOT / src.relative_to(CLAUDE)
             assert copy.exists(), copy
-            assert copy.read_bytes() == src.read_bytes(), copy
+            assert sync.normalise(copy.read_bytes()) == sync.normalise(src.read_bytes()), copy
 
 
 def test_a_skill_edit_that_is_not_synced_is_caught(tmp_path, monkeypatch):
@@ -86,3 +86,16 @@ def test_the_github_copy_links_work_from_inside_dot_github():
     at_root = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     assert "](../docs/" in inside and "](docs/" not in inside
     assert "](docs/" in at_root and "](../docs/" not in at_root
+
+
+def test_crlf_line_endings_are_not_reported_as_drift(tmp_path, monkeypatch):
+    """A Windows checkout may turn LF into CRLF. That is not a change to the skills."""
+    skill = CLAUDE / "design-review" / "SKILL.md"
+    copy = COPILOT / "design-review" / "SKILL.md"
+    original = copy.read_bytes()
+    try:
+        copy.write_bytes(original.replace(b"\n", b"\r\n"))
+        assert sync.drift() == []
+    finally:
+        copy.write_bytes(original)
+    assert skill.exists()

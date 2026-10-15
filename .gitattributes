@@ -1,4 +1,8 @@
-# Shell scripts must keep LF line endings: a CRLF checkout on Windows turns
-# `#!/usr/bin/env bash\r` into "bad interpreter" on Render's Linux builders.
+# One line ending for everyone. Without this, Git for Windows checks files out with CRLF, which
+# breaks shell scripts on Render ('bad interpreter') and makes generated files look 'out of date'.
+* text=auto eol=lf
 *.sh text eol=lf
 *.pdf binary
+*.png binary
+*.jpg binary
+*.ico binary
