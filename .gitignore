@@ -1,0 +1,27 @@
+﻿# Virtual environment (always named env)
+env/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Env vars / secrets
+.env
+
+# Django
+db.sqlite3
+staticfiles/
+media/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/*
+!.vscode/extensions.json
+
+# Logs / temp
+*.log
+*.tmp
