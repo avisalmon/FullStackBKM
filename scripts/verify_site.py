@@ -228,6 +228,9 @@ def check_login_pages(site):
 def check_debug_off(site):
     r = site.request("GET", f"/no-such-page-{secrets.token_hex(4)}/")
     leaks = "You're seeing this error because you have" in r.text or "URLconf defined in" in r.text
+    local = urlparse(site.base).hostname in ("127.0.0.1", "localhost")
+    if leaks and local:
+        return Result(INFO, "Local site runs with DEBUG on (right for development, never for live)")
     if leaks:
         return Result(
             FAIL,

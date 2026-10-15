@@ -134,3 +134,15 @@ def test_this_repository_passes_its_own_secret_and_ignore_checks():
     assert verify.check_no_secrets_in_files().status == verify.PASS
     assert verify.check_env_file_ignored().status == verify.PASS
     assert verify.check_env_file_not_tracked().status == verify.PASS
+
+
+def test_debug_on_is_fine_locally_but_a_failure_on_a_live_site():
+    leaky = Resp(404, "You're seeing this error because you have DEBUG = True")
+
+    def make(base):
+        site = FakeSite({}, base=base)
+        site.request = lambda m, p, **k: leaky
+        return site
+
+    assert verify.check_debug_off(make("http://127.0.0.1:8000")).status == verify.INFO
+    assert verify.check_debug_off(make("https://example.onrender.com")).status == verify.FAIL
