@@ -148,6 +148,10 @@ The code and its 120+ tests run locally and in CI, and a fresh clone has been in
 from a working production site's proven calls and the vendors' docs, but have not yet all been exercised end to end. They are listed in
 [docs/blueprint_roadmap.md](docs/blueprint_roadmap.md); if one misbehaves, Claude reads the logs, fixes it in your copy and tells you.
 
+## License
+
+[MIT](LICENSE): use it, change it, build your own sites and products with it. Keep the copyright notice.
+
 ## Share it
 
 To help a friend build a site: *"Read the README of this repo and good luck: `<this repo's URL>`."* That is the whole instruction.

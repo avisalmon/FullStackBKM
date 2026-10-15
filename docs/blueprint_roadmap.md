@@ -34,7 +34,7 @@ The first person to deploy should confirm each and fix the blueprint:
 
 ## Known gaps in what was built
 
-- No `LICENSE` file yet: ask the owner (MIT is the usual choice). Until then the public repo is viewable and forkable but not clearly reusable.
+- Licensed MIT (2026, Avi Salmon). Site owners who use the template inherit the MIT file; they may replace it with their own licence or remove it from a private repo.
 - GitHub Copilot's skill discovery (`.github/skills/`) is assumed to follow the Agent Skills format; the generated `copilot-instructions.md` and `AGENTS.md` index every skill with
   its trigger phrases as a fallback. Not yet tried in a real Copilot session.
 
