@@ -24,7 +24,7 @@ Record, with timestamps:
 | Moment | What to note |
 |---|---|
 | Setting up tools (account, Git, VS Code, Copilot or Claude Code) | Which step lost time? Was anything unclear or missing in the page or `docs/get_started.md`? Which AI engine did they pick, and did the plan/limits get in the way? |
-| Template / clone | Did "Use this template -> Private" make sense? |
+| Terminal and clone | Did the *What is a terminal?* explanation land? Did the four clone lines work first time? Did `code my-site` open the folder, or did they need File -> Open Folder? |
 | First words to the chat | Did "Tell me what to do" trigger the `build-my-site` skill, in **both** Copilot and Claude Code? Did it check the computer first and install what was missing (Python, GitHub CLI) without asking the person to? (If not, `CLAUDE.md`, `copilot-instructions.md` or the skill needs work) |
 | Coming back | In a second session, did "Tell me what to do" resume from the checklist instead of starting over? |
 | The interview | Did Claude ask good questions? Did the privacy questions feel natural or heavy? |

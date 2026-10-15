@@ -136,8 +136,20 @@ def test_both_assistants_are_named_with_their_skill_folders():
     )
 
 
-def test_template_link_uses_the_repository_generate_url():
-    assert f"{REPO}/generate" in page().links
+def test_the_clone_commands_are_the_same_everywhere_a_newcomer_reads_them():
+    """The page, the README and the setup guide must teach the identical four lines."""
+    clone = "git clone https://github.com/avisalmon/FullStackBKM.git my-site"
+    for path in (PAGE, ROOT / "README.md", ROOT / "docs" / "get_started.md"):
+        text = path.read_text(encoding="utf-8")
+        for line in ("mkdir C:\\sites", "cd C:\\sites", clone, "code my-site"):
+            assert line in text, (path.name, line)
+
+
+def test_the_copy_commands_button_copies_exactly_the_displayed_commands():
+    html = PAGE.read_text(encoding="utf-8")
+    shown = re.search(r'<code id="clone-cmds">(.*?)</code>', html, flags=re.S).group(1)
+    copied = re.search(r'data-copy="(mkdir[^"]*)"', html).group(1).replace("&#10;", "\n")
+    assert shown == copied
 
 
 def test_the_claims_on_the_page_match_the_repository():
@@ -166,7 +178,8 @@ def test_the_start_section_walks_the_whole_path_from_zero():
     html = PAGE.read_text(encoding="utf-8")
     for needed in (
         "github.com/signup", "git-scm.com", "code.visualstudio.com", "Copilot", "Claude Code",
-        "Use this template", "Yes, I trust the authors", "docs/get_started.md", "Agent",
+        "Terminal &rarr; New Terminal", "Yes, I trust the authors", "docs/get_started.md", "Agent",
+        "<code>hello</code>",
     ):  # fmt: skip
         assert needed in html, needed
 
@@ -175,3 +188,12 @@ def test_the_page_says_the_chat_installs_python_not_the_visitor():
     html = PAGE.read_text(encoding="utf-8")
     assert "installs what is missing itself" in html
     assert "Do I need to install Python myself?" in html
+
+
+def test_commands_never_wrap_mid_line():
+    """Found by a screenshot: the git clone URL wrapped inside a narrow card and looked like
+    three separate commands. Command blocks scroll sideways instead of wrapping."""
+    html = PAGE.read_text(encoding="utf-8")
+    assert '<pre class="nowrap"><code id="clone-cmds">' in html
+    rule = re.search(r"pre\.nowrap\s*\{([^}]*)\}", html).group(1)
+    assert "white-space: pre" in rule and "overflow-x: auto" in rule

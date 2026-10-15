@@ -176,6 +176,11 @@
     .celebrate h3 { color: var(--ok); }
     .confetti { position: fixed; top: -2vh; width: .55rem; height: .9rem; border-radius: 2px; z-index: 200; pointer-events: none; animation: fall 2.4s ease-in forwards; }
     @keyframes fall { to { transform: translateY(105vh) rotate(540deg); opacity: .2; } }
+    /* start cards two per row on desktop: the clone command needs the width */
+    #start .steps { grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr)); }
+    @media (max-width: 30rem) { #start .steps { grid-template-columns: 1fr; } }
+    /* commands must never wrap mid-line: a wrapped URL looks like two commands to a beginner */
+    pre.nowrap { white-space: pre; overflow-wrap: normal; overflow-x: auto; font-size: .8rem; }
   </style>
 </head>
 <body>
@@ -255,45 +260,50 @@
     <p class="sub">You set up a few things once. After that, the chat guides you and does the work. About 20&ndash;40 minutes to a working chat, then an hour to your first live site.</p>
     <div class="steps">
       <div class="card step">
-        <h3>Set up your tools, once</h3>
-        <p>A step-by-step guide with &ldquo;you know it worked when&rdquo; checks:</p>
+        <h3>Get an editor with an AI chat</h3>
         <ul>
           <li>a free GitHub account (turn on 2FA)</li>
-          <li>Git</li>
-          <li>VS Code</li>
-          <li>an AI engine inside it: <strong>GitHub Copilot</strong> (agent mode) <em>or</em> <strong>Claude Code</strong></li>
+          <li>VS Code, the editor</li>
+          <li>an AI chat inside it: <strong>GitHub Copilot</strong> (Agent mode) <em>or</em> <strong>Claude Code</strong></li>
         </ul>
-        <p style="margin-top:.8rem"><a class="btn primary small" href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/get_started.md">Open the setup guide</a></p>
+        <p style="margin-top:.6rem">Type <code>hello</code> in the chat. When it answers, your editor works.</p>
+        <p style="margin-top:.8rem"><a class="btn primary small" href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/get_started.md">Open the step-by-step guide</a></p>
       </div>
       <div class="card step">
-        <h3>Make your private copy and open it</h3>
-        <p>On the repo page choose <strong>Use this template</strong>, then <strong>Create a new repository</strong>, then <strong>Private</strong>. In VS Code: <em>Ctrl+Shift+P &rarr; Git: Clone</em>, open it, and click <strong>Yes, I trust the authors</strong>.</p>
-        <p style="margin-top:.8rem"><a class="btn primary small" href="https://github.com/avisalmon/FullStackBKM/generate">Use this template</a></p>
+        <h3>Install Git, copy the project</h3>
+        <p>Install <a href="https://git-scm.com/downloads">Git</a> and reopen VS Code. Then <strong>Terminal &rarr; New Terminal</strong>: a panel where you type commands instead of clicking. Run these one at a time (Enter after each):</p>
+        <pre class="nowrap"><code id="clone-cmds">mkdir C:\sites
+cd C:\sites
+git clone https://github.com/avisalmon/FullStackBKM.git my-site
+code my-site</code></pre>
+        <p style="margin-top:.6rem"><button class="btn small" type="button" data-copy="mkdir C:\sites&#10;cd C:\sites&#10;git clone https://github.com/avisalmon/FullStackBKM.git my-site&#10;code my-site">Copy the commands</button></p>
+        <div class="copied" role="status" aria-live="polite"></div>
+        <p>A new window opens on your copy: click <strong>Yes, I trust the authors</strong>. (If <code>code</code> isn&rsquo;t found, use File &rarr; Open Folder.)</p>
       </div>
       <div class="card step">
         <h3>Open the AI chat and type</h3>
-        <p>Copilot: set the chat to <strong>Agent</strong> mode. Claude Code: open its panel. Then say:</p>
+        <p>In the new window: Copilot in <strong>Agent</strong> mode, or the Claude Code panel. Then say:</p>
         <div class="say"><q id="magic">Tell me what to do</q><button class="btn small" id="copy" type="button" data-copy="Tell me what to do">Copy</button></div>
         <div class="copied" id="copied" role="status" aria-live="polite"></div>
         <p>Come back any day and say it again: it resumes where you stopped.</p>
       </div>
       <div class="card step">
         <h3>Follow the chat</h3>
-        <p>It checks your computer and <strong>installs what is missing itself</strong> (Python, the GitHub CLI, the project&rsquo;s tools), then builds the site with you, and tells you exactly what to click when a step needs <em>you</em>.</p>
+        <p>It checks your computer and <strong>installs what is missing itself</strong> (Python, the GitHub CLI, the project&rsquo;s tools), creates your own <strong>private</strong> GitHub repository, then builds the site with you, and tells you exactly what to click when a step needs <em>you</em>.</p>
       </div>
     </div>
 
     <div class="scroll" style="margin-top:1.6rem"><table>
-      <tr><th>You do (once)</th><td>Create a GitHub account. Install Git and VS Code. Install and sign in to Copilot or Claude Code. Then, along the way, the accounts only you can open (Render, Google, Resend, OpenAI, a domain registrar) and a card for Render.</td></tr>
+      <tr><th>You do (once)</th><td>Create a GitHub account. Install VS Code, an AI chat (Copilot or Claude Code) and Git. Copy the project with four typed lines. Then, along the way, log in to GitHub once in the browser, and open the accounts only you can open (Render, Google, Resend, OpenAI, a domain registrar) and add a card for Render.</td></tr>
       <tr><th>The chat does</th><td>Installs Python and the GitHub CLI, fixes PATH problems, builds the project, interviews you, writes the plan and data model with you, builds and tests the site, creates your private repo, deploys, reads the logs, sets the keys without you pasting them, and sets up backups and cost alerts.</td></tr>
     </table></div>
 
     <div class="tools" aria-label="Downloads">
-      <a class="tool" href="https://github.com/signup"><span><strong>GitHub account</strong><small>github.com/signup</small></span></a>
-      <a class="tool" href="https://git-scm.com/downloads"><span><strong>Git</strong><small>git-scm.com</small></span></a>
-      <a class="tool" href="https://code.visualstudio.com"><span><strong>VS Code</strong><small>code.visualstudio.com</small></span></a>
-      <a class="tool" href="https://github.com/features/copilot"><span><strong>GitHub Copilot</strong><small>in VS Code, agent mode</small></span></a>
-      <a class="tool" href="https://claude.com/claude-code"><span><strong>Claude Code</strong><small>claude.com/claude-code</small></span></a>
+      <a class="tool" href="https://github.com/signup"><span><strong>1. GitHub account</strong><small>github.com/signup</small></span></a>
+      <a class="tool" href="https://code.visualstudio.com"><span><strong>2. VS Code</strong><small>code.visualstudio.com</small></span></a>
+      <a class="tool" href="https://github.com/features/copilot"><span><strong>3. GitHub Copilot</strong><small>in VS Code, Agent mode</small></span></a>
+      <a class="tool" href="https://claude.com/claude-code"><span><strong>3. or Claude Code</strong><small>claude.com/claude-code</small></span></a>
+      <a class="tool" href="https://git-scm.com/downloads"><span><strong>4. Git</strong><small>git-scm.com</small></span></a>
     </div>
 
     <div class="grid g2" style="margin-top:1.6rem">
@@ -327,8 +337,8 @@
       <li id="step-tools" data-step="tools" data-kind="core">
         <h3><span class="chip you">You</span> 0. Your tools</h3>
         <div class="meta"><span>About 20&ndash;40 minutes, once</span></div>
-        <p>You install Git, VS Code and an AI engine, make your private copy from the template and open it. Then you type <em>Tell me what to do</em>: the chat installs Python and the GitHub CLI for you and fixes anything that is off.</p>
-        <p class="result">an editor with an AI chat, open on your own private copy of the project.</p>
+        <p>You set up VS Code with an AI chat and check it answers, install Git, and copy the project to your computer with four typed lines. Then you type <em>Tell me what to do</em>: the chat installs Python and the GitHub CLI for you and fixes anything that is off.</p>
+        <p class="result">an editor with an AI chat, open on your own copy of the project.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/get_started.md">Setup guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Full checklist</a></div><label class="done-toggle"><input type="checkbox" data-step-box="tools"> Done</label></div>
       </li>
       <li id="step-idea" data-step="idea" data-kind="core">
@@ -348,7 +358,7 @@
       <li id="step-repo" data-step="repo" data-kind="core">
         <h3><span class="chip both">Together</span> 3. Your code, safe on GitHub</h3>
         <div class="meta"><span>About 5 minutes</span></div>
-        <p>The assistant logs in the GitHub CLI (you type one code in your browser), makes sure your copy is <strong>private</strong> (or creates it, if you cloned directly), checks that no secret is about to be published, and saves your first changes.</p>
+        <p>The assistant logs in the GitHub CLI (you type one code in your browser), checks that no secret is about to be published, creates <strong>your own private repository</strong> and saves your work there. Your folder keeps a link to the blueprint, so you can pull in future improvements.</p>
         <p class="result">your code on GitHub, private, with a guard that blocks secrets on every save.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/.claude/skills/publish-to-github/SKILL.md">The publish playbook</a></div><label class="done-toggle"><input type="checkbox" data-step-box="repo"> Done</label></div>
       </li>
@@ -494,15 +504,17 @@ python scripts/verify_site.py --url https://your-site.onrender.com</code></pre>
 </footer>
 
 <script>
+  // Copy buttons: any button with data-copy; the nearest .copied element in its card announces the result.
   (function () {
-    var button = document.getElementById("copy"), note = document.getElementById("copied");
-    if (!button) return;
-    button.addEventListener("click", function () {
-      var text = button.getAttribute("data-copy");
-      var done = function (ok) { note.textContent = ok ? "Copied. Paste it into your assistant." : "Select the sentence and copy it."; };
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
-      } else { done(false); }
+    Array.prototype.forEach.call(document.querySelectorAll("button[data-copy]"), function (button) {
+      var card = button.closest(".card") || document.body, note = card.querySelector(".copied");
+      button.addEventListener("click", function () {
+        var text = button.getAttribute("data-copy");
+        var done = function (ok) { if (note) note.textContent = ok ? "Copied. Paste it with Ctrl+V." : "Select the text and copy it with Ctrl+C."; };
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
+        } else { done(false); }
+      });
     });
   })();
 </script>

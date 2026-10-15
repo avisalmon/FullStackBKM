@@ -64,18 +64,27 @@ You do a few things once; after that the chat guides you and does the work.
 
 **1. Get this page.** You are here. Everything below is the whole path.
 
-**2. Set up your tools, once (20-40 minutes, mostly downloads and sign-ups).** Full step-by-step, with "you know it worked when" checks, is in
-**[docs/get_started.md](docs/get_started.md)**. In short:
+**2. Get a working editor with an AI chat (once, 20-40 minutes).** Every click is in **[docs/get_started.md](docs/get_started.md)**, with a
+"you know it worked when" check at each step. In short:
 
 * a free [GitHub](https://github.com/signup) account (turn on two-factor authentication),
-* [Git](https://git-scm.com/downloads),
-* [VS Code](https://code.visualstudio.com),
-* an AI engine inside VS Code: **GitHub Copilot** (agent mode) **or** **Claude Code**; sign in to it.
+* [VS Code](https://code.visualstudio.com), the editor,
+* an AI chat inside VS Code: **GitHub Copilot** (Agent mode) **or** **Claude Code**. Sign in and type `hello`: when it answers, your editor works.
+* [Git](https://git-scm.com/downloads), the tool that copies the project to your computer (reopen VS Code afterwards).
 
-**3. Make your private copy and open it.** On this repo's GitHub page click **Use this template -> Create a new repository -> Private**, name it after your site.
-Then in VS Code: *Ctrl+Shift+P -> Git: Clone* -> paste your new repo's address -> open it, and click **Yes, I trust the authors**.
+**3. Copy the project to your computer and open it.** In VS Code choose **Terminal -> New Terminal**. A terminal is a panel where you type commands instead of clicking;
+the guide explains it from scratch. Run these four lines one at a time (press Enter after each, wait for the prompt to come back), using your own short site name instead of `my-site`:
 
-**4. Open the AI chat** (Copilot: set it to **Agent** mode; Claude Code: open its panel) **and type:**
+```powershell
+mkdir C:\sites
+cd C:\sites
+git clone https://github.com/avisalmon/FullStackBKM.git my-site
+code my-site
+```
+
+A new VS Code window opens on your copy; click **Yes, I trust the authors**. This copy lives only on your computer; the chat creates your own **private** GitHub repository for it later, with your OK.
+
+**4. Open the AI chat** in that window (Copilot: **Agent** mode; Claude Code: its panel) **and type:**
 
 > **Tell me what to do**
 
@@ -86,7 +95,7 @@ and tells you exactly what to click whenever a step needs *you*. Come back any d
 |---|---|
 | Create a GitHub account; install Git and VS Code | Installs Python and the GitHub CLI, fixes PATH problems, builds the project environment |
 | Install and sign in to Copilot or Claude Code | Interviews you, writes the plan and the data model with you, builds the site, runs the tests |
-| Click through accounts that only you can open (Render, Google, Resend, OpenAI, a domain registrar) and add a card | Creates your private repo, deploys, reads the logs, sets the keys without you pasting them, sets up backups and cost alerts |
+| Log in to GitHub once in the browser; click through accounts that only you can open (Render, Google, Resend, OpenAI, a domain registrar) and add a card | Creates your private GitHub repo, deploys, reads the logs, sets the keys without you pasting them, sets up backups and cost alerts |
 | Decide what your site is for and what to collect | Teaches you as it goes, reviews each screen, checks your work |
 
 The whole journey, phase by phase and who does what, is in [docs/new_site_checklist.md](docs/new_site_checklist.md).

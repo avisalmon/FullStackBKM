@@ -119,13 +119,15 @@ git commit -m "Name the site and set it up locally"
 ```
 (The pre-commit hook, installed below, also refuses secrets; the first run downloads ruff, so allow a minute.)
 
-* **If `origin` is already the owner's own private repo** (they used "Use this template"): confirm it is private, say so, then `git push`. Nothing deploys yet, because Render is not connected.
-* **If `origin` is still the blueprint's repo** (plain clone):
+* **Normal path: `origin` is still the blueprint** (`github.com/avisalmon/FullStackBKM`; the setup guide has everyone clone it directly). The owner cannot push to it
+  (no write access), so nothing can leak there. Explain in one sentence that you are now creating *their own private* copy on GitHub, ask for the OK, then:
 ```powershell
 git remote rename origin blueprint        # keep the blueprint as upstream for future improvements
 gh repo create <slug> --private --source . --remote origin --push     # creates the repo and pushes
 gh repo view --json isPrivate,url         # must say isPrivate: true; show the owner
 ```
+* **Alternative: `origin` is already the owner's own private repo** (people who used "Use this template"): confirm it is private, say so, then `git push`. Nothing deploys yet, because Render is not connected.
+
 Then, in both cases: `pre-commit install` (inside the env), and the owner enables 2FA and secret scanning ([security.md](../../../docs/security.md)); give the two links.
 **From the moment Render is connected (Phase 4), every push deploys production**: ask first.
 

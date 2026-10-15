@@ -9,10 +9,10 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 ## Phase 0 - Get to a working chat (You, once per computer): [get_started.md](get_started.md)
 
 - [ ] A GitHub account, with two-factor authentication on
-- [ ] Git installed (`git --version` works in a new terminal)
 - [ ] VS Code installed
-- [ ] GitHub Copilot (agent mode) **or** Claude Code installed in VS Code and signed in
-- [ ] Your private copy of the project created from the template, cloned, opened in VS Code and trusted
+- [ ] GitHub Copilot (Agent mode) **or** Claude Code installed in VS Code, signed in, and it answers `hello`
+- [ ] Git installed (`git --version` works in a VS Code terminal after reopening VS Code)
+- [ ] The project cloned into `C:\sites\<your-site>` (or `~/sites/...`), opened in VS Code and trusted
 - [ ] You typed **"Tell me what to do"** in the chat and it answered
 
 ## Phase 0b - Tools on your computer (the chat does this: `setup-my-computer`)
@@ -38,7 +38,7 @@ Legend: **Claude** = automated, no action needed. **You** = only a human can do 
 - [ ] **You:** open it in a browser and say it looks right
 - [ ] **Claude:** `python scripts/verify_site.py --url http://127.0.0.1:8000`, explaining each line to you
 
-## Phase 3 - Private GitHub repo (Claude, after your OK)
+## Phase 3 - Your private GitHub repo (Claude creates it, after your OK)
 
 - [ ] Blueprint remote renamed `blueprint` (so you can pull blueprint improvements later)
 - [ ] `gh repo create <slug> --private`, first push

@@ -177,8 +177,9 @@ def test_the_setup_guide_covers_the_whole_path_from_zero_to_the_chat():
     guide = (ROOT / "docs" / "get_started.md").read_text(encoding="utf-8")
     for needed in (
         "github.com/signup", "two-factor", "git --version", "code.visualstudio.com",
-        "GitHub Copilot", "Agent", "Claude Code", "Use this template", "Private",
-        "Git: Clone", "trust the authors", "Tell me what to do",
+        "GitHub Copilot", "Agent", "Claude Code", "type `hello`", "what is a \"terminal\"?",
+        "Terminal -> New Terminal", "the prompt", "git clone https://github.com/avisalmon/FullStackBKM.git",
+        "C:\\sites", "trust the authors", "Tell me what to do", "OneDrive",
     ):  # fmt: skip
         assert needed in guide, f"get_started.md lost: {needed}"
     # it promises the chat installs the rest, so the skill that does that must exist
