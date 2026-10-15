@@ -47,7 +47,9 @@
     .nav ul a { color: var(--muted); text-decoration: none; font-size: .95rem; }
     .nav ul a:hover { color: var(--fg); }
     .gh { margin-left: .25rem; }
-    @media (max-width: 52rem) { .nav ul { display: none; } .gh { margin-left: auto; } }
+    @media (max-width: 52rem) { .nav ul { display: none; } .gh { margin-left: auto; } .progress-pill { margin-left: auto; } .progress-pill:not([hidden]) ~ .gh { margin-left: .5rem; } }
+    /* phones: the GitHub link is also in the footer; the progress counter matters more here */
+    @media (max-width: 30rem) { .progress-pill:not([hidden]) ~ .gh { display: none; } }
 
     /* buttons */
     .btn { display: inline-flex; align-items: center; gap: .5rem; padding: .7rem 1.2rem; border-radius: 10px; font-weight: 650; text-decoration: none; border: 1px solid var(--border); background: var(--surface); color: var(--fg); cursor: pointer; font-size: 1rem; font-family: inherit; }
@@ -144,6 +146,36 @@
     footer ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; }
     .banner { background: var(--both-bg); border: 1px solid var(--border); border-radius: 14px; padding: 1rem 1.2rem; margin-top: 1.4rem; }
     .banner p { margin: 0; }
+
+    /* ---- progress tracking (saved in this browser only) ---- */
+    .progress-pill { display: inline-flex; align-items: center; gap: .35rem; font-size: .85rem; font-weight: 700; color: var(--accent); background: var(--both-bg); padding: .25rem .7rem; border-radius: 999px; text-decoration: none; margin-left: .5rem; white-space: nowrap; }
+    .progress-pill[hidden] { display: none; }
+    .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.1rem 1.3rem; box-shadow: var(--shadow); margin-bottom: 1.4rem; }
+    .panel-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: .4rem 1rem; }
+    .panel-head strong { font-size: 1.05rem; }
+    .bar { height: .7rem; border-radius: 999px; background: var(--surface-2); overflow: hidden; margin: .7rem 0 .4rem; border: 1px solid var(--border); }
+    .bar > span { display: block; height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width .5s ease; }
+    .counts { color: var(--muted); font-size: .93rem; display: flex; flex-wrap: wrap; gap: .3rem 1.2rem; }
+    .linkish { background: none; border: 0; padding: 0; color: var(--muted); font: inherit; font-size: .88rem; text-decoration: underline; cursor: pointer; }
+    .storage-note { color: var(--muted); font-size: .88rem; margin: .4rem 0 0; }
+    .tl li .meta { display: flex; flex-wrap: wrap; gap: .3rem 1rem; color: var(--muted); font-size: .9rem; margin: .1rem 0 .35rem; }
+    .tl li .result { color: var(--fg); }
+    .tl li .result::before { content: "You get: "; font-weight: 700; color: var(--ok); }
+    .tl li .row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: .5rem 1rem; }
+    .done-toggle { display: inline-flex; align-items: center; gap: .45rem; font-size: .92rem; font-weight: 650; padding: .35rem .75rem; border-radius: 999px; border: 1px solid var(--border); background: var(--surface-2); cursor: pointer; user-select: none; }
+    .done-toggle input { width: 1.1rem; height: 1.1rem; accent-color: var(--ok); margin: 0; cursor: pointer; }
+    .tl li.is-done { background: color-mix(in srgb, var(--surface) 80%, var(--ok) 6%); }
+    .tl li.is-done::before { background: var(--ok); border-color: var(--ok); }
+    .tl li.is-done .done-toggle { border-color: var(--ok); color: var(--ok); }
+    .tl li.is-current { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .tl li.is-current::before { background: var(--accent); }
+    .here { font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--accent-fg); background: var(--accent); padding: .15rem .55rem; border-radius: 999px; }
+    .tl .optional { font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); border: 1px solid var(--border); padding: .1rem .5rem; border-radius: 999px; }
+    #resume[hidden], #graduated[hidden], #live-banner[hidden] { display: none; }
+    .celebrate { border-color: var(--ok); background: color-mix(in srgb, var(--surface) 85%, var(--ok) 10%); }
+    .celebrate h3 { color: var(--ok); }
+    .confetti { position: fixed; top: -2vh; width: .55rem; height: .9rem; border-radius: 2px; z-index: 200; pointer-events: none; animation: fall 2.4s ease-in forwards; }
+    @keyframes fall { to { transform: translateY(105vh) rotate(540deg); opacity: .2; } }
   </style>
 </head>
 <body>
@@ -160,6 +192,7 @@
       <li><a href="#verify">Check your work</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
+    <a class="progress-pill" id="nav-progress" href="#journey" hidden>Your progress</a>
     <a class="btn small gh" href="https://github.com/avisalmon/FullStackBKM">GitHub</a>
   </div>
 </nav>
@@ -171,8 +204,9 @@
       <h1>Go from &ldquo;I have an idea&rdquo; to a <em>real, live, safe</em> website.</h1>
       <p class="lede">Set up an editor with an AI chat once, open your copy of this repo, and type four words: <strong>Tell me what to do</strong>. The chat installs what is missing, interviews you, builds the site with you, deploys it, explains every step, and checks your work. You decide; it does the heavy lifting.</p>
       <div class="cta">
-        <a class="btn primary" href="#start">Get started</a>
+        <a class="btn primary" id="get-started" href="#start">Get started</a>
         <a class="btn" href="#journey">See the whole journey</a>
+        <a class="btn" id="resume" href="#journey" hidden>Continue where you left off</a>
       </div>
       <div class="trust">
         <span>Claude Code or GitHub Copilot</span>
@@ -203,7 +237,7 @@
     <h2>What you will have</h2>
     <p class="sub">Not a demo and not a mock-up: a real website on the internet, with the things a real site needs.</p>
     <div class="grid g4">
-      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div><h3>Your own address</h3><p>Your domain with the padlock, hosted on Render, updated by one command.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div><h3>Your own address</h3><p>Your domain with the padlock, hosted on Render. Every update goes live when you say so.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></div><h3>Sign in, two ways</h3><p>Email and password, or one click with Google.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><h3>A database that remembers</h3><p>Your data and uploaded photos survive every update.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><h3>Email that arrives</h3><p>Password resets and alerts through a real mail service.</p></div>
@@ -278,18 +312,102 @@
       <span><span class="chip you">You</span> only you can</span>
       <span><span class="chip both">Together</span> a conversation</span>
     </div>
+    <div class="panel" id="progress" aria-labelledby="progress-title">
+      <div class="panel-head">
+        <strong id="progress-title">Your progress</strong>
+        <button class="linkish" id="reset-progress" type="button">Start over</button>
+      </div>
+      <div class="bar" role="progressbar" aria-labelledby="progress-title" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="progress-bar"></span></div>
+      <div class="counts" aria-live="polite"><span id="count-core">Core steps: 0 of 8</span><span id="count-extra">Extras: 0 of 4</span></div>
+      <p class="storage-note" id="storage-note">Tick each step as you finish it. Your progress is saved in this browser only; nothing is sent anywhere.</p>
+    </div>
+    <div class="card celebrate" id="live-banner" hidden style="margin-bottom:1.2rem"><h3>Your site is on the internet.</h3><p>Send the link to someone you trust and watch their face. Then the privacy check, so you can share it widely with confidence.</p></div>
+    <div class="card celebrate" id="graduated" hidden style="margin-bottom:1.2rem"><h3>You graduated.</h3><p>A real website, live, backed up, monitored, and built the right way, by you. Run the checker one more time, then tell your assistant what you want to build next.</p></div>
     <ol class="tl">
-      <li><h3><span class="chip you">You</span> 0. Your tools</h3><p>You install Git, VS Code and an AI engine once and open your private copy. The chat installs Python and the GitHub CLI for you and fixes anything that is off.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/get_started.md">Setup guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Full checklist</a></div></li>
-      <li><h3><span class="chip both">Together</span> 1. Your idea, and a privacy conversation</h3><p>An interview about what the site is for, who uses it (ages, countries) and what personal data it needs. The assistant advises; you decide, and it writes your decisions down.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy.md">Privacy guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy_decisions.md">Your decisions log</a></div></li>
-      <li><h3><span class="chip claude">Assistant</span> 2. Your local site</h3><p>Virtual environment, dependencies, a fresh secret key, the database, tests, and the site running on your own computer.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Checklist</a></div></li>
-      <li><h3><span class="chip both">Together</span> 3. A private GitHub repo</h3><p>The assistant installs and logs in the GitHub CLI (you type one code in your browser), checks for secrets, and creates your <strong>private</strong> repository.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/.claude/skills/publish-to-github/SKILL.md">The publish playbook</a></div></li>
-      <li><h3><span class="chip both">Together</span> 4. Go live on Render</h3><p>You open the account, add a card and click <em>New &rarr; Blueprint</em>. The assistant then reads the logs, checks the health endpoint and tests the live site.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/deploy_to_render.md">Deploy to Render</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/debug_failed_deploy.md">If it fails</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gotchas.md">30 known traps</a></div></li>
-      <li><h3><span class="chip both">Together</span> 5. Google sign-in <small>(optional)</small></h3><p>You create the Google OAuth client; the assistant wires it in and tests the button.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/auth_google_oauth.md">Google sign-in</a></div></li>
-      <li><h3><span class="chip both">Together</span> 6. Email <small>(optional)</small></h3><p>You verify a domain at Resend; the assistant sets the keys and sends a test.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/email_resend.md">Email with Resend</a></div></li>
-      <li><h3><span class="chip both">Together</span> 7. Your own domain <small>(optional)</small></h3><p>You buy it and add the DNS records; the assistant attaches it to Render and fixes the settings.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/custom_domain_dns.md">Custom domain</a></div></li>
-      <li><h3><span class="chip both">Together</span> 8. AI features <small>(optional)</small></h3><p>You set a spend limit and create a key; the assistant builds on a metered helper with caps, so AI can never run away with your money.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/openai.md">AI with OpenAI</a></div></li>
-      <li><h3><span class="chip both">Together</span> 9. Backups and costs</h3><p>Scheduled backups, an offsite copy in a Google Cloud bucket, a restore you practise once, and a monthly cost report with a budget alert.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/backup_restore.md">Backup and restore</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gcs_bucket.md">Storage bucket</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/cost_monitoring.md">Cost monitoring</a></div></li>
-      <li><h3><span class="chip both">Together</span> 10. Build your apps</h3><p>Each feature starts with an interview, then a <strong>data model you approve</strong>, then tests and code. The assistant teaches you the data model first.</p><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/building_an_app.md">How we build apps</a><a href="tutorial/data-models.html">Data models lesson</a></div></li>
+      <li id="step-tools" data-step="tools" data-kind="core">
+        <h3><span class="chip you">You</span> 0. Your tools</h3>
+        <div class="meta"><span>About 20&ndash;40 minutes, once</span></div>
+        <p>You install Git, VS Code and an AI engine, make your private copy from the template and open it. Then you type <em>Tell me what to do</em>: the chat installs Python and the GitHub CLI for you and fixes anything that is off.</p>
+        <p class="result">an editor with an AI chat, open on your own private copy of the project.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/get_started.md">Setup guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Full checklist</a></div><label class="done-toggle"><input type="checkbox" data-step-box="tools"> Done</label></div>
+      </li>
+      <li id="step-idea" data-step="idea" data-kind="core">
+        <h3><span class="chip both">Together</span> 1. Your idea, and a privacy conversation</h3>
+        <div class="meta"><span>About 15 minutes</span></div>
+        <p>An interview about what the site is for, who uses it (ages, countries) and what personal data it really needs. The assistant advises; you decide, and it writes your decisions down.</p>
+        <p class="result">a short plan for your site in plain words, and your privacy choices on record.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy.md">Privacy guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy_decisions.md">Your decisions log</a></div><label class="done-toggle"><input type="checkbox" data-step-box="idea"> Done</label></div>
+      </li>
+      <li id="step-local" data-step="local" data-kind="core">
+        <h3><span class="chip claude">Assistant</span> 2. Your site, on your computer</h3>
+        <div class="meta"><span>About 10 minutes</span></div>
+        <p>The assistant builds the project environment, a fresh secret key, the database and the tests, then starts the site. You create your admin password yourself, so it never passes through the chat.</p>
+        <p class="result">your site running on your own computer at <code>http://127.0.0.1:8000</code>, with sign-up and sign-in working.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Checklist</a></div><label class="done-toggle"><input type="checkbox" data-step-box="local"> Done</label></div>
+      </li>
+      <li id="step-repo" data-step="repo" data-kind="core">
+        <h3><span class="chip both">Together</span> 3. Your code, safe on GitHub</h3>
+        <div class="meta"><span>About 5 minutes</span></div>
+        <p>The assistant logs in the GitHub CLI (you type one code in your browser), makes sure your copy is <strong>private</strong> (or creates it, if you cloned directly), checks that no secret is about to be published, and saves your first changes.</p>
+        <p class="result">your code on GitHub, private, with a guard that blocks secrets on every save.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/.claude/skills/publish-to-github/SKILL.md">The publish playbook</a></div><label class="done-toggle"><input type="checkbox" data-step-box="repo"> Done</label></div>
+      </li>
+      <li id="step-live" data-step="live" data-kind="core">
+        <h3><span class="chip both">Together</span> 4. Go live on Render</h3>
+        <div class="meta"><span>About 20&ndash;30 minutes</span></div>
+        <p>You open a Render account, add a card and click <em>New &rarr; Blueprint</em>. The assistant then reads the logs, checks the health endpoint and tests the live site with you.</p>
+        <p class="result"><strong>your site on the internet</strong>, at an address like <code>https://your-site.onrender.com</code>.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/deploy_to_render.md">Deploy to Render</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/debug_failed_deploy.md">If it fails</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gotchas.md">30 known traps</a></div><label class="done-toggle"><input type="checkbox" data-step-box="live"> Done</label></div>
+      </li>
+      <li id="step-privacy" data-step="privacy" data-kind="core">
+        <h3><span class="chip both">Together</span> Before you share it: a privacy check</h3>
+        <div class="meta"><span>About 10 minutes</span></div>
+        <p>Read your generated privacy and terms pages together, check HTTPS and cookies, decide what to do if young people may use the site, and test deleting an account. It is advice, not a gate: you decide.</p>
+        <p class="result">pages that tell your visitors the truth, and a site you can share with confidence.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/privacy.md">Privacy guide</a></div><label class="done-toggle"><input type="checkbox" data-step-box="privacy"> Done</label></div>
+      </li>
+      <li id="step-google" data-step="google" data-kind="extra">
+        <h3><span class="chip both">Together</span> 5. Google sign-in <span class="optional">optional</span></h3>
+        <div class="meta"><span>About 15 minutes</span></div>
+        <p>You create a Google OAuth client in Google&rsquo;s console; the assistant wires it in and tests the button.</p>
+        <p class="result">a &ldquo;Continue with Google&rdquo; button that just works.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/auth_google_oauth.md">Google sign-in</a></div><label class="done-toggle"><input type="checkbox" data-step-box="google"> Done</label></div>
+      </li>
+      <li id="step-email" data-step="email" data-kind="extra">
+        <h3><span class="chip both">Together</span> 6. Email <span class="optional">optional</span></h3>
+        <div class="meta"><span>About 20 minutes, plus waiting for DNS</span></div>
+        <p>You verify your domain at Resend; the assistant sets the keys and sends a test email.</p>
+        <p class="result">password resets and alerts that actually arrive.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/email_resend.md">Email with Resend</a></div><label class="done-toggle"><input type="checkbox" data-step-box="email"> Done</label></div>
+      </li>
+      <li id="step-domain" data-step="domain" data-kind="extra">
+        <h3><span class="chip both">Together</span> 7. Your own domain <span class="optional">optional</span></h3>
+        <div class="meta"><span>About 15 minutes, plus up to a day or two for DNS</span></div>
+        <p>You buy the domain and add the DNS records Render shows you; the assistant attaches it and updates the settings.</p>
+        <p class="result">your own address, like <code>https://your-name.com</code>, with the padlock.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/custom_domain_dns.md">Custom domain</a></div><label class="done-toggle"><input type="checkbox" data-step-box="domain"> Done</label></div>
+      </li>
+      <li id="step-ai" data-step="ai" data-kind="extra">
+        <h3><span class="chip both">Together</span> 8. AI features <span class="optional">optional</span></h3>
+        <div class="meta"><span>About 10 minutes</span></div>
+        <p>You set a spend limit at OpenAI and create a key; the assistant builds on a metered helper with a monthly cap and per-person limits.</p>
+        <p class="result">AI in your site that can never run away with your money.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/openai.md">AI with OpenAI</a></div><label class="done-toggle"><input type="checkbox" data-step-box="ai"> Done</label></div>
+      </li>
+      <li id="step-backups" data-step="backups" data-kind="core">
+        <h3><span class="chip both">Together</span> 9. Backups and costs</h3>
+        <div class="meta"><span>About 20 minutes</span></div>
+        <p>Scheduled backups, an offsite copy in a Google Cloud bucket, a restore you practise once, and a monthly cost report with a budget alert.</p>
+        <p class="result">data you can get back, and no surprise bills.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/backup_restore.md">Backup and restore</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gcs_bucket.md">Storage bucket</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/cost_monitoring.md">Cost monitoring</a></div><label class="done-toggle"><input type="checkbox" data-step-box="backups"> Done</label></div>
+      </li>
+      <li id="step-apps" data-step="apps" data-kind="core">
+        <h3><span class="chip both">Together</span> 10. Build your first app</h3>
+        <div class="meta"><span>Your pace</span></div>
+        <p>Each feature starts with an interview, then a <strong>data model you approve</strong> (the assistant teaches it first), then tests and code.</p>
+        <p class="result">your own feature, designed with you, tested, and live.</p>
+        <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/building_an_app.md">How we build apps</a><a href="tutorial/data-models.html">Data models lesson</a></div><label class="done-toggle"><input type="checkbox" data-step-box="apps"> Done</label></div>
+      </li>
     </ol>
   </div>
 </section>
@@ -310,7 +428,7 @@
 <section id="verify">
   <div class="wrap">
     <h2>How you know you did it right</h2>
-    <p class="sub">One read-only command checks your repository, your local site and your live site, and tells you exactly what to fix.</p>
+    <p class="sub">Your assistant runs a read-only checker after every phase and walks you through the result: your repository, your local site and your live site, with exactly what to fix. You can run it too:</p>
     <div class="grid g2">
       <div>
 <pre><code>python scripts/verify_site.py
@@ -336,7 +454,7 @@ python scripts/verify_site.py --url https://your-site.onrender.com</code></pre>
     <h2>Honest expectations</h2>
     <div class="scroll"><table>
       <tr><th>Time</th><td>A live site in about an hour. Google sign-in, email, domain, AI and backups take minutes each, at your pace.</td></tr>
-      <tr><th>Cost</th><td>Hosting about <strong>$7.25 a month</strong>; a domain about $10&ndash;15 a year; Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go <strong>and capped</strong>.</td></tr>
+      <tr><th>Cost</th><td>Hosting about <strong>$7.25 a month</strong> on Render; a domain about $10&ndash;15 a year. Your AI engine: GitHub Copilot and Claude both have plans with limited free use, and a long guided build usually needs a <strong>paid plan</strong> (check yours before you start). Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go <strong>and capped</strong>.</td></tr>
       <tr><th>Your part</th><td>Opening accounts, adding a card, clicking consent screens, creating DNS records, and deciding what your site is for. Never pasting a secret into a chat.</td></tr>
       <tr><th>Its part</th><td>Code, configuration, tests, deploys, logs, backups, documentation, and explaining it as it goes.</td></tr>
       <tr><th>Not magic</th><td>The first deploy can hit a snag; every platform does. The repo records 30 known traps and a debugging routine, and your assistant reads the logs and fixes things in front of you.</td></tr>
@@ -386,6 +504,94 @@ python scripts/verify_site.py --url https://your-site.onrender.com</code></pre>
         navigator.clipboard.writeText(text).then(function () { done(true); }, function () { done(false); });
       } else { done(false); }
     });
+  })();
+</script>
+
+<script>
+  // Progress tracking. Saved ONLY in this browser's localStorage (nothing is sent anywhere);
+  // works for the visit even when storage is blocked (private mode, strict settings).
+  (function () {
+    var KEY = "fullstackbkm-progress-v1";
+    var store = null, state = {};
+    try {
+      store = window.localStorage;
+      state = JSON.parse(store.getItem(KEY) || "{}") || {};
+    } catch (e) { store = null; state = {}; }
+    var items = Array.prototype.slice.call(document.querySelectorAll("[data-step]"));
+    if (!items.length) return;
+    var note = document.getElementById("storage-note");
+    if (!store && note) note.textContent = "Tick each step as you finish it. This browser is not letting the page save, so ticks last only for this visit.";
+
+    function save() { if (!store) return; try { store.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+    function title(li) { var h = li.querySelector("h3"); return h ? h.textContent.replace(/You are here|optional|Assistant|Together|You/g, "").trim() : ""; }
+
+    function confetti() {
+      if (window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+      var colors = ["#4f46e5", "#0ea5a4", "#f59e0b", "#ec4899", "#22c55e"];
+      for (var i = 0; i < 60; i++) {
+        var p = document.createElement("span");
+        p.className = "confetti";
+        p.style.left = Math.random() * 100 + "vw";
+        p.style.background = colors[i % colors.length];
+        p.style.animationDelay = Math.random() * 0.6 + "s";
+        document.body.appendChild(p);
+        setTimeout(function (el) { return function () { el.remove(); }; }(p), 3200);
+      }
+    }
+
+    function render(changed) {
+      var core = 0, coreDone = 0, extra = 0, extraDone = 0, current = null;
+      items.forEach(function (li) {
+        var id = li.getAttribute("data-step"), done = !!state[id], isCore = li.getAttribute("data-kind") === "core";
+        li.classList.toggle("is-done", done);
+        li.classList.remove("is-current");
+        var old = li.querySelector(".here"); if (old) old.remove();
+        if (isCore) { core++; if (done) coreDone++; else if (!current) current = li; }
+        else { extra++; if (done) extraDone++; }
+      });
+      if (current) {
+        current.classList.add("is-current");
+        var here = document.createElement("span"); here.className = "here"; here.textContent = "You are here";
+        current.querySelector("h3").appendChild(document.createTextNode(" ")); current.querySelector("h3").appendChild(here);
+      }
+      var pct = core ? Math.round(coreDone / core * 100) : 0;
+      document.getElementById("progress-bar").style.width = pct + "%";
+      var bar = document.querySelector("#progress .bar"); if (bar) bar.setAttribute("aria-valuenow", String(pct));
+      document.getElementById("count-core").textContent = "Core steps: " + coreDone + " of " + core;
+      document.getElementById("count-extra").textContent = "Extras: " + extraDone + " of " + extra;
+
+      var any = coreDone + extraDone > 0;
+      var pill = document.getElementById("nav-progress");
+      pill.hidden = !any; pill.textContent = "Your progress " + coreDone + "/" + core;
+      var resume = document.getElementById("resume");
+      resume.hidden = !any || !current;
+      if (current) { resume.href = "#" + current.id; resume.textContent = "Continue: " + title(current); }
+      // A returning visitor's main action is to continue, not to start again.
+      var start = document.getElementById("get-started");
+      start.classList.toggle("primary", !any || !current);
+      resume.classList.toggle("primary", any && !!current);
+
+      var liveDone = !!state.live, allDone = coreDone === core;
+      document.getElementById("live-banner").hidden = !liveDone || allDone;
+      document.getElementById("graduated").hidden = !allDone;
+      if (changed && state[changed] && (changed === "live" || allDone)) confetti();
+    }
+
+    items.forEach(function (li) {
+      var id = li.getAttribute("data-step"), box = li.querySelector("[data-step-box]");
+      box.checked = !!state[id];
+      box.addEventListener("change", function () {
+        if (box.checked) state[id] = new Date().toISOString(); else delete state[id];
+        save(); render(id);
+      });
+    });
+    document.getElementById("reset-progress").addEventListener("click", function () {
+      if (!window.confirm("Clear all ticks on this page? (Your site and repository are not affected.)")) return;
+      state = {}; save();
+      items.forEach(function (li) { li.querySelector("[data-step-box]").checked = false; });
+      render();
+    });
+    render();
   })();
 </script>
 </body>

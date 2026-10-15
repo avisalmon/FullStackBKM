@@ -49,7 +49,7 @@ You will not just receive a site; you will understand it. Claude acts as your **
 | | |
 |---|---|
 | **Time** | A live site in about an hour, most of it signing up for accounts. Google sign-in, email, domain, AI and backups take a few minutes each, at your pace |
-| **Cost** | Hosting about **$7.25/month**; a domain about $10-15/year; Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go **and capped** |
+| **Cost** | Hosting about **$7.25/month** on Render; a domain about $10-15/year. Your AI engine: GitHub Copilot and Claude both have plans with limited free use, and a long guided build usually needs a **paid plan** (check yours before you start). Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go **and capped** |
 | **Your part** | Opening accounts, adding a payment card, clicking consent screens, creating DNS records, choosing a password, and *deciding what your site is for*. Claude tells you exactly what to click and waits |
 | **Claude's part** | Everything else: code, configuration, tests, deploys, logs, backups, documentation, and explaining it as it goes |
 | **Not magic** | The first deploy can hit a snag (every platform does). The repo records 30 known traps and a debugging routine, and Claude reads the logs and fixes things in front of you |
