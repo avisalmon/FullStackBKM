@@ -1,0 +1,4 @@
+# Shell scripts must keep LF line endings: a CRLF checkout on Windows turns
+# `#!/usr/bin/env bash\r` into "bad interpreter" on Render's Linux builders.
+*.sh text eol=lf
+*.pdf binary

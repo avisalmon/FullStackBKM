@@ -1,0 +1,48 @@
+name: Scheduled tasks
+
+# Fires the backup and cost jobs INSIDE the live web service (they need its SQLite disk,
+# which a separate cron container cannot see) and turns red if a job fails.
+#
+# One-time setup (the build-my-site skill does this for you with `gh`):
+#   gh variable set SITE_URL --body "https://your-site.example"
+#   gh secret   set TASK_TRIGGER_TOKEN        # same value as the Render env var
+# Without SITE_URL the jobs skip quietly, so a fresh clone never fails here.
+
+on:
+  schedule:
+    - cron: "0 3 * * 1" # backup: Mondays 03:00 UTC
+    - cron: "0 6 * * *" # costs: daily 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      task:
+        description: "backup or costs"
+        required: true
+        default: backup
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Choose the task
+        id: pick
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "task=${{ inputs.task }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.schedule }}" = "0 3 * * 1" ]; then
+            echo "task=backup" >> "$GITHUB_OUTPUT"
+          else
+            echo "task=costs" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Trigger ${{ steps.pick.outputs.task }}
+        env:
+          SITE_URL: ${{ vars.SITE_URL }}
+          TOKEN: ${{ secrets.TASK_TRIGGER_TOKEN }}
+          TASK: ${{ steps.pick.outputs.task }}
+        run: |
+          if [ -z "$SITE_URL" ] || [ -z "$TOKEN" ]; then
+            echo "SITE_URL / TASK_TRIGGER_TOKEN not set yet - skipping."; exit 0
+          fi
+          code=$(curl -sS --max-time 300 -o out.json -w "%{http_code}" \
+            -X POST "$SITE_URL/internal/run/$TASK/" -H "X-Task-Token: $TOKEN")
+          echo "HTTP $code"; cat out.json || true; echo
+          test "$code" = "200"

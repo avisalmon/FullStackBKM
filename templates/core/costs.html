@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Costs {{ period }}{% endblock %}
+{% block content %}
+  <h1>Costs for {{ period }}</h1>
+  <table>
+    <thead><tr><th>Service</th><th>USD</th><th>Source</th><th>Note</th></tr></thead>
+    <tbody>
+      {% for record in records %}
+        <tr><td>{{ record.service }}</td><td>{{ record.amount_usd }}</td><td>{{ record.source }}</td><td>{{ record.note }}</td></tr>
+      {% empty %}
+        <tr><td colspan="4">No data yet. Run <code>python manage.py report_costs</code>.</td></tr>
+      {% endfor %}
+    </tbody>
+    <tfoot><tr><th>Total</th><th>{{ total }}</th><th colspan="2">Budget: {{ budget }} (0 = none)</th></tr></tfoot>
+  </table>
+  <p>Pin a real figure: Admin &rarr; Cost records &rarr; set Source to <em>Manual</em>.</p>
+  <ul>
+    {% for adapter in adapters %}{% if adapter.deep_link %}
+      <li><a href="{{ adapter.deep_link }}" rel="noopener">{{ adapter.label }} dashboard</a></li>
+    {% endif %}{% endfor %}
+  </ul>
+{% endblock %}

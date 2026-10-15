@@ -1,0 +1,53 @@
+:root {
+  --bg: #ffffff;
+  --fg: #1c2024;
+  --muted: #5b6470;
+  --accent: #2557d6;
+  --border: #d9dde3;
+  --surface: #f5f7fa;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14171c;
+    --fg: #e8eaed;
+    --muted: #9aa3ae;
+    --accent: #7aa2ff;
+    --border: #2c323b;
+    --surface: #1c2027;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font: 16px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+a { color: var(--accent); }
+.site-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--surface);
+}
+.site-header nav { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; align-items: center; }
+.brand { font-weight: 700; text-decoration: none; color: var(--fg); }
+.site-main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1rem; }
+.messages { list-style: none; padding: 0.5rem 1rem; background: var(--surface); border: 1px solid var(--border); }
+form.inline { display: inline; }
+button.link { background: none; border: 0; padding: 0; color: var(--accent); font: inherit; cursor: pointer; text-decoration: underline; }
+input, textarea, select, button { font: inherit; }
+input[type="text"], input[type="email"], input[type="password"], textarea {
+  width: 100%;
+  max-width: 28rem;
+  padding: 0.4rem 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--fg);
+}
+button { padding: 0.4rem 0.9rem; border: 1px solid var(--accent); border-radius: 4px; background: var(--accent); color: #fff; cursor: pointer; }

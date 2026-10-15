@@ -1,0 +1,18 @@
+/* Notes' own stylesheet. Every class is prefixed `notes-` so it can never collide with
+   another app's (docs/building_an_app.md, mistake 7). */
+:root { --notes-bg: #fffdf5; --notes-fg: #26231a; --notes-border: #e2dcc4; --notes-accent: #8a6d00; }
+@media (prefers-color-scheme: dark) {
+  :root { --notes-bg: #1d1b14; --notes-fg: #efe9d2; --notes-border: #3a3626; --notes-accent: #e0b93a; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--notes-bg); color: var(--notes-fg); font: 16px/1.5 system-ui, sans-serif; }
+.notes-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; border-bottom: 1px solid var(--notes-border); }
+.notes-main { max-width: 40rem; margin: 0 auto; padding: 1rem; }
+.notes-form { display: grid; gap: 0.5rem; margin-bottom: 1rem; }
+.notes-form input[type="text"], .notes-form input:not([type]), .notes-form textarea { width: 100%; padding: 0.4rem; font: inherit; }
+.notes-list { padding-left: 1.25rem; }
+.notes-list li { margin-bottom: 0.75rem; }
+.notes-image { max-width: 300px; max-height: 200px; display: block; margin-top: 0.25rem; }
+.notes-error { color: #b3261e; }
+button { padding: 0.4rem 0.9rem; border: 1px solid var(--notes-accent); border-radius: 4px; background: var(--notes-accent); color: #fff; font: inherit; cursor: pointer; }
+button.notes-quiet { background: none; color: var(--notes-accent); }

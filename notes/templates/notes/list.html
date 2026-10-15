@@ -1,0 +1,14 @@
+{% extends "notes/base.html" %}
+{% load static %}
+{% block content %}
+  <h1>Your notes</h1>
+  <form id="notes-form" class="notes-form">
+    <input name="title" placeholder="Title" required maxlength="200">
+    <textarea name="body" placeholder="Body" rows="3"></textarea>
+    <input type="file" name="image" accept="image/*">
+    <button type="submit">Add note</button>
+  </form>
+  <p id="notes-error" class="notes-error" role="alert" hidden></p>
+  <ul id="notes-list" class="notes-list"></ul>
+{% endblock %}
+{% block scripts %}<script src="{% static 'notes/notes.js' %}" defer></script>{% endblock %}

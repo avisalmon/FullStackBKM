@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # secret scan reads history
+      - name: Secret scan
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements*.txt
+      - run: pip install -r requirements-dev.txt
+      - name: Lint
+        run: ruff check . && ruff format --check .
+      - name: Tests
+        run: pytest -q
+      - name: Django system checks
+        run: python manage.py check
+      - name: Deploy checks (production settings)
+        env:
+          DEBUG: "False"
+          SECRET_KEY: ci-only-not-a-real-secret-ci-only-not-a-real-secret-0123456789
+          ALLOWED_HOSTS: example.com
+        run: python manage.py check --deploy --fail-level WARNING
+      - name: Missing migrations
+        run: python manage.py makemigrations --check --dry-run

@@ -1,12 +1,71 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>FullStuckBKM</title>
+  <meta name="description" content="A blueprint for building a production full-stack website (Django on Render) by working with Claude.">
+  <style>
+    :root { --bg:#ffffff; --fg:#1c2024; --muted:#5b6470; --accent:#2557d6; --border:#d9dde3; --surface:#f5f7fa; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg:#14171c; --fg:#e8eaed; --muted:#9aa3ae; --accent:#7aa2ff; --border:#2c323b; --surface:#1c2027; }
+    }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif; }
+    main { max-width: 46rem; margin: 0 auto; padding: 2.5rem 1rem 4rem; }
+    h1 { font-size: 2rem; margin: 0 0 .25rem; }
+    h2 { margin-top: 2.25rem; font-size: 1.25rem; }
+    .lede { color: var(--muted); font-size: 1.1rem; margin-top: 0; }
+    a { color: var(--accent); }
+    .say { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; font-size: 1.15rem; }
+    ol, ul { padding-left: 1.25rem; }
+    li { margin: .35rem 0; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { text-align: left; padding: .4rem .6rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    th { width: 9rem; color: var(--muted); font-weight: 600; }
+    code { background: var(--surface); padding: .1rem .3rem; border-radius: 4px; }
+    footer { margin-top: 3rem; color: var(--muted); font-size: .9rem; }
+  </style>
 </head>
 <body>
+<main>
   <h1>FullStuckBKM</h1>
-  <p>A standard blueprint for building a full-stack website with Django and Render.</p>
+  <p class="lede">A blueprint for building a real full-stack website, Django on Render, by working with Claude.</p>
+
+  <h2>Start</h2>
+  <ol>
+    <li>Install Python 3.12, Git, the GitHub CLI, and Claude Code (signed in).</li>
+    <li>Use this repo as a <strong>private</strong> template for your site, and clone your copy.</li>
+    <li>Open the folder in Claude Code and say:</li>
+  </ol>
+  <p class="say"><strong>&ldquo;Help me build my full stack site&rdquo;</strong></p>
+  <p>Claude interviews you, sets everything up, deploys it, and does all it can on its own. When it needs you (an account, a card,
+  a consent screen, a DNS record) it tells you exactly what to click.</p>
+
+  <h2>What you get</h2>
+  <table>
+    <tr><th>Hosting</th><td>Render, HTTPS, auto-deploy from GitHub, about $7.25/month</td></tr>
+    <tr><th>Data</th><td>SQLite on a persistent disk; media and static files handled</td></tr>
+    <tr><th>Sign-in</th><td>Email + password and Google</td></tr>
+    <tr><th>Email</th><td>Transactional email through Resend</td></tr>
+    <tr><th>Domain</th><td>Your own domain with HTTPS</td></tr>
+    <tr><th>AI</th><td>OpenAI with a monthly spend cap and per-user limits</td></tr>
+    <tr><th>Backups</th><td>Scheduled, offsite to a Google Cloud Storage bucket, restore procedure included</td></tr>
+    <tr><th>Costs</th><td>Monthly cost report and budget alert</td></tr>
+    <tr><th>Safety</th><td>Private repo, secrets never in git (scanned), safe-by-default settings</td></tr>
+    <tr><th>Method</th><td>Data model first, encapsulated apps, REST API for everything, tests that can fail</td></tr>
+  </table>
+
+  <h2>Read more</h2>
+  <ul>
+    <li><a href="README.md">README</a>: the full start-up guide</li>
+    <li><a href="docs/new_site_checklist.md">The journey, phase by phase</a></li>
+    <li><a href="docs/building_an_app.md">How we build apps</a></li>
+    <li><a href="docs/security.md">Keeping your site and accounts safe</a></li>
+    <li><a href="docs/README.md">All documentation</a></li>
+  </ul>
+
+  <footer>Built from the practices of a production Django site on Render.</footer>
+</main>
 </body>
 </html>

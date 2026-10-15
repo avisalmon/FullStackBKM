@@ -1,6 +1,18 @@
-﻿asgiref==3.12.1
-Django==6.1.2
-gunicorn==26.2.0
-sqlparse==0.6.0
-tzdata==2026.5
-whitenoise==6.12.0
+# Runtime dependencies - what Render installs (build.sh runs `pip install -r requirements.txt`).
+# Dev/test tooling lives in requirements-dev.txt so the production image stays small.
+#
+# Ranges follow the reference production site (babook.co.il). Django is pinned to the
+# 5.2 LTS line on purpose: allauth, DRF and WhiteNoise are all proven against it.
+Django>=5.2,<5.3
+djangorestframework>=3.15,<3.17
+gunicorn>=22,<27
+whitenoise>=6.7,<7
+django-allauth[socialaccount]>=65.0,<66
+requests>=2.31,<3
+Pillow>=10.0,<13
+python-dotenv>=1.0,<2
+# Transactional email via Resend. Only used when RESEND_API_KEY is set; otherwise
+# email prints to the console. See docs/procedures/email_resend.md.
+django-anymail[resend]>=12.0,<13
+# Google Cloud Storage (offsite backups, optional media bucket) via a service account.
+google-auth>=2.20,<3

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+  <h1>{{ SITE_NAME }}</h1>
+  <p>This site was created from the FullStuckBKM blueprint: Django on Render, SQLite on a
+  persistent disk, WhiteNoise for static files, allauth for sign-in.</p>
+  {% if user.is_authenticated %}
+    <p>Signed in as <strong>{{ user.get_username }}</strong>. Try the example app:
+    <a href="{% url 'notes:list' %}">Notes</a>.</p>
+  {% else %}
+    <p><a href="{% url 'account_login' %}">Sign in</a> or
+    <a href="{% url 'account_signup' %}">create an account</a> to try the example Notes app.</p>
+    {% if GOOGLE_LOGIN_ENABLED %}
+      <p><a href="{% url 'google_login' %}?next=/">Continue with Google</a></p>
+    {% endif %}
+  {% endif %}
+{% endblock %}

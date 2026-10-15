@@ -1,0 +1,21 @@
+{% load static %}<!DOCTYPE html>
+{# This app's own layout. It deliberately does NOT extend the site's base.html and has no #}
+{# link back to the site (docs/building_an_app.md, Rule 3). #}
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Notes{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'notes/notes.css' %}">
+</head>
+<body data-csrf="{{ csrf_token }}">
+  <header class="notes-header">
+    <strong>Notes</strong>
+    <form method="post" action="{% url 'account_logout' %}">{% csrf_token %}
+      <button type="submit" class="notes-quiet">Sign out ({{ user.get_username }})</button>
+    </form>
+  </header>
+  <main class="notes-main">{% block content %}{% endblock %}</main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

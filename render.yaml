@@ -1,0 +1,71 @@
+# Render Blueprint. Render dashboard -> New -> Blueprint -> pick this repo.
+# Full walkthrough: docs/procedures/deploy_to_render.md
+#
+# `python scripts/init_site.py --name <your-name>` renames the placeholders below.
+#
+# NOTE: changing this file does NOT overwrite values already set in the Render dashboard
+# (start command, env vars). After the first deploy, dashboard edits win - see
+# docs/procedures/gotchas.md (#8).
+services:
+  - type: web
+    name: my-site
+    runtime: python
+    plan: starter # a persistent disk requires a paid instance
+    branch: main
+    buildCommand: ./build.sh
+    # bootstrap_site = migrate + superuser + Site record, idempotent, fails loudly.
+    # Keep this line simple: no `|| true` chains (gotchas.md #23).
+    startCommand: python manage.py bootstrap_site && gunicorn mysite.wsgi:application --bind 0.0.0.0:$PORT --timeout 120
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6
+      - key: DEBUG
+        value: "False"
+      - key: PERSISTENT_ROOT
+        value: /var/data
+      - key: SITE_NAME
+        value: My Site
+      # Render invents a strong random value once; you never see or paste it.
+      - key: SECRET_KEY
+        generateValue: true
+      # ALLOWED_HOSTS / CSRF origins need no entry: the Render hostname is trusted
+      # automatically (RENDER_EXTERNAL_HOSTNAME). For a custom domain, add
+      # ALLOWED_HOSTS=<your.domain>,www.<your.domain> and SITE_DOMAIN=<your.domain>
+      # in the dashboard (docs/procedures/custom_domain_dns.md).
+      - key: DJANGO_SUPERUSER_USERNAME
+        sync: false
+      - key: DJANGO_SUPERUSER_EMAIL
+        sync: false
+      - key: DJANGO_SUPERUSER_PASSWORD
+        sync: false
+      # Optional. Leave blank at the prompt to skip; add later in the dashboard.
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: RESEND_API_KEY
+        sync: false
+      - key: DEFAULT_FROM_EMAIL
+        sync: false
+      - key: OWNER_EMAIL
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_MONTHLY_COST_CAP_USD
+        value: "20"
+      - key: MONTHLY_BUDGET_USD
+        value: "0"
+      # Offsite backups + optional media bucket (docs/procedures/gcs_bucket.md).
+      - key: GCS_BUCKET
+        sync: false
+      - key: GCS_SERVICE_ACCOUNT
+        sync: false
+      # Lets the GitHub Actions cron run backup/cost jobs (POST /internal/run/<task>/).
+      - key: TASK_TRIGGER_TOKEN
+        sync: false
+    disk:
+      name: my-site-disk
+      mountPath: /var/data
+      sizeGB: 1
