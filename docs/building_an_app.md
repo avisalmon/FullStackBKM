@@ -5,6 +5,12 @@ when you learn something while building, add it here (in the section it fits, or
 *what happened and why it mattered*. A rule without the failure behind it gets ignored the next time
 someone is in a hurry.
 
+**When to add something.** Not "when you remember". Do a short post-mortem (what happened, why the way you
+work let it happen, the rule that now prevents it) whenever: the owner corrects how something was done; a bug
+reaches the live site; a review, a screenshot or a full test run finds something the feature's own tests missed;
+you find a better way of working; or a stretch of work ends. Then put the rule where it will be read: here, and
+in the skill that covers it. New lessons are listed by date in [lessons_log.md](lessons_log.md).
+
 An "app" here means a Django app that is one feature area of the site: its own folder, models, URLs,
 templates, docs. The example is [notes/](../notes/) with docs in [docs/notes/](notes/spec.md). Copy its shape.
 
@@ -85,6 +91,11 @@ the `core` catch-all, give it `app_name` + a namespace, its own `templates/<name
 - [ ] Admin registration
 - [ ] Tests: refusals, happy paths, and a seed command run **twice** if there is one
 - [ ] Looked at every screen as an image at least once, at phone width
+- [ ] Error pages (403/404/500) routed to the app's own templates, with a test that reads what the page *says*
+- [ ] If the app shares a URL prefix with an older app: a test that every older route still reaches its owner
+- [ ] No page anyone but an admin sees ever shows an email address (test it with a user who has no name)
+- [ ] If the app has roles or stages: every link on every role's home opens for that role, at every stage
+- [ ] Anything with a time and a place shows times in that place's timezone, named by its city
 - [ ] Deploy discipline below
 
 ---
@@ -98,6 +109,13 @@ snapshot; the moment a person could edit those rows, every deploy would have des
 The database, once populated, is the only source of truth. Write a test that calls the real seed command twice and
 asserts nothing a user could have changed was touched the second time.
 
+The opposite trap is just as real: a seed that stops at "already exists" never delivers anything added to it later.
+A demo event was seeded before its challenges existed; when challenges were added to the seed, production would
+never have received them, because the event was already there. *Rule:* a seed **adds what is absent, matched on a
+natural key (a title, a slug), and never touches what is present**. Test it against the state production is actually
+in (delete the new parts, run the seed, check they arrive; run it again, check nothing changes), not only on an
+empty database.
+
 ### Every item is a real object: add, edit, delete, reorder
 A list isn't finished when you can only append. The question before calling it done: *"can someone fix a mistake in this
 without going to `/admin/`?"* (A singleton fact doesn't need delete, but still needs edit.)
@@ -110,6 +128,36 @@ the spec; non-members get a plain access-denied page unless the app must hide th
 ### Auth: reuse `User`, a lighter front door is fine
 A new app doesn't get its own user table. A five-person invite-only app doesn't need email-verification ceremony: access
 is gated by the Group. Build the app's own login-looking pages inside its own chrome, against the one shared `User`.
+
+### Error pages stay inside the app's walls
+Django has one set of error handlers for the whole project. An app with its own look still rendered the *main
+site's* "forbidden" page, with the main site's header and language, for months. Every permission test passed,
+because they checked for a 403, and a 403 is a 403 whichever page it shows. *Rule:* on day one, add the app's URL
+prefix to the project's error dispatch (`handler403/404/500` composed by path), and have at least one test read
+what an error page *says*.
+
+### Two apps under one URL prefix
+When a new app is mounted before an older one that shares its prefix, Django takes the **first** match. Claiming a
+path the older app already owns is not an error, it is a silent takeover: an old QR code link started returning
+404 and only the older app's own test, in a full test run, noticed. It happened twice. *Rule:* one test walks every
+route of the older app and requires each to still resolve to it, with any deliberate takeover listed by name.
+
+### One door to an irreversible action
+"Publish the results" had its own careful screen, and a generic "next stage" button could also do it, skipping two
+of the three things publishing has to do. *Rule:* an action that cannot be undone has exactly one code path; any
+other way in redirects to it.
+
+### A refusal never costs the person what they already typed
+A form saved inside one transaction and stopped at the first problem, so ticking one box too early threw away two
+fields typed beside it. *Rule:* save what is valid, collect the problems, then say what is wrong. Refusing one
+thing must not cost the others.
+
+### Times belong to a place
+The server works in UTC, which is right for storing and wrong for showing: a 10:00 start in Israel printed as 07:00,
+and a time typed into a form was read as UTC. The abbreviation "IST" then meant Israel to the organiser and India to
+half the readers. *Rule:* render every page of something that has a place in that place's timezone (one wrapper
+around `render`, not a line per view), read typed times in that zone, and name the zone by its city
+("Jerusalem time").
 
 ### Process weight scales to the app's size
 A multi-sprint product with strangers as users earns REQ-IDs and a test plan. A small private app keeps a `spec.md` and a
@@ -195,4 +243,25 @@ repeating it.
 17. **A guard that can't be tripped needs its own test.** (Added in this blueprint.) `tests/test_no_secrets_committed.py` includes a test that the
     scanner *would* catch a leak, otherwise a broken regex looks like a clean repo.
 
-*Add new entries here as you make them.*
+18. **Each feature's tests passing is not the same as the product working.** Six stretches of work on one app, each
+    with its own passing tests; then one review that put every role side by side at every stage, on a phone, found
+    seven real bugs and home screens that routed people correctly while telling them nothing about themselves.
+    *Rule:* for any app with roles or stages, one test opens every link on every role's home, at every stage, as that
+    role; and at each checkpoint, look at one image per stage with every role side by side.
+19. **`|default:email` is a privacy leak.** Sign-up asked for no name, so public pages fell back to the email address
+    and would have printed every participant's on a page that is public forever. The developer's own account had a
+    name, so it looked fine. *Rule:* ask for a display name at sign-up; outside admin screens the fallback is a
+    description ("A participant"), never contact details; test with a nameless user.
+20. **Anything that changes data is POST, and redirects stay home.** Applying to an event happened on a page load,
+    so a link preview or prefetch could apply someone; sign-up followed any `?next=` link to any site. *Rule:* POST
+    only for changes; every redirect from a request parameter goes through `url_has_allowed_host_and_scheme`.
+21. **When a fix does not show, suspect the server before the code.** Screenshots came back unchanged after a fix
+    because the dev server was started with `--noreload`; browser tests failed in a full run because dev servers held
+    their ports. *Rule:* screenshot against an auto-reloading server on its own port; stop your dev servers before a
+    full test run.
+22. **On Windows, don't push code through the shell.** Heredocs carrying Python or HTML with quotes failed again and
+    again in Git Bash. A screenshot script that touched the database inside Playwright's sync API failed with
+    `SynchronousOnlyOperation`. *Rule:* write the code to a file and run the file; in a screenshot script, do every
+    database write before Playwright starts (or set `DJANGO_ALLOW_ASYNC_UNSAFE` for that script only).
+
+*Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

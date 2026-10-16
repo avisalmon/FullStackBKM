@@ -22,5 +22,9 @@ Source of truth: [docs/design_guide.md](../../../docs/design_guide.md) (includes
 
 ## Rules that came from real mistakes
 
+**Every role, every stage, side by side.** When the site has roles (admin, member, visitor) or stages (before, during, after), screenshot each role's home at each stage at phone
+width and put them in one image per stage. Ask of each column: does this person see something true and specific about *themselves*, and does every link open for them? This found
+seven real bugs in an app whose every feature had passing tests.
+
 Name component classes after the component and prefix them with the app (collisions are silent). A class that styles nothing is silence, not an error. Tests that read HTML cannot see layout. Apply a principle everywhere it applies, not only where it was noticed.
 Teach as you go: one sentence of *why* per suggestion so the owner starts making these calls themselves ([site-mentor](../site-mentor/SKILL.md)).

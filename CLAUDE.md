@@ -48,6 +48,8 @@ The map of all documentation is [docs/README.md](docs/README.md).
 11. **Everything this repo knows how to do is a skill.** Skills live in `.claude/skills/` (Claude Code) and are mirrored to `.github/skills/` (GitHub Copilot) by
     `python scripts/sync_skills.py`; `.github/copilot-instructions.md` and `AGENTS.md` are generated too. Edit only `.claude/skills/` and `CLAUDE.md`, then run the sync
     (CI and a test fail if the copies drift). New knowledge you gain while building becomes a new or updated skill, with the detail in `docs/`.
+    When something goes wrong, the owner corrects you, or you find a better way: do a short post-mortem (what happened, why the way we work let it,
+    the rule that prevents it) and land it in [docs/building_an_app.md](docs/building_an_app.md), the skill that covers it, and [docs/lessons_log.md](docs/lessons_log.md).
 
 ## Layout in one glance
 

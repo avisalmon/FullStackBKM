@@ -20,6 +20,7 @@ If you are looking for something and this file does not name it, the file is in 
 | File | What it is |
 |---|---|
 | [building_an_app.md](building_an_app.md) | **The authority for building anything new**: six core rules, the kickoff sequence, the mistakes behind the rules. A living file: add to it as you learn |
+| [lessons_log.md](lessons_log.md) | **What's new**: every lesson added to this blueprint, by date, newest first |
 | [spec.md](spec.md), [backlog.md](backlog.md) | Your site's spec and backlog (filled in with Claude) |
 | [notes/](notes/spec.md) | The example app's spec, data model and backlog: copy this shape |
 

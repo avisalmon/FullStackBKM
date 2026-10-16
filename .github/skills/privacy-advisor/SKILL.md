@@ -40,6 +40,10 @@ Read [docs/privacy.md](../../../docs/privacy.md) in full before advising (it is 
    confirm cookies and third parties match, decide the minors' safeguards, remind about 2FA, test one deletion. Then ask whether to set `PRIVACY_REVIEWED=True`.
 5. **When things change** (new service, new audience, a request from a user, an incident): re-check, update the policy in the same change, log it.
 
+**Never show an email address on a page the public can see.** A template fallback like `{{ user.first_name|default:user.email }}` looks harmless and puts contact details on
+public pages whenever someone has no name, which is everyone if sign-up never asks. Recommend asking for a display name at sign-up, a fallback that names nobody ("A
+participant"), and a test with a nameless user. This one is not a judgement call to leave to the owner without saying how serious it is.
+
 ## Young users and students: slow down
 
 If any user could be under 18, treat it as a design input, not a footnote (guide section 4): minimum age and how it's enforced, guardian consent infrastructure (`ConsentRecord`, switchable gate,

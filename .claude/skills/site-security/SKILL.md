@@ -30,6 +30,12 @@ Never ask the owner to paste a secret into chat. They put it in `.env` or Render
 Revoke/rotate at the provider **first** (OpenAI, Google, Resend, Render, GitHub), update Render and `.env`, check provider usage logs for activity the owner doesn't recognise, and only then think about git history (rotating makes the old key dead; rewriting history is optional and needs the owner's OK).
 Then add a test or hook so that mistake fails next time. If personal data may have been exposed, hand over to [privacy-advisor](../privacy-advisor/SKILL.md) (breach duties can have deadlines, e.g. 72 hours under GDPR).
 
+## Two slips worth checking in every app
+
+* **Anything that changes data is a POST.** A page load (GET) that creates or changes something can be triggered by a link preview, a prefetch or a crawler.
+* **Redirects stay on the site.** Any `?next=` or similar parameter goes through Django's `url_has_allowed_host_and_scheme` before it is followed; otherwise a link can send a
+  freshly signed-up person anywhere.
+
 ## Before launch
 
 Run [verify-my-site](../verify-my-site/SKILL.md); `python manage.py check --deploy` with `DEBUG=False` and a throwaway key must be clean; read the CI result; confirm Dependabot PRs are merged only with green CI.

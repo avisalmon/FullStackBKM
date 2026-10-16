@@ -50,4 +50,7 @@ adds to ("add this to the methodology file" means: edit that doc directly, in th
 * Look at each screen as an image once, at phone width.
 * Scope any formatter/auto-fix to your own files. Update status docs in the same commit that acts on a decision.
 * Wire it up: `INSTALLED_APPS`, `mysite/urls.py` (before the `core` catch-all, with a namespace), admin, docs, `.env.example`/`render.yaml`/`env_vars.md` for any new variable.
+* If the app has its own look: route its 403/404/500 to its own templates on day one (the project has one set of handlers).
+* If it has roles or stages: a test that every link on every role's home opens for that role, at every stage.
 * Before saying done: `pytest -q`, `ruff check .`, `manage.py check`, `makemigrations --check`. **Don't push**; ask.
+* Something went wrong or you found a better way? Post-mortem it into `docs/building_an_app.md` and a line in `docs/lessons_log.md`.
