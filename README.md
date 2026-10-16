@@ -2,6 +2,10 @@
 
 ### Go from "I have an idea" to a real, live, safe website, with Claude building it beside you.
 
+<!-- last-updated:start -->
+**Last updated 16 October 2026** · 13 new lessons · [See what's new](docs/lessons_log.md)
+<!-- last-updated:end -->
+
 ---
 
 ## What you will have

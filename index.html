@@ -35,6 +35,18 @@
     code, pre, kbd { font-family: ui-monospace, "Cascadia Code", Consolas, Menlo, monospace; font-size: .92em; }
     code { background: var(--surface-2); padding: .12rem .38rem; border-radius: 6px; }
     .wrap { max-width: 68rem; margin: 0 auto; padding: 0 1.25rem; }
+    /* "Last updated", stamped by scripts/sync_skills.py from docs/lessons_log.md. It sits under the
+       eyebrow so a returning reader sees at once whether anything changed since their last visit. */
+    .updated { display: flex; flex-wrap: wrap; gap: .35rem .7rem; align-items: center; width: fit-content;
+      margin: .9rem 0 0; padding: .35rem .8rem; border: 1px solid var(--border); border-radius: 999px;
+      background: var(--surface); color: var(--muted); font-size: .88rem; text-decoration: none; }
+    .updated b { color: var(--fg); font-weight: 600; }
+    .updated b::before { content: ""; display: inline-block; width: .5rem; height: .5rem; margin-right: .45rem;
+      border-radius: 50%; background: var(--accent-2); vertical-align: middle; }
+    .updated span:last-child { color: var(--accent); }
+    .updated:hover { border-color: var(--accent); }
+    /* Two lines on a phone: a full pill turns into a lopsided oval, so plain rounded corners there. */
+    @media (max-width: 520px) { .updated { border-radius: 12px; } }
     .skip { position: absolute; left: -999px; top: 0; background: var(--accent); color: var(--accent-fg); padding: .5rem 1rem; z-index: 100; }
     .skip:focus { left: 0; }
 
@@ -212,6 +224,7 @@
   <div class="wrap">
     <div>
       <span class="eyebrow">A blueprint, a mentor and a safety net</span>
+      <!-- last-updated:start --><a class="updated" href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/lessons_log.md"><b>Last updated 16 October 2026</b><span>13 new lessons</span><span>See what's new &rarr;</span></a><!-- last-updated:end -->
       <h1>Go from &ldquo;I have an idea&rdquo; to a <em>real, live, safe</em> website.</h1>
       <p class="lede">Set up an editor with an AI chat once, open your copy of this repo, and type four words: <strong>Tell me what to do</strong>. The chat installs what is missing, interviews you, builds the site with you, deploys it, explains every step, and checks your work. You decide; it does the heavy lifting.</p>
       <div class="cta">
