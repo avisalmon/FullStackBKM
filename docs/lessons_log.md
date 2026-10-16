@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-16
 
+- **When several AI sessions share one folder, a commit is a release.** Another session's push can ship it.
+  [mistake 23](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Lessons get a post-mortem every time, not when someone remembers.** The triggers are written down.
   [building_an_app.md](building_an_app.md#building-an-app-on-this-site)
 - **Each feature's tests passing is not the same as the product working.** Check every role at every stage, together.
