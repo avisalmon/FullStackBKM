@@ -181,6 +181,11 @@
     @media (max-width: 30rem) { #start .steps { grid-template-columns: 1fr; } }
     /* commands must never wrap mid-line: a wrapped URL looks like two commands to a beginner */
     pre.nowrap { white-space: pre; overflow-wrap: normal; overflow-x: auto; font-size: .8rem; }
+    .glossary { display: grid; gap: .8rem; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr)); margin: 0; }
+    .term-def { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: .8rem 1rem; }
+    .term-def dt { font-weight: 750; margin-bottom: .2rem; }
+    .term-def dd { margin: 0; color: var(--muted); font-size: .96rem; }
+    .term-def:target { border-color: var(--accent); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 22%, transparent); }
   </style>
 </head>
 <body>
@@ -195,6 +200,7 @@
       <li><a href="#journey">The journey</a></li>
       <li><a href="#learn">Learn</a></li>
       <li><a href="#verify">Check your work</a></li>
+      <li><a href="#words">Words</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
     <a class="progress-pill" id="nav-progress" href="#journey" hidden>Your progress</a>
@@ -229,7 +235,7 @@
             <li>Could any users be under 18? Which countries?</li>
           </ul>
         </div>
-        <div class="ai"><span class="ok">&#10003;</span> Python installed<br><span class="ok">&#10003;</span> Project set up, tests green<br>Next: your private repo, then Render (that account is yours, I&rsquo;ll show you exactly where to click)<span class="caret" aria-hidden="true"></span></div>
+        <div class="ai"><span class="ok">&#10003;</span> Python installed<br><span class="ok">&#10003;</span> Project set up, every check passes<br>Next: your private repo, then Render (that account is yours, I&rsquo;ll show you exactly where to click)<span class="caret" aria-hidden="true"></span></div>
       </div>
     </div>
   </div>
@@ -242,12 +248,12 @@
     <h2>What you will have</h2>
     <p class="sub">Not a demo and not a mock-up: a real website on the internet, with the things a real site needs.</p>
     <div class="grid g4">
-      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div><h3>Your own address</h3><p>Your domain with the padlock, hosted on Render. Every update goes live when you say so.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"/></svg></div><h3>Your own address</h3><p>Your own web address with the padlock (a secure connection), hosted on Render. Every update goes live when you say so.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></svg></div><h3>Sign in, two ways</h3><p>Email and password, or one click with Google.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v6c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg></div><h3>A database that remembers</h3><p>Your data and uploaded photos survive every update.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><h3>Email that arrives</h3><p>Password resets and alerts through a real mail service.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></div><h3>AI when you want it</h3><p>OpenAI built in, with a monthly spending cap and per-user limits.</p></div>
-      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/><path d="M12 8v4l3 2"/></svg></div><h3>Backups on autopilot</h3><p>Scheduled, copied to a Google Cloud bucket, with a restore you have practised.</p></div>
+      <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7M21 4v5h-5"/><path d="M12 8v4l3 2"/></svg></div><h3>Backups on autopilot</h3><p>Automatic backups, with a copy kept safely in Google Cloud, and a restore you have practised.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M3 20h18M6 16V9m6 7V5m6 11v-4"/></svg></div><h3>No bill surprises</h3><p>A monthly cost report and a budget alert in your inbox.</p></div>
       <div class="card"><div class="ico"><svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></div><h3>Safe and private by design</h3><p>Private repo, no secrets in code, privacy tools and a &ldquo;My data&rdquo; page for your users.</p></div>
     </div>
@@ -257,12 +263,12 @@
 <section id="start" class="alt">
   <div class="wrap">
     <h2>Start here</h2>
-    <p class="sub">You set up a few things once. After that, the chat guides you and does the work. About 20&ndash;40 minutes to a working chat, then an hour to your first live site.</p>
+    <p class="sub">You set up a few things once. After that, the chat guides you and does the work. New to a word? See <a href="#words">Words you&rsquo;ll meet</a>. About 20&ndash;40 minutes to a working chat, then an hour to your first live site.</p>
     <div class="steps">
       <div class="card step">
         <h3>Get an editor with an AI chat</h3>
         <ul>
-          <li>a free GitHub account (turn on 2FA)</li>
+          <li>a free GitHub account, with <a href="#w-twofactor">two-factor sign-in</a> on (a code from your phone as well as your password)</li>
           <li>VS Code, the editor</li>
           <li>an AI chat inside it: <strong>GitHub Copilot</strong> (Agent mode) <em>or</em> <strong>Claude Code</strong></li>
         </ul>
@@ -289,13 +295,13 @@ code my-site</code></pre>
       </div>
       <div class="card step">
         <h3>Follow the chat</h3>
-        <p>It checks your computer and <strong>installs what is missing itself</strong> (Python, the GitHub CLI, the project&rsquo;s tools), creates your own <strong>private</strong> GitHub repository, then builds the site with you, and tells you exactly what to click when a step needs <em>you</em>.</p>
+        <p>It checks your computer and <strong>installs what is missing itself</strong> (Python, GitHub&rsquo;s command-line tool, the project&rsquo;s tools), creates your own <strong>private</strong> GitHub repository (your project&rsquo;s folder on GitHub), then builds the site with you, and tells you exactly what to click when a step needs <em>you</em>.</p>
       </div>
     </div>
 
     <div class="scroll" style="margin-top:1.6rem"><table>
       <tr><th>You do (once)</th><td>Create a GitHub account. Install VS Code, an AI chat (Copilot or Claude Code) and Git. Copy the project with four typed lines. Then, along the way, log in to GitHub once in the browser, and open the accounts only you can open (Render, Google, Resend, OpenAI, a domain registrar) and add a card for Render.</td></tr>
-      <tr><th>The chat does</th><td>Installs Python and the GitHub CLI, fixes PATH problems, builds the project, interviews you, writes the plan and data model with you, builds and tests the site, creates your private repo, deploys, reads the logs, sets the keys without you pasting them, and sets up backups and cost alerts.</td></tr>
+      <tr><th>The chat does</th><td>Installs Python and GitHub&rsquo;s command-line tool, fixes &ldquo;command not found&rdquo; problems, builds the project, interviews you, writes the plan and data model with you, builds and tests the site, creates your private repository, puts the site online, reads the server&rsquo;s logs when something fails, sets the passwords for services without you pasting them, and sets up backups and cost alerts.</td></tr>
     </table></div>
 
     <div class="tools" aria-label="Downloads">
@@ -307,7 +313,7 @@ code my-site</code></pre>
     </div>
 
     <div class="grid g2" style="margin-top:1.6rem">
-      <div class="card"><h3>Using Claude Code</h3><p>The playbooks are in <code>.claude/skills/</code> and load automatically. Say the sentence and the <code>build-my-site</code> skill starts.</p></div>
+      <div class="card"><h3>Using Claude Code</h3><p>The playbooks (step-by-step instructions the AI follows) are in <code>.claude/skills/</code> and load automatically. Say the sentence and the <code>build-my-site</code> skill starts.</p></div>
       <div class="card"><h3>Using GitHub Copilot</h3><p>The same playbooks are in <code>.github/skills/</code>, and <code>.github/copilot-instructions.md</code> lists every one with its trigger phrases. Open Copilot Chat in agent mode and say the sentence.</p></div>
     </div>
   </div>
@@ -337,7 +343,7 @@ code my-site</code></pre>
       <li id="step-tools" data-step="tools" data-kind="core">
         <h3><span class="chip you">You</span> 0. Your tools</h3>
         <div class="meta"><span>About 20&ndash;40 minutes, once</span></div>
-        <p>You set up VS Code with an AI chat and check it answers, install Git, and copy the project to your computer with four typed lines. Then you type <em>Tell me what to do</em>: the chat installs Python and the GitHub CLI for you and fixes anything that is off.</p>
+        <p>You set up VS Code with an AI chat and check it answers, install Git, and copy the project to your computer with four typed lines. Then you type <em>Tell me what to do</em>: the chat installs Python and GitHub&rsquo;s command-line tool for you and fixes anything that is off.</p>
         <p class="result">an editor with an AI chat, open on your own copy of the project.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/get_started.md">Setup guide</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Full checklist</a></div><label class="done-toggle"><input type="checkbox" data-step-box="tools"> Done</label></div>
       </li>
@@ -351,21 +357,21 @@ code my-site</code></pre>
       <li id="step-local" data-step="local" data-kind="core">
         <h3><span class="chip claude">Assistant</span> 2. Your site, on your computer</h3>
         <div class="meta"><span>About 10 minutes</span></div>
-        <p>The assistant builds the project environment, a fresh secret key, the database and the tests, then starts the site. You create your admin password yourself, so it never passes through the chat.</p>
+        <p>The assistant sets up the project, creates the site&rsquo;s own secret password and its database, checks that everything works, then starts the site. You create your admin password yourself, so it never passes through the chat.</p>
         <p class="result">your site running on your own computer at <code>http://127.0.0.1:8000</code>, with sign-up and sign-in working.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/new_site_checklist.md">Checklist</a></div><label class="done-toggle"><input type="checkbox" data-step-box="local"> Done</label></div>
       </li>
       <li id="step-repo" data-step="repo" data-kind="core">
         <h3><span class="chip both">Together</span> 3. Your code, safe on GitHub</h3>
         <div class="meta"><span>About 5 minutes</span></div>
-        <p>The assistant logs in the GitHub CLI (you type one code in your browser), checks that no secret is about to be published, creates <strong>your own private repository</strong> and saves your work there. Your folder keeps a link to the blueprint, so you can pull in future improvements.</p>
+        <p>The assistant connects to GitHub for you (you type one code in your browser), checks that no secret is about to be published, creates <strong>your own private repository</strong> and saves your work there. Your folder keeps a link to the blueprint, so you can pull in future improvements.</p>
         <p class="result">your code on GitHub, private, with a guard that blocks secrets on every save.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/.claude/skills/publish-to-github/SKILL.md">The publish playbook</a></div><label class="done-toggle"><input type="checkbox" data-step-box="repo"> Done</label></div>
       </li>
       <li id="step-live" data-step="live" data-kind="core">
         <h3><span class="chip both">Together</span> 4. Go live on Render</h3>
         <div class="meta"><span>About 20&ndash;30 minutes</span></div>
-        <p>You open a Render account, add a card and click <em>New &rarr; Blueprint</em>. The assistant then reads the logs, checks the health endpoint and tests the live site with you.</p>
+        <p>You open an account at Render (the company that will run your site), add a card and click <em>New &rarr; Blueprint</em>, Render&rsquo;s one-click setup. The assistant then reads Render&rsquo;s logs, checks the site answers, and tests it with you.</p>
         <p class="result"><strong>your site on the internet</strong>, at an address like <code>https://your-site.onrender.com</code>.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/deploy_to_render.md">Deploy to Render</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/debug_failed_deploy.md">If it fails</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gotchas.md">30 known traps</a></div><label class="done-toggle"><input type="checkbox" data-step-box="live"> Done</label></div>
       </li>
@@ -379,42 +385,42 @@ code my-site</code></pre>
       <li id="step-google" data-step="google" data-kind="extra">
         <h3><span class="chip both">Together</span> 5. Google sign-in <span class="optional">optional</span></h3>
         <div class="meta"><span>About 15 minutes</span></div>
-        <p>You create a Google OAuth client in Google&rsquo;s console; the assistant wires it in and tests the button.</p>
+        <p>You create a Google sign-in key (an &ldquo;OAuth client&rdquo;) in Google&rsquo;s console, following exact clicks; the assistant wires it in and tests the button.</p>
         <p class="result">a &ldquo;Continue with Google&rdquo; button that just works.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/auth_google_oauth.md">Google sign-in</a></div><label class="done-toggle"><input type="checkbox" data-step-box="google"> Done</label></div>
       </li>
       <li id="step-email" data-step="email" data-kind="extra">
         <h3><span class="chip both">Together</span> 6. Email <span class="optional">optional</span></h3>
         <div class="meta"><span>About 20 minutes, plus waiting for DNS</span></div>
-        <p>You verify your domain at Resend; the assistant sets the keys and sends a test email.</p>
+        <p>You prove to Resend (an email-sending service) that you own your domain; the assistant connects it and sends a test email.</p>
         <p class="result">password resets and alerts that actually arrive.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/email_resend.md">Email with Resend</a></div><label class="done-toggle"><input type="checkbox" data-step-box="email"> Done</label></div>
       </li>
       <li id="step-domain" data-step="domain" data-kind="extra">
         <h3><span class="chip both">Together</span> 7. Your own domain <span class="optional">optional</span></h3>
         <div class="meta"><span>About 15 minutes, plus up to a day or two for DNS</span></div>
-        <p>You buy the domain and add the DNS records Render shows you; the assistant attaches it and updates the settings.</p>
-        <p class="result">your own address, like <code>https://your-name.com</code>, with the padlock.</p>
+        <p>You buy the address from a domain shop and copy a few settings (&ldquo;DNS records&rdquo;) that Render shows you into the shop&rsquo;s page; the assistant does the rest.</p>
+        <p class="result">your own address, like <code>https://your-name.com</code>, with the padlock (a secure connection).</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/custom_domain_dns.md">Custom domain</a></div><label class="done-toggle"><input type="checkbox" data-step-box="domain"> Done</label></div>
       </li>
       <li id="step-ai" data-step="ai" data-kind="extra">
         <h3><span class="chip both">Together</span> 8. AI features <span class="optional">optional</span></h3>
         <div class="meta"><span>About 10 minutes</span></div>
-        <p>You set a spend limit at OpenAI and create a key; the assistant builds on a metered helper with a monthly cap and per-person limits.</p>
+        <p>You set a spending limit at OpenAI (the makers of ChatGPT) and create a key; the assistant builds on a built-in meter with a monthly cap and a daily limit per person.</p>
         <p class="result">AI in your site that can never run away with your money.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/openai.md">AI with OpenAI</a></div><label class="done-toggle"><input type="checkbox" data-step-box="ai"> Done</label></div>
       </li>
       <li id="step-backups" data-step="backups" data-kind="core">
         <h3><span class="chip both">Together</span> 9. Backups and costs</h3>
         <div class="meta"><span>About 20 minutes</span></div>
-        <p>Scheduled backups, an offsite copy in a Google Cloud bucket, a restore you practise once, and a monthly cost report with a budget alert.</p>
+        <p>Automatic backups, a copy kept in Google Cloud storage, a restore you practise once, and a monthly cost report with a budget alert by email.</p>
         <p class="result">data you can get back, and no surprise bills.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/backup_restore.md">Backup and restore</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/gcs_bucket.md">Storage bucket</a><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/procedures/cost_monitoring.md">Cost monitoring</a></div><label class="done-toggle"><input type="checkbox" data-step-box="backups"> Done</label></div>
       </li>
       <li id="step-apps" data-step="apps" data-kind="core">
         <h3><span class="chip both">Together</span> 10. Build your first app</h3>
         <div class="meta"><span>Your pace</span></div>
-        <p>Each feature starts with an interview, then a <strong>data model you approve</strong> (the assistant teaches it first), then tests and code.</p>
+        <p>Each feature starts with an interview, then a <strong>data model you approve</strong>: the plan of what your site remembers and how it connects (the assistant teaches it first), then tests and code.</p>
         <p class="result">your own feature, designed with you, tested, and live.</p>
         <div class="row"><div class="links"><a href="https://github.com/avisalmon/FullStackBKM/blob/main/docs/building_an_app.md">How we build apps</a><a href="tutorial/data-models.html">Data models lesson</a></div><label class="done-toggle"><input type="checkbox" data-step-box="apps"> Done</label></div>
       </li>
@@ -465,7 +471,7 @@ python scripts/verify_site.py --url https://your-site.onrender.com</code></pre>
     <div class="scroll"><table>
       <tr><th>Time</th><td>A live site in about an hour. Google sign-in, email, domain, AI and backups take minutes each, at your pace.</td></tr>
       <tr><th>Cost</th><td>Hosting about <strong>$7.25 a month</strong> on Render; a domain about $10&ndash;15 a year. Your AI engine: GitHub Copilot and Claude both have plans with limited free use, and a long guided build usually needs a <strong>paid plan</strong> (check yours before you start). Resend, Google and GitHub free tiers are enough to start; OpenAI is pay-as-you-go <strong>and capped</strong>.</td></tr>
-      <tr><th>Your part</th><td>Opening accounts, adding a card, clicking consent screens, creating DNS records, and deciding what your site is for. Never pasting a secret into a chat.</td></tr>
+      <tr><th>Your part</th><td>Opening accounts, adding a card, clicking consent screens, copying address settings at a domain shop, and deciding what your site is for. Never pasting a secret into a chat.</td></tr>
       <tr><th>Its part</th><td>Code, configuration, tests, deploys, logs, backups, documentation, and explaining it as it goes.</td></tr>
       <tr><th>Not magic</th><td>The first deploy can hit a snag; every platform does. The repo records 30 known traps and a debugging routine, and your assistant reads the logs and fixes things in front of you.</td></tr>
       <tr><th>Not for</th><td>Sites with strict compliance needs (payments, medical data, children&rsquo;s data) without proper advice. This is a solid, privacy-minded foundation, not a legal review.</td></tr>
@@ -477,13 +483,47 @@ python scripts/verify_site.py --url https://your-site.onrender.com</code></pre>
 <section id="faq">
   <div class="wrap">
     <h2>Questions</h2>
-    <details><summary>Do I need to install Python myself?</summary><p>No. You install Git, VS Code and an AI engine. The chat checks your computer and installs Python and the GitHub CLI itself (without admin rights where possible), and fixes problems it finds.</p></details>
+    <details><summary>Do I need to install Python myself?</summary><p>No. You install Git, VS Code and an AI engine. The chat checks your computer and installs Python and GitHub&rsquo;s command-line tool itself (without admin rights where possible), and fixes problems it finds.</p></details>
     <details><summary>Do I need to know how to code?</summary><p>No. You need to know what you want and be willing to answer questions. You will pick up the vocabulary as you go, and the tutorial makes it faster.</p></details>
-    <details><summary>Which AI assistants work?</summary><p>Claude Code and GitHub Copilot (agent mode in VS Code). The playbooks ship twice, in <code>.claude/skills/</code> and <code>.github/skills/</code>, and are kept identical by a script and a test. <code>AGENTS.md</code> serves other tools.</p></details>
+    <details><summary>Which AI assistants work?</summary><p>Claude Code and GitHub Copilot (in Agent mode, which lets it run commands and edit files). The playbooks (step-by-step instructions the AI follows) ship twice, in <code>.claude/skills/</code> and <code>.github/skills/</code>, and are kept identical by a script and a test. <code>AGENTS.md</code> serves other tools.</p></details>
     <details><summary>What if something breaks?</summary><p>The assistant reads the deploy logs first, as the playbook requires, then makes one targeted fix. There is a rollback guide, a backup and restore guide, and a list of 30 traps that already bit a real production site.</p></details>
     <details><summary>Is my code and data private?</summary><p>Your site repo is created <strong>private</strong>. Secrets live in a git-ignored file and in Render, never in the code, and the repo scans every commit for keys. Only this blueprint is public.</p></details>
     <details><summary>Can I disagree with the privacy advice?</summary><p>Yes. It is advice, not a gate. Your assistant explains why it recommends something and how serious it thinks it is; if you choose differently it records your decision and reason and helps you do it as safely as possible. It is not legal advice, and for children&rsquo;s data you should talk to a lawyer.</p></details>
     <details><summary>Can I use a different host or database?</summary><p>The blueprint is built for Render and SQLite on a persistent disk, which keeps it simple and cheap. Moving to Postgres or another host is possible later and is on the roadmap.</p></details>
+  </div>
+</section>
+
+<section id="words" class="alt">
+  <div class="wrap">
+    <h2>Words you&rsquo;ll meet</h2>
+    <p class="sub">Plain meanings, so nothing on the way sounds like a secret code. Your assistant uses the same words, and you can always ask it &ldquo;what does that mean?&rdquo;.</p>
+    <dl class="glossary">
+      <div class="term-def" id="w-github"><dt>GitHub</dt><dd>a website that stores code. Your site's code will live there, privately.</dd></div>
+      <div class="term-def" id="w-repository"><dt>Repository (&ldquo;repo&rdquo;)</dt><dd>one project's folder on GitHub, with the full history of every change.</dd></div>
+      <div class="term-def" id="w-git"><dt>Git</dt><dd>the program on your computer that copies projects from GitHub and records every change you make.</dd></div>
+      <div class="term-def" id="w-clone"><dt>Clone</dt><dd>make a copy of a repository on your own computer.</dd></div>
+      <div class="term-def" id="w-vscode"><dt>VS Code</dt><dd>the editor: the program where you see your project's files and talk to the AI.</dd></div>
+      <div class="term-def" id="w-extension"><dt>Extension</dt><dd>an add-on you install inside VS Code, like GitHub Copilot or Claude Code.</dd></div>
+      <div class="term-def" id="w-agent"><dt>Agent mode</dt><dd>the Copilot setting that lets the chat <em>do</em> things (run commands, edit files), not just answer.</dd></div>
+      <div class="term-def" id="w-terminal"><dt>Terminal</dt><dd>a panel where you type commands instead of clicking. In VS Code: Terminal &rarr; New Terminal.</dd></div>
+      <div class="term-def" id="w-command"><dt>Command</dt><dd>one typed instruction. You run it by pressing Enter, then wait until the terminal is ready again.</dd></div>
+      <div class="term-def" id="w-twofactor"><dt>Two-factor sign-in (2FA)</dt><dd>signing in needs your password <em>and</em> a one-time code from your phone, so a stolen password alone is not enough.</dd></div>
+      <div class="term-def" id="w-python"><dt>Python</dt><dd>the programming language your site is written in. The chat installs it for you.</dd></div>
+      <div class="term-def" id="w-ghcli"><dt>GitHub command-line tool (&ldquo;GitHub CLI&rdquo;)</dt><dd>a small program that lets the chat talk to GitHub for you, for example to create your private repository. The chat installs it; you log in once in the browser.</dd></div>
+      <div class="term-def" id="w-private"><dt>Private vs public</dt><dd>private: only you can see it. Your site's code is private. This blueprint is public so anyone can start from it.</dd></div>
+      <div class="term-def" id="w-render"><dt>Render</dt><dd>the hosting company whose computers run your site on the internet, about $7.25 a month.</dd></div>
+      <div class="term-def" id="w-blueprint"><dt>Blueprint (on Render)</dt><dd>Render's one-click setup: it reads a settings file in your project and creates everything your site needs.</dd></div>
+      <div class="term-def" id="w-deploy"><dt>Deploy, go live</dt><dd>put the latest version of your site on the internet. Here it happens when you say so.</dd></div>
+      <div class="term-def" id="w-logs"><dt>Logs</dt><dd>the server's diary of what happened. When something fails, the chat reads them before changing anything.</dd></div>
+      <div class="term-def" id="w-domain"><dt>Domain</dt><dd>your own address, like <code>your-name.com</code>, rented yearly from a domain shop (a &ldquo;registrar&rdquo;).</dd></div>
+      <div class="term-def" id="w-dns"><dt>DNS records</dt><dd>a few settings at the domain shop that point your address at Render. You copy them from Render.</dd></div>
+      <div class="term-def" id="w-https"><dt>HTTPS, the padlock</dt><dd>the encrypted connection that shows a padlock in the browser. Render sets it up for you.</dd></div>
+      <div class="term-def" id="w-secret"><dt>Secret, key</dt><dd>a password your site uses to talk to a service (Render, Google, OpenAI). It goes in a private file or in Render's settings, never in the chat.</dd></div>
+      <div class="term-def" id="w-oauth"><dt>Google sign-in key (&ldquo;OAuth client&rdquo;)</dt><dd>what you create in Google's console so your site can offer &ldquo;Continue with Google&rdquo;.</dd></div>
+      <div class="term-def" id="w-bucket"><dt>Bucket</dt><dd>a storage space in Google Cloud. Your offsite backup copies go there.</dd></div>
+      <div class="term-def" id="w-datamodel"><dt>Data model</dt><dd>the plan of what your site remembers and how those things connect. You approve it before anything is built.</dd></div>
+      <div class="term-def" id="w-playbook"><dt>Playbooks (&ldquo;skills&rdquo;)</dt><dd>step-by-step instructions inside this project that the AI follows, so it builds your site the same careful way every time.</dd></div>
+    </dl>
   </div>
 </section>
 

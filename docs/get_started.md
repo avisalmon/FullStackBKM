@@ -1,8 +1,8 @@
 # Get started: from zero to a chat that guides you
 
 You do this part once, by yourself. Its only goal is a **working editor with an AI chat inside it, opened on your own copy of this project**.
-From the moment you type *"Tell me what to do"* in that chat, the assistant takes over: it installs the rest (Python, the GitHub CLI, project tools),
-creates your private GitHub repository, fixes problems, and guides you step by step. You never have to come back to this page.
+From the moment you type *"Tell me what to do"* in that chat, the assistant takes over: it installs the rest (Python, GitHub's command-line tool, project tools),
+creates your private GitHub repository (your project's folder on GitHub), fixes problems, and guides you step by step. You never have to come back to this page.
 
 Time: 20-40 minutes, mostly downloads and sign-ups. Windows is described first; macOS and Linux notes are in each step.
 
@@ -15,7 +15,12 @@ Time: 20-40 minutes, mostly downloads and sign-ups. Windows is described first; 
 GitHub is where your site's code will live, privately.
 
 1. Go to https://github.com/signup and create an account. Pick a username you won't mind seeing in your site's address.
-2. Turn on **two-factor authentication** (GitHub -> your picture -> Settings -> Password and authentication). Use an authenticator app or a passkey.
+2. Turn on **two-factor sign-in** (GitHub calls it "two-factor authentication", often written 2FA). It means signing in needs your password **and** a one-time code
+   from your phone, so someone who steals your password still can't get in. This matters: your account will hold your site's code.
+   * GitHub -> click your picture (top right) -> **Settings** -> **Password and authentication** -> **Enable two-factor authentication**.
+   * Choose an **authenticator app** on your phone (for example Google Authenticator or Microsoft Authenticator): scan the square code GitHub shows, then type the 6-digit code the app shows.
+     (A **passkey** is a newer option that uses your phone's or computer's fingerprint/face/PIN instead of a code; either is fine.)
+   * GitHub then shows **recovery codes**. Save them somewhere safe (a password manager, or printed): they are how you get back in if you lose your phone.
 
 *You know it worked when* you can sign in at https://github.com.
 
@@ -32,7 +37,7 @@ You need a chat that can **read your project and run commands for you**. Two opt
 
 ### Option A: GitHub Copilot
 
-1. In VS Code open Extensions (**Ctrl+Shift+X**), search **GitHub Copilot**, click **Install**.
+1. In VS Code open Extensions, the add-ons store (**Ctrl+Shift+X**, or the icon of four squares on the left), search **GitHub Copilot**, click **Install**.
 2. Click **Sign in** when it asks, and sign in with the GitHub account from step 1.
 3. Plan: Copilot has a free tier with limited monthly use; a long guided build usually needs a paid plan. Check yours at https://github.com/settings/copilot.
 4. Open the chat (**Ctrl+Alt+I**, or the chat icon at the top of the window) and set the mode to **Agent** (the dropdown in the chat box). Agent mode is what lets it run commands and edit files.
@@ -127,7 +132,7 @@ email, your own domain, AI features, backups, cost alerts). It tells you exactly
 | Symptom | Fix |
 |---|---|
 | The chat can't run commands or edit files | Copilot: switch the mode to **Agent**. Claude Code: make sure the project folder is open and trusted |
-| `git` is not recognised | Close VS Code completely and open it again after installing Git, so it sees the new PATH |
+| `git` is not recognised | Close VS Code completely and open it again after installing Git, so it notices the newly installed program |
 | `code` is not recognised (step 5) | Use **File -> Open Folder** -> `C:\sites\my-site` instead |
 | `mkdir` says the folder already exists | That's fine: carry on with `cd C:\sites` |
 | `git clone` says the destination already exists | Pick another name instead of `my-site`, or delete the old folder first |
@@ -135,5 +140,37 @@ email, your own domain, AI features, backups, cost alerts). It tells you exactly
 | You use another editor, or only a terminal | The playbooks work in any assistant that reads `AGENTS.md`; open the folder there and say the same sentence |
 
 **Already comfortable with GitHub?** You can instead click **Use this template** on the project's GitHub page, create a **private** repository, and clone *that*. The assistant handles both starting points.
+
+## Words you'll meet
+
+Plain meanings, so nothing on the way sounds like a secret code. You can always ask the chat *"what does that mean?"*.
+
+| Word | Meaning |
+|---|---|
+| **GitHub** | a website that stores code. Your site's code will live there, privately. |
+| **Repository ("repo")** | one project's folder on GitHub, with the full history of every change. |
+| **Git** | the program on your computer that copies projects from GitHub and records every change you make. |
+| **Clone** | make a copy of a repository on your own computer. |
+| **VS Code** | the editor: the program where you see your project's files and talk to the AI. |
+| **Extension** | an add-on you install inside VS Code, like GitHub Copilot or Claude Code. |
+| **Agent mode** | the Copilot setting that lets the chat *do* things (run commands, edit files), not just answer. |
+| **Terminal** | a panel where you type commands instead of clicking. In VS Code: Terminal -> New Terminal. |
+| **Command** | one typed instruction. You run it by pressing Enter, then wait until the terminal is ready again. |
+| **Two-factor sign-in (2FA)** | signing in needs your password *and* a one-time code from your phone, so a stolen password alone is not enough. |
+| **Python** | the programming language your site is written in. The chat installs it for you. |
+| **GitHub command-line tool ("GitHub CLI")** | a small program that lets the chat talk to GitHub for you, for example to create your private repository. The chat installs it; you log in once in the browser. |
+| **Private vs public** | private: only you can see it. Your site's code is private. This blueprint is public so anyone can start from it. |
+| **Render** | the hosting company whose computers run your site on the internet, about $7.25 a month. |
+| **Blueprint (on Render)** | Render's one-click setup: it reads a settings file in your project and creates everything your site needs. |
+| **Deploy, go live** | put the latest version of your site on the internet. Here it happens when you say so. |
+| **Logs** | the server's diary of what happened. When something fails, the chat reads them before changing anything. |
+| **Domain** | your own address, like `your-name.com`, rented yearly from a domain shop (a "registrar"). |
+| **DNS records** | a few settings at the domain shop that point your address at Render. You copy them from Render. |
+| **HTTPS, the padlock** | the encrypted connection that shows a padlock in the browser. Render sets it up for you. |
+| **Secret, key** | a password your site uses to talk to a service (Render, Google, OpenAI). It goes in a private file or in Render's settings, never in the chat. |
+| **Google sign-in key ("OAuth client")** | what you create in Google's console so your site can offer "Continue with Google". |
+| **Bucket** | a storage space in Google Cloud. Your offsite backup copies go there. |
+| **Data model** | the plan of what your site remembers and how those things connect. You approve it before anything is built. |
+| **Playbooks ("skills")** | step-by-step instructions inside this project that the AI follows, so it builds your site the same careful way every time. |
 
 When the chat answers *"Tell me what to do"*, stop reading this page. The assistant has it from here.

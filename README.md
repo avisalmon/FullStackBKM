@@ -67,7 +67,7 @@ You do a few things once; after that the chat guides you and does the work.
 **2. Get a working editor with an AI chat (once, 20-40 minutes).** Every click is in **[docs/get_started.md](docs/get_started.md)**, with a
 "you know it worked when" check at each step. In short:
 
-* a free [GitHub](https://github.com/signup) account (turn on two-factor authentication),
+* a free [GitHub](https://github.com/signup) account, with two-factor sign-in on (a code from your phone as well as your password),
 * [VS Code](https://code.visualstudio.com), the editor,
 * an AI chat inside VS Code: **GitHub Copilot** (Agent mode) **or** **Claude Code**. Sign in and type `hello`: when it answers, your editor works.
 * [Git](https://git-scm.com/downloads), the tool that copies the project to your computer (reopen VS Code afterwards).
@@ -93,11 +93,12 @@ and tells you exactly what to click whenever a step needs *you*. Come back any d
 
 | You do (once) | The chat does (for you) |
 |---|---|
-| Create a GitHub account; install Git and VS Code | Installs Python and the GitHub CLI, fixes PATH problems, builds the project environment |
+| Create a GitHub account; install Git and VS Code | Installs Python and GitHub's command-line tool, fixes "command not found" problems, builds the project |
 | Install and sign in to Copilot or Claude Code | Interviews you, writes the plan and the data model with you, builds the site, runs the tests |
 | Log in to GitHub once in the browser; click through accounts that only you can open (Render, Google, Resend, OpenAI, a domain registrar) and add a card | Creates your private GitHub repo, deploys, reads the logs, sets the keys without you pasting them, sets up backups and cost alerts |
 | Decide what your site is for and what to collect | Teaches you as it goes, reviews each screen, checks your work |
 
+New to a word (repository, terminal, deploy, DNS...)? The setup guide ends with **Words you'll meet**, in plain language.
 The whole journey, phase by phase and who does what, is in [docs/new_site_checklist.md](docs/new_site_checklist.md).
 
 ## How you know you did it right
