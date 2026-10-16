@@ -3,7 +3,7 @@
 ### Go from "I have an idea" to a real, live, safe website, with Claude building it beside you.
 
 <!-- last-updated:start -->
-**Last updated 16 October 2026** · 13 new lessons · [See what's new](docs/lessons_log.md)
+**Last updated 16 October 2026** · 14 new lessons · [See what's new](docs/lessons_log.md)
 <!-- last-updated:end -->
 
 ---
@@ -93,7 +93,7 @@ A new VS Code window opens on your copy; click **Yes, I trust the authors**. Thi
 > **Tell me what to do**
 
 **5. Follow the chat.** It checks your computer and **installs what is missing itself** (Python, the GitHub CLI, the project's tools), asks what your site is for, builds it with you,
-and tells you exactly what to click whenever a step needs *you*. Come back any day, say the same sentence, and it resumes where you stopped.
+and tells you exactly what to click whenever a step needs *you*. Come back any day, say the same sentence, and it resumes where you stopped, after first pulling in any improvements to the blueprint (safely, and it tells you what changed).
 
 | You do (once) | The chat does (for you) |
 |---|---|

@@ -28,6 +28,9 @@ The owner reached you by getting an editor with an AI chat open on their private
 
 **Every time you are invoked, orient first (do this before anything else):**
 
+0. **Check GitHub for updates and pull them in when safe** (CLAUDE.md rule 0): `python scripts/check_updates.py` (env Python if it exists; before Python is installed,
+   `git fetch --all` and `git pull --ff-only` on a clean folder). Tell the owner in one plain sentence what arrived, if anything. If playbooks changed, **re-read
+   this skill and `CLAUDE.md` before continuing**: the steps below may have improved.
 1. Read [docs/new_site_checklist.md](../../../docs/new_site_checklist.md), `docs/spec.md`, `docs/backlog.md` and `docs/privacy_decisions.md`, and look at `git status` / `git log -5`.
 2. **Fresh start** (no ticked boxes, `docs/spec.md` still a template): greet them in two sentences, show the journey in six lines (set up the computer; your idea; first working site; private repo; go live; extras),
    say you will do everything you can yourself and tell them exactly what to click when it needs *them*, then go to Phase 0.

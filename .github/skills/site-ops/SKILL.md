@@ -4,7 +4,7 @@ description: >
   Day-to-day operation of the live site: read logs, check deploy status, trigger a backup now, restore, see what the site costs,
   change an environment variable, roll back a bad deploy, rotate a leaked secret, update dependencies, check the site is healthy.
   TRIGGER: "check the logs", "is the site up", "back up now", "restore the database", "how much is this costing", "costs",
-  "roll back", "revert the deploy", "change an env var", "rotate the key", "update dependencies", "site is down", "site is slow".
+  "roll back", "revert the deploy", "change an env var", "rotate the key", "update dependencies", "site is down", "site is slow", "check for updates", "any updates", "pull the latest", "update the blueprint".
 ---
 
 # Operating the live site
@@ -23,6 +23,7 @@ production (env vars, deploys, restores, pushes) needs the owner's go-ahead firs
 | "Roll back" | [rollback.md](../../../docs/procedures/rollback.md): `git revert`, push (with go-ahead); data problems go to restore |
 | "Change a setting" | `render_api.py env-set KEY --from-env NAME` or `--prompt`; remind them it redeploys; update `docs/procedures/env_vars.md` + `.env.example` if it's new |
 | "I think a key leaked" | [security.md](../../../docs/security.md) "If you suspect a leak": rotate at the provider, update Render and `.env`, check usage logs |
+| "Get the latest", "any updates?", "update the blueprint" | `python scripts/check_updates.py` (also done automatically at the start of every session): pulls blueprint and own-repo updates when safe, explains what arrived; then re-read changed skills, reinstall deps, `migrate`, `pytest -q`. Pushing the result is still the owner's call (it deploys) |
 | "Update dependencies" | Merge Dependabot PRs only with green CI; locally `pip install -r requirements-dev.txt`, `pytest -q`, `manage.py check --deploy` with `DEBUG=False` and a throwaway `SECRET_KEY` |
 | "Site is slow / 502" | A 502 right after a deploy is usually the instance starting; otherwise logs. SQLite is single-writer: look for long requests (AI calls) and consider moving them to a command |
 

@@ -6,6 +6,9 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-16
 
+- **Every session starts by checking GitHub for blueprint updates, and pulls them in when it is safe.** Unsaved work
+  blocks the pull, a conflict is undone rather than left half-done, and it never pushes; then the AI says what arrived
+  and re-reads any playbooks that changed. [CLAUDE.md, rule 0](../CLAUDE.md) · [scripts/check_updates.py](../scripts/check_updates.py)
 - **When several AI sessions share one folder, a commit is a release.** Another session's push can ship it.
   [mistake 23](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Lessons get a post-mortem every time, not when someone remembers.** The triggers are written down.

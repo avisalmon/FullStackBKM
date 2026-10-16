@@ -119,7 +119,7 @@ Open the chat again in this new window (**Agent** mode for Copilot; the Claude C
 and walks you through everything: the plan, the first working site on your computer, your private GitHub repository, going live on Render, and the optional extras (Google sign-in,
 email, your own domain, AI features, backups, cost alerts). It tells you exactly what to click whenever a step needs *you*. You never need to paste a password or key into the chat.
 
-**Coming back later?** Open the project in VS Code (**File -> Open Recent**), open the chat, and say *"Tell me what to do"* again. It reads the checklist and continues where you stopped.
+**Coming back later?** Open the project in VS Code (**File -> Open Recent**), open the chat, and say *"Tell me what to do"* again. It first checks GitHub for improvements to the project and pulls them in when that is safe (telling you what changed), then reads the checklist and continues where you stopped.
 
 ## Things you will be asked to approve
 

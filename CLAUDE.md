@@ -24,6 +24,14 @@ The map of all documentation is [docs/README.md](docs/README.md).
 
 ## Standing rules (apply to everything)
 
+0. **Start every session by checking GitHub for updates, and pull them in when it is safe.** Before anything else, run
+   `python scripts/check_updates.py` (with the env's Python once it exists). It fetches the **blueprint** (the remote `origin` right after cloning,
+   `blueprint` once the owner's private repo exists) and the owner's **own** repository, and pulls only when the folder has no unsaved changes and the update
+   applies cleanly; a conflict is undone and reported, never left half-done; it never pushes. Then tell the owner in one or two plain sentences what arrived
+   ("the setup guide got clearer; nothing you need to do"), and act on what the script says: **re-read `CLAUDE.md` and your skills if they changed**,
+   reinstall dependencies, run `migrate`, run the tests. Unsaved changes? Commit them first (with a clear message), then run it again. Conflicts? Resolve them
+   with the owner: keep their content, take the update's fixes. No Python yet (very first session)? Do the same with git directly: `git fetch --all`, then
+   `git pull --ff-only` if `git status` is clean. Offline? Say so and carry on.
 1. **The virtualenv is the folder `env/`**, always: not `.env` (that is the git-ignored variables file), not `venv`/`.venv`. Run Python through it:
    Windows `.\env\Scripts\python.exe` / `.\env\Scripts\Activate.ps1; <cmd>`; macOS/Linux `env/bin/python`. Shell state does not persist between
    commands, so activate or call the interpreter explicitly in every command.
@@ -55,6 +63,6 @@ The map of all documentation is [docs/README.md](docs/README.md).
 
 `mysite/` project settings and URLs · `core/` site-level pages, health check, AI helper, costs, GCS, backup & ops commands ·
 `tutorial/` the interactive lessons · `notes/` the **example app** (copy its shape; removable) · `templates/`, `static/` · `tests/` · `docs/` · `scripts/`
-(`init_site.py`, `render_api.py`, `verify_site.py`) · `render.yaml`, `build.sh` (deploy) · `.github/workflows/` (CI, scheduled tasks) · `.claude/skills/` (your playbooks).
+(`init_site.py`, `render_api.py`, `verify_site.py`, `check_updates.py`) · `render.yaml`, `build.sh` (deploy) · `.github/workflows/` (CI, scheduled tasks) · `.claude/skills/` (your playbooks).
 
 The index page `index.html` and the GitHub Pages setup describe the *blueprint*; a site owner may replace or delete them.
