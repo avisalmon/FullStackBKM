@@ -1,7 +1,7 @@
 # Runtime dependencies - what Render installs (build.sh runs `pip install -r requirements.txt`).
 # Dev/test tooling lives in requirements-dev.txt so the production image stays small.
 #
-# Ranges follow the reference production site (babook.co.il). Django is pinned to the
+# Ranges follow the production site this blueprint came from. Django is pinned to the
 # 5.2 LTS line on purpose: allauth, DRF and WhiteNoise are all proven against it.
 Django>=5.2,<5.3
 djangorestframework>=3.15,<3.17

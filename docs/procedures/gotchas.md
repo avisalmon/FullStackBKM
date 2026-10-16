@@ -1,8 +1,8 @@
 # Gotchas - every one proven in practice
 
 Each row is a failure that really happened building a production Django site on Render
-(numbers 1-24 are from the reference site, babook.co.il; 25+ were found building this
-blueprint). Code comments and tests refer to these numbers, so do not renumber.
+(numbers 1-24 are from the production site this blueprint was distilled from; 25+ were found
+building the blueprint itself). Code comments and tests refer to these numbers, so do not renumber.
 
 | # | Gotcha | Fix |
 |---|--------|-----|
