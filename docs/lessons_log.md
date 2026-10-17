@@ -4,6 +4,11 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-17
+
+- **A pipe hides a failure.** Don't chain an action after `tests | tail`; act on the test command's own result.
+  [mistake 24](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-10-16
 
 - **Every session starts by checking GitHub for blueprint updates, and pulls them in when it is safe.** Unsaved work

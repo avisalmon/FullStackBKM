@@ -271,4 +271,10 @@ repeating it.
     you would ship right now, after its own tests pass; whoever pushes runs the full test run first and owns whatever
     it finds, including other sessions' work.
 
+24. **A pipe hides a failure.** `pytest tests/x*.py | tail -1 && git commit ...` committed even though tests had
+    failed: a pipe's exit status is its *last* command's, and `tail` succeeded. The same line threw away the names of
+    the failures, and the file pattern matched nothing, so "run these tests" quietly became "run every test" (three
+    hours). *Rule:* never chain an action after a piped test run; write the output to a file and act on the test
+    command's own exit code; check that a file pattern actually matched something before passing it on.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
