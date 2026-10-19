@@ -277,4 +277,22 @@ repeating it.
     hours). *Rule:* never chain an action after a piped test run; write the output to a file and act on the test
     command's own exit code; check that a file pattern actually matched something before passing it on.
 
+25. **Nothing that runs at import may touch the persistent disk.** A storage module created its media folder when it
+    was imported. The build step imports the code too, and the build has no persistent disk mounted, so the deploy
+    failed. *Rule:* importing code never writes files or folders; create them the first time they are used, and treat
+    a missing secret or a bad key as "fall back and log", never as a crash at import.
+
+26. **Something added to the shared page frame needs the whole app's tests, not the sprint's.** A notification bell in
+    the base template counted unread items for the signed-in person. On the one request that deletes the person's
+    profile, the page then rendered with a profile that no longer existed, and crashed. The sprint's own tests never
+    deleted anyone; an older test did. *Rule:* anything in the shared layout must survive every state of the person
+    (signed out, not set up yet, just deleted on this request), and adding to it means running every test of the app
+    before calling the sprint done.
+
+27. **Colours made in code escape the colour checks.** The design tokens were checked for contrast, but a palette of
+    book-spine colours lived in Python as data. It looked fine as large spines; a new screen used the same pairs for
+    small text and two of them were unreadable (3.6:1). The browser check caught it only because that screen happened
+    to show those pairs. *Rule:* every colour pair the code generates gets a unit test over the whole list, not only
+    the pairs some screen happens to render.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

@@ -4,6 +4,15 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-19
+
+- **Importing code never touches the persistent disk.** The build has no disk mounted. Create folders on first use.
+  [mistake 25](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Adding to the shared page frame means running every test of the app**, and it must survive every state of the
+  person, including "just deleted". [mistake 26](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Colour pairs made in code need their own contrast test**, over the whole list.
+  [mistake 27](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-10-17
 
 - **A pipe hides a failure.** Don't chain an action after `tests | tail`; act on the test command's own result.
