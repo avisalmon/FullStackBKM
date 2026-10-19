@@ -295,4 +295,16 @@ repeating it.
     to show those pairs. *Rule:* every colour pair the code generates gets a unit test over the whole list, not only
     the pairs some screen happens to render.
 
+28. **A count after a filter on the same relation counts the filtered rows.** In Django,
+    `filter(members__profile=me).annotate(n=Count("members"))` shares one join between the filter and the count, so
+    a group of three showed "1 members". The test group had one member, so the wrong number equalled the right one.
+    *Rule:* annotate before filtering on the same relation, or filter with a subquery (`pk__in=...`), and test with
+    at least two rows on that relation so the wrong number can show.
+
+29. **Read the numbers on a screenshot against the data you seeded.** The browser check knows tap sizes, contrast
+    and labels; it does not know the group you seeded has two members and three books. Two wrong numbers (the count
+    above, and "nothing offered" on a page whose owner had offered two) were visible only to a person comparing the
+    picture with the seed. *Rule:* when you look at a screenshot at the end of a sprint, read every number and every
+    empty state on it against what the seeded world contains.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

@@ -12,6 +12,10 @@ an AI engineer, and most of them came from something going wrong.
   person, including "just deleted". [mistake 26](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Colour pairs made in code need their own contrast test**, over the whole list.
   [mistake 27](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **A count after a filter on the same relation is a count of the filtered rows.** Annotate first, test with two.
+  [mistake 28](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Read every number on a screenshot against the seeded data.** The browser check sees shape, not meaning.
+  [mistake 29](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
 ## 2026-10-17
 
