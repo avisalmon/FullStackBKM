@@ -3,7 +3,7 @@
 ### Go from "I have an idea" to a real, live, safe website, with Claude building it beside you.
 
 <!-- last-updated:start -->
-**Last updated 19 October 2026** · 5 new lessons · [See what's new](docs/lessons_log.md)
+**Last updated 19 October 2026** · 6 new lessons · [See what's new](docs/lessons_log.md)
 <!-- last-updated:end -->
 
 ---

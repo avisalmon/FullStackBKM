@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-19
 
+- **Background work a person waits on must heal itself, end in a visible state, and keep reminding.** Every deploy
+  is a restart. [mistake 30](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Importing code never touches the persistent disk.** The build has no disk mounted. Create folders on first use.
   [mistake 25](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Adding to the shared page frame means running every test of the app**, and it must survive every state of the

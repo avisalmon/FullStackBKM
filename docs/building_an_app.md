@@ -307,4 +307,13 @@ repeating it.
     picture with the seed. *Rule:* when you look at a screenshot at the end of a sprint, read every number and every
     empty state on it against what the seeded world contains.
 
+30. **Background work a person waits on must heal itself and always say where it is.** A shelf photo was read on a
+    background thread inside the web process. Two deploys that day restarted the process, the threads died, and the
+    scans sat as "reading" for good: a recovery command existed, but nothing was scheduled to call it, and nothing on
+    the page said the work was lost. The owner found it by using the app ("it disappeared and nothing is waiting for
+    me"). *Rule:* any job a person waits for (1) is recovered from the person's own page visits, not only from a
+    scheduler, with a time limit and a cap on retries; (2) always ends in a state the person can see, including
+    "failed, try again"; (3) leaves its result somewhere that keeps reminding them until they deal with it. And every
+    deploy is a restart: test what happens to work that was in flight.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
