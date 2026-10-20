@@ -316,4 +316,10 @@ repeating it.
     "failed, try again"; (3) leaves its result somewhere that keeps reminding them until they deal with it. And every
     deploy is a restart: test what happens to work that was in flight.
 
+31. **A picker must offer every value the rest of the system stores.** A "what do you like" survey listed genres
+    from a tree but filtered to the top level, so it offered six broad headings while the books, the
+    recommendations and the saved answers all used the forty specific genres underneath. A saved "fantasy" could
+    neither be chosen nor seen. The tests built answers in code, never through the form. *Rule:* for every choice
+    list, test that it offers every value the stored data can hold, and that a saved answer shows as chosen.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
