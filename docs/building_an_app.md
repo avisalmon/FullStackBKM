@@ -322,4 +322,12 @@ repeating it.
     neither be chosen nor seen. The tests built answers in code, never through the form. *Rule:* for every choice
     list, test that it offers every value the stored data can hold, and that a saved answer shows as chosen.
 
+32. **A setting that limits cost is not a limit until you have measured it.** A web-search feature was priced per
+    search, so the code passed the AI API's "at most two tool calls" setting and budgeted on two. One real call ran
+    three searches anyway: the setting did not bound that tool. Asking in the prompt for one search was obeyed once in
+    three and then lost the data that mattered. The tests used a fake client, which obeys whatever the code assumes.
+    *Rule:* before a cost estimate goes to the owner, make one real call and read the actual count and bill from the
+    response; budget on the measured number, keep a hard daily cap in your own code, and never rely on the vendor's
+    knob alone.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
