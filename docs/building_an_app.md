@@ -330,4 +330,12 @@ repeating it.
     response; budget on the measured number, keep a hard daily cap in your own code, and never rely on the vendor's
     knob alone.
 
+33. **On a phone, the content comes first; options fold.** Every list screen opened with a title, an explaining
+    sentence, a row of five buttons and a four-field filter form. On the library screen not one book was visible
+    without scrolling. The browser checks passed: nothing overflowed and every button was big enough to tap. They
+    measured fit, not priority. The owner found it on his phone. *Rule:* on a phone, the main content of a list screen
+    starts in the top half of the first screen (make it a test that measures the first row's position); one main
+    action as an icon, the rest in a menu; search and filters behind one slim line that opens on tap and stays open
+    when a filter is active; list rows of two lines, not cards; explaining sentences hidden on small screens.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

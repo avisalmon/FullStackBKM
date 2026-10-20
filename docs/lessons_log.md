@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-20
 
+- **On a phone, the content comes first and options fold.** Test that the first list row starts in the top half of
+  the screen. [mistake 33](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A setting that limits cost is not a limit until measured.** One real call, read the bill, budget on that, and
   keep your own daily cap. [mistake 32](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A picker must offer every value the stored data can hold**, and show a saved answer as chosen.
