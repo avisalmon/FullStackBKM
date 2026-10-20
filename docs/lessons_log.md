@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-20
 
+- **A real key on the developer's machine reaches the tests.** Blank paid keys and background work in one shared
+  test fixture. [mistake 34](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **On a phone, the content comes first and options fold.** Test that the first list row starts in the top half of
   the screen. [mistake 33](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A setting that limits cost is not a limit until measured.** One real call, read the bill, budget on that, and

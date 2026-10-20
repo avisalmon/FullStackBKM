@@ -338,4 +338,11 @@ repeating it.
     action as an icon, the rest in a menu; search and filters behind one slim line that opens on tap and stays open
     when a filter is active; list rows of two lines, not cards; explaining sentences hidden on small screens.
 
+34. **A real key in the developer's environment reaches the tests.** The AI key was set on the developer's machine,
+    and the app turns its paid features on whenever a key exists. Each test file was meant to clear it; the ones that
+    forgot could make real, billed calls, and the background threads those features start outlived browser tests and
+    locked the test database. *Rule:* one shared test fixture blanks every paid key and switches off background work
+    for all of the app's tests; a test that needs a key sets a fake one and replaces the client. Never rely on each
+    test file remembering.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
