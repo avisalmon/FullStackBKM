@@ -352,4 +352,13 @@ repeating it.
     browser test at phone size does what the person does, start to finish (type, tap, tap, see the result), and
     before shipping, walk it yourself with a realistic amount of data (forty books, not two).
 
+36. **Detail pages: one main action on top; everything else folds, showing its value.** After the list screens were
+    fixed, the detail pages still opened every form at once: one item's page was a single long form with every
+    setting, another had its review and correction forms open, the home page stacked five big buttons under a large
+    "0", and photo uploads showed the browser's raw "Choose File" box. It all worked; the owner called it "nice, not
+    amazing." *Rule:* a detail page opens with what the thing is and its one main action. Every other form folds
+    behind one line whose summary shows the current value, and opens by itself when it has an error or something
+    active. Never show a raw file input: use a big labelled button that sends as soon as a photo is chosen. A zero is
+    not a score: when there is nothing yet, say how to start.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
