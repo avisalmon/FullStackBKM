@@ -26,5 +26,11 @@ Source of truth: [docs/design_guide.md](../../../docs/design_guide.md) (includes
 width and put them in one image per stage. Ask of each column: does this person see something true and specific about *themselves*, and does every link open for them? This found
 seven real bugs in an app whose every feature had passing tests.
 
+**On a phone, the content comes first.** Look at the first screen of every list page at 390px and ask: can I see the
+things this page lists? If titles, explanations, button rows and filter forms push the list down, fold them: one main
+action as an icon, the rest in a "more" menu, search and filters behind one slim line that opens on tap, list rows of
+two lines rather than cards, explaining sentences hidden on small screens. Add a test that the first row starts in the
+top half of the phone screen. Fitting and being tappable is not the same as showing what matters.
+
 Name component classes after the component and prefix them with the app (collisions are silent). A class that styles nothing is silence, not an error. Tests that read HTML cannot see layout. Apply a principle everywhere it applies, not only where it was noticed.
 Teach as you go: one sentence of *why* per suggestion so the owner starts making these calls themselves ([site-mentor](../site-mentor/SKILL.md)).
