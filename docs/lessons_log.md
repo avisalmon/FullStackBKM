@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-20
 
+- **Test the task on a phone, not only the pages.** One browser test per flow does the whole job, with real-sized
+  data. [mistake 35](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A real key on the developer's machine reaches the tests.** Blank paid keys and background work in one shared
   test fixture. [mistake 34](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **On a phone, the content comes first and options fold.** Test that the first list row starts in the top half of

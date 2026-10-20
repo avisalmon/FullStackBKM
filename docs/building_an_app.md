@@ -345,4 +345,11 @@ repeating it.
     for all of the app's tests; a test that needs a key sets a fake one and replaces the client. Never rely on each
     test file remembering.
 
+35. **Test the task on a phone, not only the pages.** A "start reading" feature passed every page check: the start
+    page, the timer page and the summary each fitted, had labels and big enough buttons. The owner tried it on his
+    phone and could not use it: his books were in a long drop-down with no search, and choosing one led to a second
+    screen before any Start button appeared. No test had ever done the job itself. *Rule:* for every new flow, one
+    browser test at phone size does what the person does, start to finish (type, tap, tap, see the result), and
+    before shipping, walk it yourself with a realistic amount of data (forty books, not two).
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
