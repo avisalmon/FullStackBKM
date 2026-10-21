@@ -394,4 +394,11 @@ repeating it.
     phone that opens the keyboard); focus the likely first action instead, and when voice input is offered, put the
     microphone first.
 
+41. **Watch a deploy on the site, not by hammering an API.** A deploy check said "no deployment" for fifteen minutes.
+    The loop polled the GitHub Deployments API every 20 seconds without a token, ran through GitHub's 60 anonymous
+    requests an hour, and read the rate-limit error as an empty answer. Another session had also pushed on top, so
+    the deployment to watch belonged to a different commit anyway. *Rule:* confirm a deploy by asking the live site
+    for something only the new code has (a class in the CSS, a string in a script) every 20 to 30 seconds; use an
+    API at most once to find the deployment, and check every API answer for an error before reading it as a state.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
