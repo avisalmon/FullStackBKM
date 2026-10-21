@@ -409,4 +409,11 @@ repeating it.
     (language, sign out) to settings; and as a safety net set `html, body { overflow-x: clip }`, which, unlike
     `hidden`, does not break sticky headers.
 
+43. **A question that hides when the data is known never shows once automation fills the data.** The owner asked to
+    be asked how many pages a book has whenever he starts one. It was built to appear only when the catalogue did not
+    know; an automatic lookup had already filled a count, so he was never asked and could not correct a wrong count.
+    The tests passed because their books were blank. *Rule:* when the person asks to be asked, always ask, filled in
+    with what is known, and keep a different answer as theirs alone instead of overwriting shared data. Test such a
+    question with the data the automation would have filled, not only with blanks.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

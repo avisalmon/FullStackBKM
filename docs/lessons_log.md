@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-21
 
+- **When asked to ask, always ask, prefilled.** A question hidden when data exists never shows once automation fills
+  it. [mistake 43](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Test at the narrowest phones, not one convenient width.** 320, 360, 375 and 412, and the header alone.
   [mistake 42](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Watch a deploy on the site, not by hammering an API.** Poll the live site for a marker of the new code; an API
