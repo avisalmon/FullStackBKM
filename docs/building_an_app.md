@@ -378,4 +378,11 @@ repeating it.
     from the left; give any label that is a signed number or a range `dir="ltr"`; and check both on a right-to-left
     screenshot before shipping.
 
+39. **A ring drawn with a radial mask needs `closest-side`.** A progress ring passed its tests (the element was in
+    the page, its percentage and label were right) and was invisible on the screenshot. In CSS,
+    `radial-gradient(circle, ...)` sizes the circle to the box's farthest corner, about 1.41 times the radius, so a
+    mask stop at 90% falls outside the box and hides everything. Tests read the markup and the numbers, not what is
+    painted. *Rule:* rings and donuts made with a radial mask use `radial-gradient(circle closest-side, ...)` so the
+    percentages are of the real radius, and every new drawn shape is checked on a screenshot.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
