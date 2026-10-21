@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-21
 
+- **A timer counts only while its screen is in front; a sheet opens without the keyboard.** Pause on `pagehide`,
+  focus the likely first action. [mistake 40](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A ring drawn with a radial mask needs `closest-side`.** Otherwise the stops fall outside the box and nothing is
   drawn. [mistake 39](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **In a right-to-left language, check direction and signs by eye.** What is ahead comes from the left; signed

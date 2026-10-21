@@ -385,4 +385,13 @@ repeating it.
     painted. *Rule:* rings and donuts made with a radial mask use `radial-gradient(circle closest-side, ...)` so the
     percentages are of the real radius, and every new drawn shape is checked on a screenshot.
 
+40. **A timer counts only while its screen is in front; a sheet opens without the keyboard.** A reading timer kept
+    counting after the owner left the screen, and opening a "my thoughts" sheet popped the phone keyboard although he
+    meant to speak. Both followed the request to the letter and missed how a phone is actually held: put down, picked
+    up, switched away from, spoken to. *Rule:* a clock that measures a person's activity pauses when its screen is
+    hidden or left (`visibilitychange` and `pagehide`, with `navigator.sendBeacon` to tell the server) and resumes on
+    return, and the server subtracts the pauses. A sheet or dialog never focuses a text field when it opens (on a
+    phone that opens the keyboard); focus the likely first action instead, and when voice input is offered, put the
+    microphone first.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
