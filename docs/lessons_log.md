@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-21
 
+- **Test at the narrowest phones, not one convenient width.** 320, 360, 375 and 412, and the header alone.
+  [mistake 42](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Watch a deploy on the site, not by hammering an API.** Poll the live site for a marker of the new code; an API
   error is not a state. [mistake 41](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A timer counts only while its screen is in front; a sheet opens without the keyboard.** Pause on `pagehide`,

@@ -401,4 +401,12 @@ repeating it.
     for something only the new code has (a class in the CSS, a string in a script) every 20 to 30 seconds; use an
     API at most once to find the deployment, and check every API answer for an error before reading it as a state.
 
+42. **Test at the narrowest phones, not one convenient width.** On the owner's phone every page was a little wider
+    than the screen and slid left and right. All phone checks ran at 390px, where the header just fitted; it needed
+    about 380px, so on 360px and 375px phones (most Android phones, many iPhones) the whole page grew wider. The
+    header had gained one item at a time, and each passed at 390. *Rule:* run the phone checks at 320, 360, 375 and
+    412 as well, and measure the header on its own; keep a phone header to three or four items and move the rest
+    (language, sign out) to settings; and as a safety net set `html, body { overflow-x: clip }`, which, unlike
+    `hidden`, does not break sticky headers.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
