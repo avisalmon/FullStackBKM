@@ -369,4 +369,13 @@ repeating it.
     CSS, a grid column that holds a sideways-scrolling strip needs `minmax(0, 1fr)` and children with `min-width: 0`.
     And keep reading the screenshots: that is what caught it.
 
+38. **In a right-to-left language, check anything with a direction or a sign by eye.** A page-turning wheel passed
+    its browser tests (dragging forward raised the page number, dragging back stopped at the first page), and its
+    screenshot still showed two bugs: in Hebrew its ruler placed the pages ahead on the right, so a forward drag
+    pulled the next page away from the middle, and the "−1" button read "1−". Tests read values; they do not see
+    which way things move or where a minus sign lands in right-to-left text. *Rule:* lay out any widget with a
+    direction (ruler, slider, carousel, page turn) from the reader's side, so in Hebrew or Arabic what is ahead comes
+    from the left; give any label that is a signed number or a range `dir="ltr"`; and check both on a right-to-left
+    screenshot before shipping.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

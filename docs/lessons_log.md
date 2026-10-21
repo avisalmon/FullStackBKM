@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-21
 
+- **In a right-to-left language, check direction and signs by eye.** What is ahead comes from the left; signed
+  numbers get `dir="ltr"`. [mistake 38](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **On a phone, a too-wide page hides from an overflow check.** Pass the device width and check the document's own
   width too. [mistake 37](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
