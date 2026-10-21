@@ -361,4 +361,12 @@ repeating it.
     active. Never show a raw file input: use a big labelled button that sends as soon as a photo is chosen. A zero is
     not a score: when there is nothing yet, say how to start.
 
+37. **On a phone, a too-wide page hides from an overflow check.** A new page passed the browser check for "nothing
+    wider than the screen" at phone size, and its screenshot came out 536px wide on a 390px phone. A mobile browser
+    zooms out to fit a page that is too wide, and the page's measured width grows with it, so a check that compares
+    elements to that width compares the page to itself and never fails. *Rule:* give the overflow check the device's
+    real width and also fail when the whole document is wider than it (`document.documentElement.scrollWidth`). In
+    CSS, a grid column that holds a sideways-scrolling strip needs `minmax(0, 1fr)` and children with `min-width: 0`.
+    And keep reading the screenshots: that is what caught it.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

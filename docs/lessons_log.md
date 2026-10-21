@@ -4,6 +4,11 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-21
+
+- **On a phone, a too-wide page hides from an overflow check.** Pass the device width and check the document's own
+  width too. [mistake 37](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-10-20
 
 - **Detail pages: one main action on top, the rest folds with its value showing.** No raw file inputs, no bare zero.
