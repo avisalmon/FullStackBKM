@@ -416,4 +416,17 @@ repeating it.
     with what is known, and keep a different answer as theirs alone instead of overwriting shared data. Test such a
     question with the data the automation would have filled, not only with blanks.
 
+44. **Every way of pointing: a finger, a mouse, a wheel.** On a computer, dragging a shelf of books with the mouse
+    moved the books instead of the shelf. On a phone a swipe is the browser's own scrolling and a long press picks
+    an item up; a mouse has no swipe, so the drag fell through to "pick up". The tests used a phone, or a mouse only
+    to pick items up. *Rule:* test a widget that scrolls or drags with each pointer it will meet: a finger on a
+    phone, a mouse drag and the scroll wheel on a computer. With a mouse, let a drag pan and holding still pick up,
+    the same gesture as a long press on a phone.
+
+45. **Never measure an image while drawing a page.** A page read each image's width and height from the image
+    file to lay out a shelf. With the files in cloud storage, every visit fetched every image just to measure it.
+    *Rule:* store an image's width and height in the database when the image is made, and never read
+    `ImageField.width` or `.height` (or open the file) while rendering; a test can make that access fail so it
+    never comes back.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

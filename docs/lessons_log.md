@@ -4,6 +4,13 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-22
+
+- **Every way of pointing: a finger, a mouse, a wheel.** Test drag and scroll widgets with each.
+  [mistake 44](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Never measure an image while drawing a page.** Store its size when it is made.
+  [mistake 45](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-10-21
 
 - **When asked to ask, always ask, prefilled.** A question hidden when data exists never shows once automation fills
