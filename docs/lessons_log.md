@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-22
 
+- **Whoever sees a mistake in shared data needs a way to fix it.** Gate by a trail of old values, not a permission.
+  [mistake 46](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Every way of pointing: a finger, a mouse, a wheel.** Test drag and scroll widgets with each.
   [mistake 44](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Never measure an image while drawing a page.** Store its size when it is made.

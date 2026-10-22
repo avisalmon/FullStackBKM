@@ -429,4 +429,11 @@ repeating it.
     `ImageField.width` or `.height` (or open the file) while rendering; a test can make that access fail so it
     never comes back.
 
+46. **Whoever sees a mistake in shared data needs a way to fix it.** The owner found a wrong title on a record
+    and could not change it: direct edits were open to staff and to whoever had typed the record in by hand, but
+    most records were created automatically, so almost nobody could fix them, only file a suggestion that waited for
+    a curator. *Rule:* let the people closest to a shared record (here, anyone who holds a copy of the item) fix it
+    directly, and keep every direct change with its old value as an accepted correction, so curators can see it and
+    put it back. When the people are trusted and the change is reversible, gate by a trail, not by a permission.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
