@@ -443,4 +443,10 @@ repeating it.
     against the screen width, skipping the parts that scroll on purpose), give it content that would push (a long
     list), and prove the check by running it once against the bug before trusting it.
 
+48. **One app's whole test suite is a full regression too.** The owner's rule was: run the tests for what you
+    changed, and the full regression only when asked. The agent read "full regression" as the site-wide suite, so it
+    ran one app's entire suite (about 20 minutes) before nearly every push for two days, slowing every change. *Rule:*
+    any whole suite counts, whether site-wide or one app's. After a change run the tests you changed, the guards and the
+    browser checks for the screens you touched, then ship; run a whole suite at most twice a day, or when asked.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

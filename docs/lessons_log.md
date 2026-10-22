@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-22
 
+- **One app's whole test suite is a full regression too.** Twice a day or on request; otherwise test what you changed.
+  [mistake 48](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A safety net can blind the check it backs up.** Move the check where the net cannot reach, and prove it against
   the bug. [mistake 47](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Whoever sees a mistake in shared data needs a way to fix it.** Gate by a trail of old values, not a permission.
