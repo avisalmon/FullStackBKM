@@ -436,4 +436,11 @@ repeating it.
     directly, and keep every direct change with its old value as an accepted correction, so curators can see it and
     put it back. When the people are trusted and the change is reversible, gate by a trail, not by a permission.
 
+47. **A safety net can blind the check it backs up.** Pages were set to clip sideways overflow as a safety net, and
+    the phone-width test kept measuring the document's scroll width, which the clip keeps equal to the screen. A new
+    page then grew wider than the phone and the test still passed; only a screenshot caught it. *Rule:* when you add a
+    safety net that hides a failure, move the check to where the net cannot reach (here, every element's own position
+    against the screen width, skipping the parts that scroll on purpose), give it content that would push (a long
+    list), and prove the check by running it once against the bug before trusting it.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
