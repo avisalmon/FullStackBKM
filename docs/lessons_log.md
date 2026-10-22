@@ -6,6 +6,12 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-22
 
+- **Walk the newcomer's road as the newcomer**, from the link to the first screen that pays off, data loaded.
+  [mistake 49](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Image work inside the web process: decode small, a few at a time, let go.**
+  [mistake 50](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Many small private images go to the browser from storage**, by day-signed links, not through the one worker.
+  [mistake 51](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **One app's whole test suite is a full regression too.** Twice a day or on request; otherwise test what you changed.
   [mistake 48](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A safety net can blind the check it backs up.** Move the check where the net cannot reach, and prove it against

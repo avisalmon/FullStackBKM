@@ -449,4 +449,24 @@ repeating it.
     any whole suite counts, whether site-wide or one app's. After a change run the tests you changed, the guards and the
     browser checks for the screens you touched, then ship; run a whole suite at most twice a day, or when asked.
 
+49. **Walk the newcomer's road as the newcomer, from the link to the first screen that pays off.** An invite
+    feature had a test for every page and none for the invited person's road through them: the welcome page barely
+    named the inviter, sign-in and the first form said nothing, a survey stood between joining and the friend's
+    shelf, the newcomer got a different theme than the inviter, and the payoff screen looked empty because its
+    pictures were still loading. The owner found it by walking his own link. *Rule:* for every way a new person can
+    arrive, one browser test walks the whole road as that person, with a fresh account and a newcomer's defaults, and
+    checks the payoff screen with its data actually loaded; build the road so each step names the reason to go on.
+
+50. **Image work inside the web process: decode small, a few at a time, let go.** A background job re-reading photos
+    decoded each 4000px image two or three times at once, 25 photos in a row, inside the single web worker; the host
+    restarted the service for exceeding its memory. *Rule:* decode at the size you need (JPEG draft mode), close what
+    you open, collect garbage after each item, take a few items per pass, keep one API client per process, and watch
+    the host's memory graph after shipping such a job.
+
+51. **Many small private images go to the browser from storage, not through the one web worker.** Twenty small
+    pictures per page each streamed from the bucket through the single sync worker, one after another, so the page
+    looked empty for seconds. *Rule:* sign links for the rest of the day (the same link all day, so browsers cache
+    them) and let the browser fetch from the bucket in parallel; keep the app's endpoint only as the disk fallback;
+    and while a picture loads, show the text it will replace.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
