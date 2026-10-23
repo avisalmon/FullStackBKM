@@ -504,4 +504,11 @@ repeating it.
     "database table is locked". *Rule:* a module that drives real pages stubs every outside source in its autouse
     fixture, keyed or not; a test of the source itself replaces the stub with its own fake.
 
+57. **The control follows the shape of the decision, not the word the person used.** The owner asked for
+    "checkboxes" on every row (show, give, lend, sell); four boxes went in side by side. He came back: one box for
+    show, and under it one small menu of how the item is offered, because showing is a gate and the way of offering
+    is one choice at a time. *Rule:* before drawing a row of controls, write the decision as the person makes it:
+    a gate is a box, one choice among several is a menu, only "many at once" is a row of boxes; and remove a
+    control that sat on the row for another reason once the row's job changes.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
