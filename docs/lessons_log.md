@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-23
 
+- **A screen test stubs every outside source, keyless ones too.**
+  [mistake 56](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Build an image feature against made-up photos with known answers, from a real camera**, judged on a set it was
   not tuned on. [mistake 55](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **When a fact starts being written earlier, find everyone who read its absence as an event.**

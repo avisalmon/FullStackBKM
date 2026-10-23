@@ -498,4 +498,10 @@ repeating it.
     measure every change on one set, keep a second set aside for the verdict, keep a small set in the test suite,
     and look at the failures as pictures with the true answer drawn over the guess before changing anything.
 
+56. **A screen test stubs every outside source, keyless ones too.** A screen test of an "add a book" page searched a
+    public books API for real (no key needed, so the "blank the paid key" guard did not apply). One day the API
+    rate-limited, the lookup thread was still writing at teardown, and four unrelated screen tests failed with
+    "database table is locked". *Rule:* a module that drives real pages stubs every outside source in its autouse
+    fixture, keyed or not; a test of the source itself replaces the stub with its own fake.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
