@@ -4,6 +4,11 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-23
+
+- **Count what a person did as they do it, not when they close it.** Heartbeat and pause save it; count from what
+  is saved. [mistake 52](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-10-22
 
 - **Walk the newcomer's road as the newcomer**, from the link to the first screen that pays off, data loaded.

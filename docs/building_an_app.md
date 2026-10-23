@@ -469,4 +469,11 @@ repeating it.
     them) and let the browser fetch from the bucket in parallel; keep the app's endpoint only as the disk fallback;
     and while a picture loads, show the text it will replace.
 
+52. **Count what a person did as they do it, not when they close it.** A reading timer wrote a sitting's time only
+    when "done" was pressed and counted the day's streak only then; the owner read ten minutes, left the screen, and
+    got nothing. What people do is leave: lock the phone, switch apps, put the book down. *Rule:* save progress as it
+    accrues (a heartbeat every minute or two, and the moment the screen is left) and count from what is saved, so a
+    closed app or a forgotten button never loses it; and make the closing button say it is only a break, with the
+    reassurance that the time is kept.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
