@@ -476,4 +476,11 @@ repeating it.
     closed app or a forgotten button never loses it; and make the closing button say it is only a break, with the
     reassurance that the time is kept.
 
+53. **Test a browser API with the events the real device sends, not the ones the spec describes.** Voice notes added
+    each update's final speech results to a running text. Correct by the spec, but Android Chrome resends results it
+    already finalized on every update, and they grow ("I think", "I think this", "I think this book"), so every
+    thought was written three or four times. The test's fake recognizer sent one clean result and passed. *Rule:* a
+    fake for a device API plays back what the worst supported device really sends; and code reading a stream of
+    updates rebuilds the whole from each update instead of adding to a running total.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

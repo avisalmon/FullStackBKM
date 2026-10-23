@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-23
 
+- **Test a browser API with the events the real device sends.** Android speech results repeat and grow; rebuild,
+  never append. [mistake 53](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Count what a person did as they do it, not when they close it.** Heartbeat and pause save it; count from what
   is saved. [mistake 52](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
