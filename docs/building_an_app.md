@@ -490,12 +490,12 @@ repeating it.
     change writes something sooner or more often, search for every place that inferred an event from its absence and
     give the event its own definition; test the event along the new path too.
 
-55. **Build an image feature against made-up photos with known answers, from a real camera, judged on photos it was
-    not tuned on.** A cover-straightening feature had no real samples. The first generated angles were a turn plus a
-    shear rather than a real camera, and the proportion formula, correct for a real camera, looked wrong on them;
-    with a true 3D projection it was right almost every time. *Rule:* generate test photos whose answer is known with
-    the physics of the real thing (camera projection, real-looking surfaces, something in the way), measure every
-    change on one set, keep a second set aside for the verdict, keep a small set in the test suite, and look at the
-    failures as pictures with the true answer drawn over the guess before changing anything.
+55. **Build an image feature against made-up photos with known answers, from a real camera.** Judge it on photos
+    it was not tuned on. A cover-straightening feature had no real samples. The first generated angles were a turn
+    plus a shear rather than a real camera, and the proportion formula, correct for a real camera, looked wrong on
+    them; with a true 3D projection it was right almost every time. *Rule:* generate test photos whose answer is
+    known with the physics of the real thing (camera projection, real-looking surfaces, something in the way),
+    measure every change on one set, keep a second set aside for the verdict, keep a small set in the test suite,
+    and look at the failures as pictures with the true answer drawn over the guess before changing anything.
 
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
