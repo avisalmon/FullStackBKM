@@ -483,4 +483,11 @@ repeating it.
     fake for a device API plays back what the worst supported device really sends; and code reading a stream of
     updates rebuilds the whole from each update instead of adding to a running total.
 
+54. **When a fact starts being written earlier, find everyone who read its absence as an event.** A celebration screen
+    appeared when a request found a day "not counted before, counted after". A fix that counted the day earlier (a
+    heartbeat while the user was still active) meant the request almost always found it counted already, and the
+    celebration silently stopped. No test failed, because the tests never sent a heartbeat first. *Rule:* when a
+    change writes something sooner or more often, search for every place that inferred an event from its absence and
+    give the event its own definition; test the event along the new path too.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

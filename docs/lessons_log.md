@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-23
 
+- **When a fact starts being written earlier, find everyone who read its absence as an event.**
+  [mistake 54](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Test a browser API with the events the real device sends.** Android speech results repeat and grow; rebuild,
   never append. [mistake 53](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Count what a person did as they do it, not when they close it.** Heartbeat and pause save it; count from what
