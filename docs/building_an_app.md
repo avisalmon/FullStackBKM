@@ -511,4 +511,25 @@ repeating it.
     a gate is a box, one choice among several is a menu, only "many at once" is a row of boxes; and remove a
     control that sat on the row for another reason once the row's job changes.
 
+58. **JSON inside a script tag is HTML too.** A page embedded user data as `{{ data|safe }}` inside a
+    `<script type="application/json">`. `json.dumps` escapes quotes but not `<`, so a record named
+    `</script><img onerror=...>` closed the block and ran in every viewer's browser. *Rule:* JSON that lands in a
+    `<script>` is written with `<`, `>` and `&` as JSON escapes (one `script_json` helper, or Django's `json_script`);
+    `|safe` on anything a person wrote is a finding until proven otherwise; the test puts `</script>` in a title.
+
+59. **Members' markdown is cleaned after rendering, not trusted.** Forum posts and comments were rendered with a
+    markdown library and marked safe; markdown passes raw HTML through, so a `<script>` ran for every reader,
+    staff included. *Rule:* HTML made from a person's text goes through an allowlist sanitizer (nh3, bleach) before
+    it is marked safe; author-only content may keep its HTML, and that exception is written down.
+
+60. **Run the security sweep before saying "secure".** A review found its issues with a short list of searches,
+    not insight: `|safe` and `mark_safe` (who wrote the text?); `json.dumps` into a page (is `<` escaped?);
+    `csrf_exempt` and `AllowAny` (what gate replaces the one removed?); `redirect(request.GET["next"])` (validated
+    against the host?); `==` on a secret (constant-time, fail shut when unset); the public media folder (anything
+    private under it gets its own folder and a checking view); every paid API call (who can reach it, from how many
+    accounts, with what daily cap per person and site-wide: instant signup plus an uncapped paid call is a bill
+    with no ceiling); every login form (failures counted and locked, django-axes covers them all); public write
+    endpoints (per-address throttle); headers (CSP, nosniff, frame options); and the tree for key shapes.
+    *Rule:* keep the list, run it at every launch, and write a failing test for each finding before fixing it.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
