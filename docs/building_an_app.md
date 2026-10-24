@@ -532,4 +532,10 @@ repeating it.
     endpoints (per-address throttle); headers (CSP, nosniff, frame options); and the tree for key shapes.
     *Rule:* keep the list, run it at every launch, and write a failing test for each finding before fixing it.
 
+61. **A new form control runs the narrowest-phone test the day it ships.** A select went out with 14px text; on an
+    iPhone any field under 16px zooms the page in when touched, then the page slides sideways: a failure an earlier
+    rule had already closed. The sprint ran its own tests, not the all-widths phone sweep that enforces the rule,
+    which caught it a day later in another sprint. *Rule:* any change that adds a field, select or text box runs the
+    narrow-phone sweep before it ships; a rule enforced by a sweep is only enforced when the sweep runs.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

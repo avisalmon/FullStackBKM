@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-24
 
+- **A new form control runs the narrowest-phone test the day it ships.** [mistake 61](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **JSON inside a script tag is HTML too.** [mistake 58](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Members' markdown is cleaned after rendering, not trusted.** [mistake 59](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Run the security sweep before saying "secure".** [mistake 60](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
