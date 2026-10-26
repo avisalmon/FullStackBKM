@@ -6,6 +6,10 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-26
 
+- **A page in another language than the site prints its dates in the site's language.**
+  [mistake 66](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **A grid item needs both a row and a column, and a track needs `minmax(0, ...)`.**
+  [mistake 67](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A middleware is placed by what it reads; a sweep knows its own alphabet; a row of tap targets is sized by the thumb.**
   [mistake 65](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A one-time link lets its own holder back in, and every door that grants access sends the mail.**

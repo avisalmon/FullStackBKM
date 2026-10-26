@@ -574,4 +574,19 @@ repeating it.
     reached the view; a sweep over names matches the alphabet the stylesheet allows (letters, digits, `-`, `_`);
     and when a row of targets does not fit the width at 44px each, it scrolls in its own box rather than shrinking.
 
+66. **A page in another language than the site prints its dates in the site's language.** An English app on a
+    site whose default language is Hebrew showed comment dates with Hebrew month names. The "every screen is
+    English" test passed, because the pages it read had no comments, so no date was on them. *Rule:* an app whose
+    language differs from the site's default switches its own language on in its base template, for the whole
+    page; and the language test puts every kind of localised value on the page first (a date, a number, a
+    plural), because an empty page proves nothing about them.
+
+67. **A grid item needs both a row and a column, and a track needs `minmax(0, ...)`.** Two grid bugs, each passed
+    by every test and caught only by a screenshot. Two items given the same `grid-row` and no column made the grid
+    open a second, implicit column, and a card fell apart into two. A one-column grid whose track was plain `1fr`
+    grew to fit a long `git clone` line and an unbroken link, and the page slid sideways at every width. *Rule:*
+    when you place a grid item explicitly, place it on both axes (`grid-area: 1 / 1`); size tracks with
+    `minmax(0, 1fr)` and give children `min-width: 0`; let long commands scroll in their own box and long links
+    break. Then look at the screenshot: markup tests cannot see layout.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
