@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-26
 
+- **"Sent" is what the mail backend said, not what the code hoped.** [mistake 62](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Mark each item handled by its id; never infer "handled" from time.** [mistake 63](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A clean copy is not the developers' copy.** The first real train failed five tests that were not code: a newer
   linter, no built static files, no local config. Derive the train's environment from the shared tree by code (pinned
   tool versions, the production build step, local config filtered of every secret-shaped name), and list the failures

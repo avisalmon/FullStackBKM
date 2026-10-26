@@ -538,4 +538,20 @@ repeating it.
     which caught it a day later in another sprint. *Rule:* any change that adds a field, select or text box runs the
     narrow-phone sweep before it ships; a rule enforced by a sweep is only enforced when the sweep runs.
 
+62. **"Sent" is what the mail backend said, not what the code hoped.** A screen told an admin "sent" for access
+    mails that never left: the send used `fail_silently=True` inside a `try` that returned `True`, so a refused send
+    read as success. A second screen that granted the same access sent no mail at all, and the client was pointed
+    at it without anyone walking it first. *Rule:* show "sent" only from the backend's answer (`send_mail` returns how
+    many went); test a refused send and check the screen says so; route every way of granting access through the one
+    function that also sends the mail; and before pointing a person at a screen, walk it as them, to the mail in
+    their inbox.
+
+63. **Mark each item handled by its id; never infer "handled" from time.** An AI agent answering client mail on a
+    timer counted a mail as new only if it was later than its own last reply in the thread. A mail that arrived while
+    it was still working was older than the reply it then sent, so it was skipped for hours. Its heartbeat, written
+    only when a run started, also went stale during a long job, and the watchdog reported a busy agent as dead.
+    *Rule:* a worker on a queue writes down the ids it takes at the start and marks each one done (a mail label, a
+    status column) only after the work is really done; "new" means "not marked". A heartbeat beats while busy too,
+    or the watchdog cries wolf and the real alarm gets ignored.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
