@@ -7,7 +7,7 @@ an AI engineer, and most of them came from something going wrong.
 ## 2026-10-26
 
 - **Optional: when several AI sessions build several apps at once, let one release train publish for all of them.**
-  Only that case; with one app, ignore it. [release-train skill](../.claude/skills/release-train/SKILL.md) ·
+  Only that case; with one app, ignore it. [release-train skill](../.claude/skills/release-train/SKILL.md) · [illustrated](release_train.html) ·
   [procedure](procedures/release_train.md)
 
 ## 2026-10-24

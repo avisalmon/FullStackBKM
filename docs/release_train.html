@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The release train, illustrated</title>
+  <meta name="description" content="How one small program becomes the only thing that publishes when several AI sessions build several apps on one repository. Optional: most owners never need it.">
+  <style>
+    :root {
+      --bg: #ffffff; --fg: #1c2024; --muted: #5b6470; --accent: #2557d6; --border: #d9dde3;
+      --surface: #f5f7fa; --good: #1a7f4b; --bad: #b3261e; --warn: #d89b00; --warn-bg: #fff6e0; --good-bg: #e8f6ee;
+      --box: #eaf0ff; --box-line: #2557d6; --train: #1a7f4b; --train-bg: #e8f6ee; --stop-bg: #fdecea;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14171c; --fg: #e8eaed; --muted: #9aa3ae; --accent: #7aa2ff; --border: #2c323b;
+        --surface: #1c2027; --good: #5fd49a; --bad: #ff8a80; --warn: #f0b429; --warn-bg: #2d2610; --good-bg: #12281d;
+        --box: #1d2a4a; --box-line: #7aa2ff; --train: #5fd49a; --train-bg: #12281d; --stop-bg: #3a1d1b;
+      }
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--bg); color: var(--fg); font: 17px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif; }
+    a { color: var(--accent); }
+    .wrap { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1rem 5rem; overflow-wrap: break-word; min-width: 0; }
+    .topnav { display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; padding: .75rem 1rem; border-bottom: 1px solid var(--border); background: var(--surface); font-size: .95rem; }
+    .topnav strong { margin-right: auto; }
+    h1 { font-size: 2rem; line-height: 1.2; margin: 1rem 0 .25rem; text-wrap: balance; }
+    h2 { font-size: 1.45rem; margin: 2.75rem 0 .5rem; padding-top: .5rem; border-top: 1px solid var(--border); }
+    h3 { font-size: 1.15rem; margin: 1.75rem 0 .25rem; }
+    .lede { font-size: 1.15rem; color: var(--muted); margin-top: 0; }
+    .toc { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .75rem 1.25rem; }
+    .toc ol { margin: .25rem 0; padding-left: 1.25rem; }
+    code { font-family: ui-monospace, "Cascadia Code", Consolas, monospace; font-size: .92em; background: var(--surface); padding: .1rem .3rem; border-radius: 4px; }
+    table { display: block; overflow-x: auto; max-width: 100%; border-collapse: collapse; margin: .75rem 0; font-size: .97rem; }
+    th, td { text-align: left; vertical-align: top; padding: .45rem .6rem; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; }
+    .callout { border-left: 4px solid var(--accent); background: var(--surface); padding: .6rem 1rem; border-radius: 0 8px 8px 0; margin: 1rem 0; }
+    .callout.warn { border-color: var(--warn); background: var(--warn-bg); }
+    .callout.good { border-color: var(--good); background: var(--good-bg); }
+    .callout > :first-child { margin-top: 0; } .callout > :last-child { margin-bottom: 0; }
+    figure { margin: 1.25rem 0; overflow-x: auto; min-width: 0; }
+    figure svg { width: 100%; min-width: 34rem; height: auto; display: block; }
+    figcaption { color: var(--muted); font-size: .9rem; text-align: center; margin-top: .25rem; }
+    svg text { fill: var(--fg); font: 14px system-ui, sans-serif; }
+    svg .box { fill: var(--box); stroke: var(--box-line); stroke-width: 1.5; }
+    svg .train { fill: var(--train-bg); stroke: var(--train); stroke-width: 2; }
+    svg .stop { fill: var(--stop-bg); stroke: var(--bad); stroke-width: 1.5; }
+    svg .plain { fill: var(--surface); stroke: var(--border); stroke-width: 1.5; }
+    svg .line { stroke: var(--muted); stroke-width: 1.8; fill: none; }
+    svg .arrow { stroke: var(--accent); stroke-width: 2; fill: none; marker-end: url(#head); }
+    svg .arrow.good { stroke: var(--good); marker-end: url(#headgood); }
+    svg .arrow.bad { stroke: var(--bad); marker-end: url(#headbad); }
+    svg .arrow.dashed { stroke-dasharray: 6 5; }
+    svg .small { font-size: 12px; fill: var(--muted); }
+    svg .bold { font-weight: 700; }
+    svg .tiny { font-size: 11px; fill: var(--muted); }
+    .rules { counter-reset: r; list-style: none; padding: 0; display: grid; gap: .6rem; }
+    .rules li { position: relative; padding: .6rem .9rem .6rem 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+    .rules li::before { counter-increment: r; content: counter(r); position: absolute; left: .8rem; top: .55rem; width: 1.6rem; height: 1.6rem; border-radius: 50%; background: var(--accent); color: #fff; font-weight: 700; display: grid; place-items: center; font-size: .9rem; }
+    .next { display: flex; justify-content: space-between; margin-top: 3rem; gap: 1rem; flex-wrap: wrap; }
+  </style>
+</head>
+<body>
+<nav class="topnav">
+  <strong>The release train</strong>
+  <a href="procedures/release_train.md">The procedure</a>
+  <a href="../.claude/skills/release-train/SKILL.md">The skill</a>
+  <a href="../index.html">Blueprint home</a>
+</nav>
+<div class="wrap">
+
+<h1>The release train, illustrated</h1>
+<p class="lede">How one small program becomes the only thing that publishes, when several AI sessions build several apps on one repository at the same time.</p>
+
+<div class="callout warn">
+  <p><strong>You probably don't need this page.</strong> It is for one situation: more than one app being built at the same time, by several AI sessions, on one repository, with their pushes getting in each other's way. If you build one app, or work in one session at a time, commit, test and push when you decide, as the rest of this blueprint describes, and skip the rest. The train adds moving parts that depend on one computer staying on, and that is only worth it when the collisions are real.</p>
+</div>
+
+<div class="toc"><strong>On this page</strong>
+  <ol>
+    <li><a href="#need">Do you need it?</a></li>
+    <li><a href="#problem">The problem it solves</a></li>
+    <li><a href="#picture">The big picture</a></li>
+    <li><a href="#train">One train, step by step</a></li>
+    <li><a href="#tests">What a train tests</a></li>
+    <li><a href="#failure">When something fails</a></li>
+    <li><a href="#alive">Staying alive</a></li>
+    <li><a href="#rules">The rules for every session</a></li>
+    <li><a href="#limits">What it cannot do</a></li>
+  </ol>
+</div>
+
+<h2 id="need">1. Do you need it?</h2>
+<figure>
+<svg viewBox="0 0 760 250" role="img" aria-label="A decision: one app or one session means no train; several apps by several sessions at once means a train">
+  <defs>
+    <marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="currentColor" style="fill: var(--accent)"/></marker>
+    <marker id="headgood" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill: var(--good)"/></marker>
+    <marker id="headbad" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill: var(--bad)"/></marker>
+  </defs>
+  <rect class="box" x="250" y="20" width="260" height="60" rx="10"/>
+  <text x="380" y="46" text-anchor="middle" class="bold">How many apps, how many AI sessions,</text>
+  <text x="380" y="66" text-anchor="middle" class="bold">at the same time, on one repository?</text>
+
+  <path class="arrow" d="M300,80 L170,130"/>
+  <text x="235" y="96" text-anchor="end" class="small">one app, or one session at a time</text>
+  <path class="arrow" d="M460,80 L590,130"/>
+  <text x="515" y="96" class="small">several apps and sessions, pushes collide</text>
+
+  <rect class="plain" x="40" y="130" width="260" height="90" rx="10"/>
+  <text x="170" y="158" text-anchor="middle" class="bold">No train.</text>
+  <text x="170" y="180" text-anchor="middle">Commit, test, push when you decide.</text>
+  <text x="170" y="200" text-anchor="middle" class="small">That is most owners. Stop reading here.</text>
+
+  <rect class="train" x="460" y="130" width="260" height="90" rx="10"/>
+  <text x="590" y="158" text-anchor="middle" class="bold">A release train.</text>
+  <text x="590" y="180" text-anchor="middle">One program publishes for everyone.</text>
+  <text x="590" y="200" text-anchor="middle" class="small">The rest of this page.</text>
+</svg>
+<figcaption>The whole decision. The train is for the right-hand branch only.</figcaption>
+</figure>
+
+<h2 id="problem">2. The problem it solves</h2>
+<p>Several AI sessions working on one repository share one live branch. Any of them can push, and <strong>a push publishes everybody's commits</strong>, not only the pusher's. On the site this was learned on, five sessions on five apps produced, in ten days:</p>
+<ul>
+  <li>a finished feature published by another session <em>in the middle of its own test run</em>;</li>
+  <li>four apps' failures reaching the live site inside other sessions' pushes, unnoticed;</li>
+  <li>a full test run taking three hours instead of one, because several ran at once and fought over the database and the ports;</li>
+  <li>a new app left unregistered for three days, because nobody's scoped tests covered it.</li>
+</ul>
+
+<figure>
+<svg viewBox="0 0 760 230" role="img" aria-label="Before: every session pushes straight to the live branch and each push carries everyone's commits">
+  <rect class="box" x="20" y="30" width="120" height="44" rx="8"/><text x="80" y="57" text-anchor="middle">Session A</text>
+  <rect class="box" x="20" y="90" width="120" height="44" rx="8"/><text x="80" y="117" text-anchor="middle">Session B</text>
+  <rect class="box" x="20" y="150" width="120" height="44" rx="8"/><text x="80" y="177" text-anchor="middle">Mail bot</text>
+  <rect class="plain" x="300" y="80" width="160" height="64" rx="8"/>
+  <text x="380" y="106" text-anchor="middle" class="bold">one shared main</text>
+  <text x="380" y="128" text-anchor="middle" class="small">everyone's commits</text>
+  <path class="arrow bad" d="M140,52 L300,100"/>
+  <path class="arrow bad" d="M140,112 L300,112"/>
+  <path class="arrow bad" d="M140,172 L300,124"/>
+  <text x="160" y="40" class="small">push</text>
+  <text x="200" y="104" class="small">push</text>
+  <text x="160" y="196" class="small">push</text>
+  <path class="arrow bad" d="M460,112 L600,112"/>
+  <rect class="stop" x="600" y="80" width="140" height="64" rx="8"/>
+  <text x="670" y="106" text-anchor="middle" class="bold">live site</text>
+  <text x="670" y="128" text-anchor="middle" class="small">untested mix</text>
+  <text x="380" y="210" text-anchor="middle" class="small">Before: three doors to production, and every door ships what the others left behind.</text>
+</svg>
+<figcaption>Before the train.</figcaption>
+</figure>
+
+<h2 id="picture">3. The big picture</h2>
+<p><strong>One small program is the only thing allowed to publish.</strong> Each session asks it, with a command called <code>ship</code>. The train tests what the change touches and publishes, or says exactly whose test failed. The full suite runs once a night, for everyone, instead of once per session.</p>
+
+<figure>
+<svg viewBox="0 0 760 420" role="img" aria-label="After: sessions and the bot ask the train; the train works in its own clone, runs tests, and is the only one that pushes to main, which deploys">
+  <rect class="box" x="20" y="30" width="130" height="44" rx="8"/><text x="85" y="57" text-anchor="middle">Session A</text>
+  <rect class="box" x="20" y="90" width="130" height="44" rx="8"/><text x="85" y="117" text-anchor="middle">Session B</text>
+  <rect class="box" x="20" y="150" width="130" height="44" rx="8"/><text x="85" y="177" text-anchor="middle">Mail bot</text>
+  <text x="85" y="231" text-anchor="middle" class="tiny">commits ready to ship</text>
+
+  <path class="arrow" d="M150,52 L270,88"/>
+  <path class="arrow" d="M150,112 L270,104"/>
+  <path class="arrow" d="M150,172 L270,120"/>
+  <text x="160" y="40" class="small">ship --app A</text>
+  <text x="85" y="214" text-anchor="middle" class="small">ship --branch (the bot)</text>
+
+  <rect class="plain" x="270" y="70" width="170" height="70" rx="8"/>
+  <text x="355" y="96" text-anchor="middle" class="bold">The board</text>
+  <text x="355" y="116" text-anchor="middle" class="small">what is waiting, what shipped,</text>
+  <text x="355" y="131" text-anchor="middle" class="small">whose failure is whose</text>
+
+  <path class="arrow" d="M355,140 L355,190"/>
+  <text x="365" y="170" class="small">next tick, or at once</text>
+
+  <rect class="train" x="200" y="190" width="310" height="120" rx="12"/>
+  <text x="355" y="216" text-anchor="middle" class="bold">The train, in its own clone</text>
+  <text x="355" y="240" text-anchor="middle" class="small">1. build the candidate: main + what is waiting</text>
+  <text x="355" y="258" text-anchor="middle" class="small">2. pick the tests from the files that changed</text>
+  <text x="355" y="276" text-anchor="middle" class="small">3. run them, in parallel, with a time limit</text>
+  <text x="355" y="294" text-anchor="middle" class="small">4. nothing new failed? push. Otherwise: nobody ships</text>
+
+  <path class="arrow good" d="M510,250 L600,250"/>
+  <text x="520" y="240" class="small">the only push</text>
+  <rect class="plain" x="600" y="222" width="140" height="56" rx="8"/>
+  <text x="670" y="246" text-anchor="middle" class="bold">main</text>
+  <text x="670" y="266" text-anchor="middle" class="small">deploys itself</text>
+  <path class="arrow good" d="M670,278 L670,330"/>
+  <rect class="train" x="600" y="330" width="140" height="56" rx="8"/>
+  <text x="670" y="354" text-anchor="middle" class="bold">live site</text>
+  <text x="670" y="374" text-anchor="middle" class="small">tested, verified</text>
+
+  <path class="arrow dashed" d="M355,310 L355,360"/>
+  <rect class="plain" x="230" y="360" width="250" height="44" rx="8"/>
+  <text x="355" y="387" text-anchor="middle" class="small">one short mail to the owner, only when something failed</text>
+
+  <rect class="stop" x="20" y="300" width="130" height="80" rx="8"/>
+  <text x="85" y="326" text-anchor="middle" class="bold">git push main</text>
+  <text x="85" y="346" text-anchor="middle" class="small">refused by a hook</text>
+  <text x="85" y="364" text-anchor="middle" class="small">in every clone</text>
+</svg>
+<figcaption>After the train. One door to production, and it is a program, not a person or a session.</figcaption>
+</figure>
+
+<p>Three things are worth noticing in the picture:</p>
+<ul>
+  <li><strong>The train works in its own copy of the repository.</strong> Never in a session's working folder, never in the bot's. Nothing it does can disturb anyone's half-finished work, and nothing half-finished can disturb it.</li>
+  <li><strong>The mail bot is an ordinary developer.</strong> It pushes its work to a side branch (side branches do not deploy) and asks the train like everyone else.</li>
+  <li><strong>The board lives outside the repository.</strong> Updating it never creates a commit, and every session reads it before starting: what is waiting, what the last train found, and who is editing which shared file.</li>
+</ul>
+
+<h2 id="train">4. One train, step by step</h2>
+<figure>
+<svg viewBox="0 0 760 300" role="img" aria-label="The steps of one train, left to right: lock, candidate, choose tests, site checks, run tests, decide, push, verify deploy">
+  <rect class="train" x="10" y="100" width="90" height="60" rx="8"/><text x="55" y="126" text-anchor="middle" class="bold">lock</text><text x="55" y="146" text-anchor="middle" class="tiny">one at a time</text>
+  <path class="arrow" d="M100,130 L120,130"/>
+  <rect class="train" x="120" y="100" width="100" height="60" rx="8"/><text x="170" y="126" text-anchor="middle" class="bold">candidate</text><text x="170" y="146" text-anchor="middle" class="tiny">main + waiting</text>
+  <path class="arrow" d="M220,130 L240,130"/>
+  <rect class="train" x="240" y="100" width="100" height="60" rx="8"/><text x="290" y="126" text-anchor="middle" class="bold">choose</text><text x="290" y="146" text-anchor="middle" class="tiny">from changed files</text>
+  <path class="arrow" d="M340,130 L360,130"/>
+  <rect class="train" x="360" y="100" width="100" height="60" rx="8"/><text x="410" y="126" text-anchor="middle" class="bold">checks</text><text x="410" y="146" text-anchor="middle" class="tiny">settings, migrations</text>
+  <path class="arrow" d="M460,130 L480,130"/>
+  <rect class="train" x="480" y="100" width="100" height="60" rx="8"/><text x="530" y="126" text-anchor="middle" class="bold">tests</text><text x="530" y="146" text-anchor="middle" class="tiny">parallel, time limit</text>
+  <path class="arrow" d="M580,130 L600,130"/>
+  <rect class="box" x="600" y="100" width="70" height="60" rx="8"/><text x="635" y="136" text-anchor="middle" class="bold">new</text><text x="635" y="150" text-anchor="middle" class="tiny">failure?</text>
+  <path class="arrow good" d="M635,100 L635,50"/>
+  <text x="645" y="80" class="small">no</text>
+  <rect class="train" x="530" y="10" width="220" height="40" rx="8"/><text x="640" y="35" text-anchor="middle" class="bold">push, then verify the deploy</text>
+  <path class="arrow bad" d="M635,160 L635,210"/>
+  <text x="645" y="190" class="small">yes</text>
+  <rect class="stop" x="520" y="210" width="230" height="60" rx="8"/>
+  <text x="635" y="234" text-anchor="middle" class="bold">push nothing</text>
+  <text x="635" y="254" text-anchor="middle" class="small">name the app, mail the owner, unlock</text>
+  <text x="290" y="60" text-anchor="middle" class="small">A tick every 10 minutes, or a session that asked and is waiting.</text>
+  <text x="250" y="200" text-anchor="middle" class="small">Everything the train does, it does on its own copy;</text>
+  <text x="250" y="218" text-anchor="middle" class="small">the shared folder is never touched.</text>
+</svg>
+<figcaption>One train. The whole run usually takes the time of the requester's own tests plus two or three minutes.</figcaption>
+</figure>
+
+<h2 id="tests">5. What a train tests</h2>
+<p>Not everything, by the owner's decision: with a large site the full suite takes an hour, and running it per change would make every publish an hour long. The train reads the files the candidate changes and picks:</p>
+
+<table>
+  <tr><th>What changed</th><th>What runs</th><th>Why</th></tr>
+  <tr><td>One app's own files (its folder, its templates, its static files)</td><td>Every test file that names that app, plus the site contract</td><td>Generous on purpose: a test too many costs seconds, the one missed test is what the train is for</td></tr>
+  <tr><td>A test file</td><td>Itself, plus the site contract</td><td></td></tr>
+  <tr><td><strong>Something every app shares</strong>: project settings, the main site's code, the requirements, the deploy config, site-wide templates</td><td><strong>The full suite</strong></td><td>For a shared file, "the requester's tests" are everyone's</td></tr>
+  <tr><td>Documentation only</td><td>Nothing</td><td></td></tr>
+  <tr><td>Anything else</td><td>The site contract</td><td></td></tr>
+</table>
+
+<p>The <strong>site contract</strong> is a short list, a couple of minutes long, of the tests that catch one app breaking another: every installed app is registered, every page answers, the shared stylesheet defines what the markup uses. It runs on every train whatever changed.</p>
+
+<figure>
+<svg viewBox="0 0 760 210" role="img" aria-label="Three example changes and what each one runs">
+  <rect class="box" x="20" y="20" width="200" height="50" rx="8"/><text x="120" y="42" text-anchor="middle" class="bold">crashtech/views.py</text><text x="120" y="60" text-anchor="middle" class="tiny">one app's file</text>
+  <path class="arrow" d="M220,45 L300,45"/>
+  <rect class="train" x="300" y="20" width="440" height="50" rx="8"/><text x="520" y="42" text-anchor="middle">crashtech's tests + the site contract</text><text x="520" y="60" text-anchor="middle" class="tiny">about 5 minutes</text>
+
+  <rect class="box" x="20" y="85" width="200" height="50" rx="8"/><text x="120" y="107" text-anchor="middle" class="bold">mysite/settings.py</text><text x="120" y="125" text-anchor="middle" class="tiny">shared by every app</text>
+  <path class="arrow" d="M220,110 L300,110"/>
+  <rect class="stop" x="300" y="85" width="440" height="50" rx="8"/><text x="520" y="107" text-anchor="middle">the full suite</text><text x="520" y="125" text-anchor="middle" class="tiny">about an hour; a shared file is everyone's</text>
+
+  <rect class="box" x="20" y="150" width="200" height="50" rx="8"/><text x="120" y="172" text-anchor="middle" class="bold">docs/dentist/spec.md</text><text x="120" y="190" text-anchor="middle" class="tiny">documentation</text>
+  <path class="arrow" d="M220,175 L300,175"/>
+  <rect class="plain" x="300" y="150" width="440" height="50" rx="8"/><text x="520" y="172" text-anchor="middle">nothing, ships at once</text><text x="520" y="190" text-anchor="middle" class="tiny">still checked: settings load, no missing migration</text>
+</svg>
+<figcaption>Three changes, three different trains.</figcaption>
+</figure>
+
+<div class="callout">
+  <p><strong>Known failures.</strong> A file lists tests that are known to fail, each with its owning app, the date and why. The train judges only <em>new</em> failures against it, so the old ones stop hiding the new ones. A line in that file is a debt with a name on it, not a decision: its owner fixes the test and removes the line, and the nightly run says when one started passing.</p>
+</div>
+
+<h2 id="failure">6. When something fails</h2>
+<p>The train pushes nothing. It works out which app each new failure belongs to (the app the test file names most), writes that on the board, and mails the owner one short note. Everyone else waits for the next train, which is ten minutes away.</p>
+<p>One refinement matters for a site with a mail bot: if a <em>session's</em> change broke the shared folder, the bot's request, which lives on its own branch and never touched that code, is <strong>tried again on its own</strong>. A client's request should not wait on somebody else's bug.</p>
+
+<figure>
+<svg viewBox="0 0 760 240" role="img" aria-label="A failed train: the shared tree's change failed, so the bot's branch is retried alone and ships">
+  <rect class="train" x="20" y="40" width="300" height="70" rx="10"/>
+  <text x="170" y="66" text-anchor="middle" class="bold">Train 1: shared main + bot branch</text>
+  <text x="170" y="90" text-anchor="middle" class="small">a test in app A (shared folder) fails</text>
+  <path class="arrow bad" d="M320,75 L420,75"/>
+  <rect class="stop" x="420" y="48" width="130" height="54" rx="8"/>
+  <text x="485" y="72" text-anchor="middle" class="bold">not shipped</text>
+  <text x="485" y="92" text-anchor="middle" class="tiny">A's owner is told</text>
+
+  <path class="arrow" d="M170,110 L170,150"/>
+  <text x="180" y="135" class="small">retry the branch alone</text>
+  <rect class="train" x="20" y="150" width="300" height="70" rx="10"/>
+  <text x="170" y="176" text-anchor="middle" class="bold">Train 1b: bot branch only</text>
+  <text x="170" y="200" text-anchor="middle" class="small">its own app's tests pass</text>
+  <path class="arrow good" d="M320,185 L420,185"/>
+  <rect class="train" x="420" y="158" width="130" height="54" rx="8"/>
+  <text x="485" y="182" text-anchor="middle" class="bold">shipped</text>
+  <text x="485" y="202" text-anchor="middle" class="tiny">the client is answered</text>
+  <text x="640" y="130" text-anchor="middle" class="small">A conflicted branch</text>
+  <text x="640" y="148" text-anchor="middle" class="small">is reported, never</text>
+  <text x="640" y="166" text-anchor="middle" class="small">forced and never deleted.</text>
+</svg>
+<figcaption>A break in the shared folder does not hold the bot's work hostage.</figcaption>
+</figure>
+
+<h2 id="alive">7. Staying alive</h2>
+<p>The train runs on one computer that is meant to stay on. Software on a computer like that stops in boring ways: a restart, a hung test, a task somebody disabled. Each has a watcher, and the two unattended programs watch each other.</p>
+
+<figure>
+<svg viewBox="0 0 760 330" role="img" aria-label="The watchdog cycle: a scheduled task ticks every ten minutes; the train and the mail bot leave heartbeats and watch each other's; a dead or hung lock is broken and its work requeued; the owner is mailed once">
+  <rect class="plain" x="20" y="20" width="220" height="56" rx="8"/>
+  <text x="130" y="44" text-anchor="middle" class="bold">Scheduled task</text>
+  <text x="130" y="64" text-anchor="middle" class="small">every 10 minutes, and at sign-in</text>
+  <path class="arrow" d="M240,48 L300,48"/>
+  <rect class="train" x="300" y="20" width="160" height="56" rx="8"/>
+  <text x="380" y="44" text-anchor="middle" class="bold">tick</text>
+  <text x="380" y="64" text-anchor="middle" class="small">watchdog first, then work</text>
+
+  <path class="arrow" d="M380,76 L380,120"/>
+  <rect class="box" x="230" y="120" width="300" height="90" rx="10"/>
+  <text x="380" y="144" text-anchor="middle" class="bold">The watchdog asks</text>
+  <text x="380" y="164" text-anchor="middle" class="small">Is the lock's process alive, the same one, still beating,</text>
+  <text x="380" y="180" text-anchor="middle" class="small">and inside its time limit? Did the bot check in?</text>
+  <text x="380" y="196" text-anchor="middle" class="small">Did last night run? Do both tasks still exist?</text>
+
+  <path class="arrow bad" d="M230,165 L120,165"/>
+  <rect class="stop" x="20" y="135" width="100" height="60" rx="8"/>
+  <text x="70" y="160" text-anchor="middle" class="bold">no</text>
+  <text x="70" y="178" text-anchor="middle" class="tiny">break the lock,</text>
+  <text x="70" y="190" text-anchor="middle" class="tiny">requeue, mail once</text>
+
+  <path class="arrow good" d="M530,165 L640,165"/>
+  <rect class="train" x="640" y="135" width="100" height="60" rx="8"/>
+  <text x="690" y="160" text-anchor="middle" class="bold">yes</text>
+  <text x="690" y="178" text-anchor="middle" class="tiny">run a train,</text>
+  <text x="690" y="190" text-anchor="middle" class="tiny">or the night</text>
+
+  <rect class="train" x="150" y="250" width="180" height="56" rx="8"/>
+  <text x="240" y="274" text-anchor="middle" class="bold">train heartbeat</text>
+  <text x="240" y="294" text-anchor="middle" class="tiny">last-tick.txt</text>
+  <rect class="box" x="430" y="250" width="180" height="56" rx="8"/>
+  <text x="520" y="274" text-anchor="middle" class="bold">bot heartbeat</text>
+  <text x="520" y="294" text-anchor="middle" class="tiny">last-check.txt</text>
+  <path class="arrow dashed" d="M330,268 L430,268"/>
+  <path class="arrow dashed" d="M430,290 L330,290"/>
+  <text x="380" y="243" text-anchor="middle" class="small">each watches the other; 40 minutes of silence mails the owner</text>
+</svg>
+<figcaption>Nothing waits forever, and nobody gets the same alert every ten minutes.</figcaption>
+</figure>
+
+<table>
+  <tr><th>What can go wrong</th><th>What catches it</th></tr>
+  <tr><td>The computer restarts mid-train</td><td>The lock names a process that no longer exists; the next tick breaks it and puts the work back in the queue</td></tr>
+  <tr><td>A test hangs</td><td>Every run has a time limit and is killed past it; a lock past its limit is broken</td></tr>
+  <tr><td>The number of a dead train's process is reused by something else</td><td>The lock remembers when its process started; a different start is a different process, and it is never killed</td></tr>
+  <tr><td>A session edits the train script while it runs</td><td>The task runs the published copy, taken from the train's own clone before each tick</td></tr>
+  <tr><td>The mail bot goes quiet, or the train does</td><td>Each watches the other's heartbeat and mails the owner once</td></tr>
+  <tr><td>A scheduled task is removed or disabled</td><td>Every tick checks both exist and are enabled</td></tr>
+  <tr><td>The same alert, every ten minutes, forever</td><td>Each alert is sent once, again only after twelve hours if still true, and cleared when it stops</td></tr>
+</table>
+
+<h2 id="rules">8. The rules for every session</h2>
+<ol class="rules">
+  <li><strong>Never push the live branch.</strong> A hook refuses it. Side branches are fine; they do not deploy.</li>
+  <li><strong>A commit means "ready to ship".</strong> Any train may carry it, so commit only after your own app's tests pass.</li>
+  <li><strong>When the owner says publish, ask the train</strong> and report what it answers.</li>
+  <li><strong>Run your app's tests while you work.</strong> The full suite runs every night, once, for everyone.</li>
+  <li><strong>Read the board when you start.</strong> A failure it names as your app's is yours to fix.</li>
+  <li><strong>Claim a shared file before editing it</strong> (settings, requirements, deploy config), and release it when you commit. A claim expires by itself.</li>
+  <li><strong>A test you cannot fix now goes on the known-failures list</strong> with your app's name, the date and why. Never silently.</li>
+</ol>
+
+<h2 id="limits">9. What it cannot do</h2>
+<div class="callout warn">
+  <p><strong>The hook is a guard rail, not a wall.</strong> It stops accidents by cooperative sessions, which is the whole problem it was built for. A session that decides to push around it can: that is a rule the sessions follow, not a lock on the repository. The hard version is a protection rule on the repository host that lets only the train's own credential push the live branch; it is worth setting up once the train has run for a while.</p>
+  <p><strong>It cannot survive the computer being off, or on but signed out</strong>, unless the scheduled tasks are set to run whether the user is logged on or not. Only the owner can choose that. While it is down, requests wait on the board; nothing is lost, and the owner's emergency override still works.</p>
+  <p><strong>Per-change testing is a trade.</strong> A change in app A that breaks app B through something they share is caught at night, not on the train. The owner chose that trade for speed; the nightly mail is where it shows up.</p>
+</div>
+
+<div class="next">
+  <a href="procedures/release_train.md">The written procedure</a>
+  <a href="../index.html">Blueprint home</a>
+</div>
+</div>
+</body>
+</html>

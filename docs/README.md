@@ -32,6 +32,7 @@ If you are looking for something and this file does not name it, the file is in 
 | [debug_failed_deploy](procedures/debug_failed_deploy.md) | Anything went red. Logs first |
 | [gotchas](procedures/gotchas.md) | 30 proven traps, numbered |
 | [release_train](procedures/release_train.md) | **Optional.** Only if several AI sessions build more than one app at once and their pushes collide |
+| [release_train.html](release_train.html) | The same, illustrated: open in a browser, works offline |
 | [env_vars](procedures/env_vars.md) | Every setting and where it goes |
 | [auth_google_oauth](procedures/auth_google_oauth.md) | Google sign-in |
 | [email_resend](procedures/email_resend.md) | Real email |

@@ -4,6 +4,8 @@
 > AI sessions on one repository**. With one app, or one session at a time, commit, test and push when you decide,
 > as [deploy_to_render.md](deploy_to_render.md) describes, and skip this page.
 
+**Prefer pictures?** [release_train.html](../release_train.html) says the same with diagrams; open it in a browser.
+
 ## The problem it solves
 
 Several AI sessions working on one repository share one live branch. Any of them can push, and a push publishes

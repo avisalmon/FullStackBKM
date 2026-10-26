@@ -21,6 +21,7 @@ describe. The train adds moving parts that depend on one computer staying on, an
 when the collisions are real. Say so to the owner in one sentence, and stop.
 
 Source of truth: [docs/procedures/release_train.md](../../../docs/procedures/release_train.md). Re-read it first.
+The same thing drawn, for the owner: [docs/release_train.html](../../../docs/release_train.html) (open it in a browser; it works offline).
 
 ## When it does apply
 
