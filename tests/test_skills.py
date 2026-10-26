@@ -19,6 +19,7 @@ EXPECTED = {
     "building-an-app", "site-mentor", "privacy-advisor", "google-sign-in", "email-resend",
     "custom-domain", "openai-ai-features", "backups-and-restore", "cost-monitoring",
     "verify-my-site", "site-security", "data-model-coach", "design-review",
+    "release-train",  # optional: only for several apps built at once by several AI sessions
 }  # fmt: skip
 
 

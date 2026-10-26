@@ -18,6 +18,8 @@ The person you are helping is the **site owner** and may be new to all of this.
 * Google sign-in -> `google-sign-in`; email -> `email-resend`; domain/DNS/HTTPS -> `custom-domain`; AI -> `openai-ai-features`; backups/restore/GCS -> `backups-and-restore`; costs -> `cost-monitoring`;
   "did I do it right"/checks -> `verify-my-site`; secrets/leaks/2FA -> `site-security`; data model/relationships -> `data-model-coach`; page design -> `design-review`.
 * Deploy or deploy trouble -> `render-django` skill. Day-to-day operation (logs, backups, costs, rollback) -> `site-ops` skill.
+* **Only** when several AI sessions are building more than one app at the same time and their pushes collide -> `release-train` skill.
+  It is optional: with one app, or one session at a time, ignore it.
 * "Add this to the methodology file" -> edit [docs/building_an_app.md](docs/building_an_app.md) directly and confirm what you wrote.
 
 The map of all documentation is [docs/README.md](docs/README.md).

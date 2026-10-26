@@ -31,6 +31,7 @@ If you are looking for something and this file does not name it, the file is in 
 | [deploy_to_render](procedures/deploy_to_render.md) | First deploy, everyday loop, smoke test |
 | [debug_failed_deploy](procedures/debug_failed_deploy.md) | Anything went red. Logs first |
 | [gotchas](procedures/gotchas.md) | 30 proven traps, numbered |
+| [release_train](procedures/release_train.md) | **Optional.** Only if several AI sessions build more than one app at once and their pushes collide |
 | [env_vars](procedures/env_vars.md) | Every setting and where it goes |
 | [auth_google_oauth](procedures/auth_google_oauth.md) | Google sign-in |
 | [email_resend](procedures/email_resend.md) | Real email |

@@ -4,6 +4,12 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-26
+
+- **Optional: when several AI sessions build several apps at once, let one release train publish for all of them.**
+  Only that case; with one app, ignore it. [release-train skill](../.claude/skills/release-train/SKILL.md) ·
+  [procedure](procedures/release_train.md)
+
 ## 2026-10-24
 
 - **A new form control runs the narrowest-phone test the day it ships.** [mistake 61](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)

@@ -79,6 +79,7 @@ Keep the checklist honest: tick a box in the same commit that does the work, so 
 | Google sign-in / email / domain / AI | `google-sign-in`, `email-resend`, `custom-domain`, `openai-ai-features` |
 | Backups, restore, costs | `backups-and-restore`, `cost-monitoring` |
 | Check the work, security | `verify-my-site`, `site-security` |
+| **Only if** several AI sessions build more than one app at once and their pushes collide | `release-train` (optional; most owners never need it) |
 | New feature or app, day-to-day operation | `building-an-app`, `site-ops` |
 
 ## The journey
