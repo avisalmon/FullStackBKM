@@ -85,6 +85,7 @@
     <li><a href="#train">One train, step by step</a></li>
     <li><a href="#tests">What a train tests</a></li>
     <li><a href="#failure">When something fails</a></li>
+    <li><a href="#first">The first train</a></li>
     <li><a href="#alive">Staying alive</a></li>
     <li><a href="#rules">The rules for every session</a></li>
     <li><a href="#limits">What it cannot do</a></li>
@@ -306,6 +307,16 @@
 </svg>
 <figcaption>A break in the shared folder does not hold the bot's work hostage.</figcaption>
 </figure>
+
+<h2 id="first">6b. The first train</h2>
+<p>The train runs in a clean copy. The tests were written in the developers' copies, which had grown things nobody wrote down. The first real train on a site three years old failed five tests that were not code:</p>
+<div class="callout">
+  <p><strong>A newer linter.</strong> A fresh install took a version two minors ahead with new rules: 461 findings the developers' linter never shows. <em>Setup now reads the tool versions from the shared copy and installs the same.</em></p>
+  <p><strong>No built files.</strong> A stylesheet test got 404 in the clone and 200 in the shared folder, which had a built folder from some earlier day. <em>Every ride runs the production build step.</em></p>
+  <p><strong>No local settings.</strong> The local settings file was left out on purpose: it holds real keys. Three tests needed a plain setting that lived next to them. <em>The clone gets a derived copy with every secret-shaped name, every known secret block and every multi-line value removed; a plain setting reaches the tests, a key never leaves the shared copy.</em></p>
+  <p><strong>Everyone's old debt.</strong> Five more failures were other sessions' and had been failing on the live branch for days. <em>List the known failures, each with an owner, before the first train, or the first requester is blamed for all of them.</em></p>
+</div>
+<p>The second train died in two seconds: a file copied into the clone by hand stopped <code>git checkout</code>. <strong>The clone owns nothing.</strong> It is hard-reset before every checkout, and the published script reaches it through the train like everything else.</p>
 
 <h2 id="alive">7. Staying alive</h2>
 <p>The train runs on one computer that is meant to stay on. Software on a computer like that stops in boring ways: a restart, a hung test, a task somebody disabled. Each has a watcher, and the two unattended programs watch each other.</p>

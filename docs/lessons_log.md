@@ -6,6 +6,11 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-26
 
+- **A clean copy is not the developers' copy.** The first real train failed five tests that were not code: a newer
+  linter, no built static files, no local config. Derive the train's environment from the shared tree by code (pinned
+  tool versions, the production build step, local config filtered of every secret-shaped name), and list the failures
+  already on main before the first train, or it blames the requester for everyone's debt.
+  [procedure](procedures/release_train.md#the-first-train) · [illustrated](release_train.html#first)
 - **Optional: when several AI sessions build several apps at once, let one release train publish for all of them.**
   Only that case; with one app, ignore it. [release-train skill](../.claude/skills/release-train/SKILL.md) · [illustrated](release_train.html) ·
   [procedure](procedures/release_train.md)

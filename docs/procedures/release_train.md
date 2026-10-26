@@ -49,6 +49,27 @@ It runs on one computer, so say plainly what that means:
 - **It cannot survive the computer being off, or on but signed out**, unless the scheduled tasks are set to "run
   whether the user is logged on or not". Only the owner can choose that.
 
+## The first train
+
+The train runs in a clean copy, and the tests were written against the developers' copies, which grew things nobody
+wrote down. The first real train on a site three years old failed five tests that were not code: a linter two minor
+versions newer than the developers', no built static files (a stylesheet 404), and the local settings file left out
+because it holds real keys, when three tests needed a plain setting that lived in the same file. Before the first
+train, and in the train's own setup, not by hand:
+
+- **Pin the tools to the shared copy's versions.** Setup reads them from the developers' environment and installs
+  the same.
+- **Build what production builds** on every ride (static files, translations, whatever the deploy step does).
+- **Derive local config through a filter.** Copy the developers' local settings minus every name shaped like a
+  secret (KEY, TOKEN, SECRET, PASSWORD, CREDENTIAL, PRIVATE), minus any block known to hold one, minus every
+  multi-line value. A plain setting reaches the tests; a key never leaves the shared copy.
+- **The clone owns nothing.** Hard-reset it before every checkout and never copy a file into it by hand; a hand copy
+  once stopped a train at `git checkout`.
+- **List the failures already on the live branch**, each with its owner, before the first train runs. Otherwise the
+  first requester is blamed for everyone's debt.
+- **Decode every captured command as UTF-8 with replacement.** A process's output on Windows is not in the
+  codepage Python assumes.
+
 ## Rules for every session
 
 1. Never push the live branch; ask the train.
