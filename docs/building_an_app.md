@@ -554,4 +554,15 @@ repeating it.
     status column) only after the work is really done; "new" means "not marked". A heartbeat beats while busy too,
     or the watchdog cries wolf and the real alarm gets ignored.
 
+64. **A one-time link lets its own holder back in, and every door that grants access sends the mail.** A
+    patient's one-time sign-in link checked "used or expired" before "is this already theirs", so the person who
+    opened their own link twice (a refresh, a back button) was refused. And the first path that granted a role
+    created the invitation and sent no mail, because the mail function was written a sprint later. The refusal
+    tests, written first, caught both. *Rule:* ownership first, validity second: the owner coming back is a quiet
+    success, and the second visit is tested for the owner and for a stranger. Every path that grants access,
+    including the first one built, goes through the one function that also sends the mail, and a test counts the
+    mails per path. Two browser-test notes: a page's inner text carries the stylesheet's upper-casing, so compare
+    lower-case; and a list of languages written in their own scripts is not the page's language, so leave option
+    labels out of an "English only" check.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
