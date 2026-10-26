@@ -565,4 +565,13 @@ repeating it.
     lower-case; and a list of languages written in their own scripts is not the page's language, so leave option
     labels out of an "English only" check.
 
+65. **A middleware is placed by what it reads; a sweep knows its own alphabet; a row of tap targets is sized by
+    the thumb.** A middleware that read a session key was put first in the chain out of habit, before the session
+    and the user existed, and silently did nothing until three tests said so. The same day, the "every class the
+    markup uses is defined" sweep failed on a class with an underscore its regex did not allow, and a chart put
+    eight 34px teeth in a row on a 320px phone. *Rule:* a middleware that reads the session or the user goes after
+    the session and authentication middleware, with one test asserting through a real request that the state
+    reached the view; a sweep over names matches the alphabet the stylesheet allows (letters, digits, `-`, `_`);
+    and when a row of targets does not fit the width at 44px each, it scrolls in its own box rather than shrinking.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

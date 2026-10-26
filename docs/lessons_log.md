@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-26
 
+- **A middleware is placed by what it reads; a sweep knows its own alphabet; a row of tap targets is sized by the thumb.**
+  [mistake 65](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A one-time link lets its own holder back in, and every door that grants access sends the mail.**
   [mistake 64](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **"Sent" is what the mail backend said, not what the code hoped.** [mistake 62](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
