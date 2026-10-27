@@ -589,13 +589,11 @@ repeating it.
     `minmax(0, 1fr)` and give children `min-width: 0`; let long commands scroll in their own box and long links
     break. Then look at the screenshot: markup tests cannot see layout.
 
-68. **A change of content is an API call, not a deploy.** To swap one picture on a live card, the AI prepared a data
-    migration so the next deploy would replace it. The owner stopped it: the site already had a full API for that
-    model; what was missing was a way for the AI to use it on the live site, because the API only accepted a
-    signed-in browser. *Rule:* give the AI one personal API token for the owner's account, accepted only by the
-    API (never the admin, the pages or the account settings), stored only as a hash, shown once, kept in a local
-    settings file that is not in git and never printed in a chat, logged on every use, and revoked by issuing a new
-    one. Content changes then go through the API; a deploy is for code. When the only path to a content change is
-    a deploy, say so and propose the API path first.
+68. **A change of content is a screen, not a deploy.** To swap one picture on a live card, the AI prepared a data
+    migration so the next deploy would replace it, then proposed an API token so it could call the live API itself.
+    The owner stopped both: content belongs to whoever owns it, and they need a screen for it. *Rule:* every piece
+    of content a site shows has an edit screen in the site for its owner (for content only the owner edits, a form
+    only they see), covering every field, pictures included. A deploy is for code; a migration seeds day one and
+    never changes content after it. Asked to change content, point the owner to the screen, or build the screen.
 
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
