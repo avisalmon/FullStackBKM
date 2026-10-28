@@ -604,4 +604,10 @@ repeating it.
     been running (counted from the server's clock, since a phone's clock can be off), and a line once it is slower
     than usual; whatever is ready shows as soon as it is ready.
 
+70. **A heavy outside program gets a whole-group kill, a memory ceiling and a recipe.** *Rule:* when an app runs
+    an outside program, start it in its own process group, kill the whole group at the time limit, and give it a
+    memory ceiling well below the server's; a test proves a child of the program dies too. Time the heavy but common
+    request, not only the simple one. When an AI is told "avoid X", also tell it the fast way to do what X does. A
+    long job keeps a log the person can open: each step, when, and what failed.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
