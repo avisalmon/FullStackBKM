@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-28
 
+- **A live update moves everything that depends on it.**
+  [mistake 71](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A heavy outside program gets a whole-group kill, a memory ceiling and a recipe.**
   [mistake 70](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Poll from the oldest unfinished item, and say what the work is doing.**

@@ -610,4 +610,8 @@ repeating it.
     request, not only the simple one. When an AI is told "avoid X", also tell it the fast way to do what X does. A
     long job keeps a log the person can open: each step, when, and what failed.
 
+71. **A live update moves everything that depends on it.** *Rule:* when a page updates something without a
+    reload, list every control that depends on it and update them all. The browser test uses that control after the
+    live update, not after a reload, and checks that no id is used twice on the page.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
