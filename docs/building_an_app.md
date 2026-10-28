@@ -618,4 +618,8 @@ repeating it.
     replaces a function for every test, a test that must reach the real one keeps a reference to it at import time.
     A cached lookup never keeps an empty answer.
 
+73. **A new program for the server is proven on the server.** *Rule:* when you add or upgrade a program the
+    server runs, the deploy runs a real job with it (not just `--version`) and falls back to the last version that
+    worked. A test on your own computer proves nothing about the server's libraries.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
