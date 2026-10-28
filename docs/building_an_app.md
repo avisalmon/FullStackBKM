@@ -596,4 +596,12 @@ repeating it.
     only they see), covering every field, pictures included. A deploy is for code; a migration seeds day one and
     never changes content after it. Asked to change content, point the owner to the screen, or build the screen.
 
+69. **Poll from the oldest unfinished item, and say what the work is doing.** A chat page polled for "messages
+    after the newest one on screen". When the person sent a second message while the first answer was still being
+    built, the first answer finished later and was never asked for again: it said "Building" forever, and the person
+    asked how to know it was not stuck. *Rule:* a page that polls a list asks from its oldest unfinished item, and a
+    test finishes an older item after a newer one exists. Long work shows its current step in words, how long it has
+    been running (counted from the server's clock, since a phone's clock can be off), and a line once it is slower
+    than usual; whatever is ready shows as soon as it is ready.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
