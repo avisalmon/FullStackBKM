@@ -622,4 +622,8 @@ repeating it.
     server runs, the deploy runs a real job with it (not just `--version`) and falls back to the last version that
     worked. A test on your own computer proves nothing about the server's libraries.
 
+74. **A checker runs over real outputs before people see it.** *Rule:* a heuristic that judges a person's work
+    (and can be wrong) runs over a corpus of real outputs before it is shown, and every alarm there is looked at by
+    hand. Hand-made test cases miss the false alarms. A finding that is not certain is a note, not a warning.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

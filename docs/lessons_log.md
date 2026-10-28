@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-28
 
+- **A checker runs over real outputs before people see it.**
+  [mistake 74](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A new program for the server is proven on the server.**
   [mistake 73](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A test that needs the real function keeps it before the fixtures stub it.**
