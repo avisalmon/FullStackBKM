@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-28
 
+- **A test that needs the real function keeps it before the fixtures stub it.**
+  [mistake 72](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A live update moves everything that depends on it.**
   [mistake 71](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A heavy outside program gets a whole-group kill, a memory ceiling and a recipe.**

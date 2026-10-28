@@ -614,4 +614,8 @@ repeating it.
     reload, list every control that depends on it and update them all. The browser test uses that control after the
     live update, not after a reload, and checks that no id is used twice on the page.
 
+72. **A test that needs the real function keeps it before the fixtures stub it.** *Rule:* when a test file
+    replaces a function for every test, a test that must reach the real one keeps a reference to it at import time.
+    A cached lookup never keeps an empty answer.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
