@@ -626,4 +626,9 @@ repeating it.
     (and can be wrong) runs over a corpus of real outputs before it is shown, and every alarm there is looked at by
     hand. Hand-made test cases miss the false alarms. A finding that is not certain is a note, not a warning.
 
+75. **A hand-off is tested through its reader's channel.** *Rule:* when you build a way to hand data to
+    someone (an AI, a person, a script), test it through that reader's own channel, not only that the data was sent.
+    An AI that reads mail through a connector may not open attachments. Write code that has escape sequences
+    with the file editor, not through a shell heredoc.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

@@ -4,6 +4,11 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-10-29
+
+- **A hand-off is tested through its reader's channel.**
+  [mistake 75](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-10-28
 
 - **A checker runs over real outputs before people see it.**
