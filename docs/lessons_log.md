@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-29
 
+- **A commit is gated on the test result, not on its output.**
+  [mistake 77](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A multi-file edit checks every anchor before it changes anything.**
   [mistake 76](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A hand-off is tested through its reader's channel.**

@@ -635,4 +635,9 @@ repeating it.
     files first checks that every piece of text it replaces is there, once, and writes nothing unless all of them
     match. Otherwise one stale anchor leaves the work half applied.
 
+77. **A commit is gated on the test result, not on its output.** *Rule:* when a command runs the tests and
+    then commits, the commit depends on the tests' exit code (or on "failed" in the summary), never on a pipe that
+    prints the result: `pytest | grep && git commit` commits even when tests fail. A test that fails once and then
+    passes is written down, not forgotten.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
