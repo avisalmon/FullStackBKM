@@ -631,4 +631,8 @@ repeating it.
     An AI that reads mail through a connector may not open attachments. Write code that has escape sequences
     with the file editor, not through a shell heredoc.
 
+76. **A multi-file edit checks every anchor before it changes anything.** *Rule:* a script that edits several
+    files first checks that every piece of text it replaces is there, once, and writes nothing unless all of them
+    match. Otherwise one stale anchor leaves the work half applied.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
