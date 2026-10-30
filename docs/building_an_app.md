@@ -640,4 +640,9 @@ repeating it.
     prints the result: `pytest | grep && git commit` commits even when tests fail. A test that fails once and then
     passes is written down, not forgotten.
 
+78. **Test a control in the state people use it in.** *Rule:* test a control right after the action people do
+    before it (a reset button right after a drag, while things still move), not only once everything has settled.
+    And when the owner is the one who sends something (an invitation), ask how they send it before building the
+    sending: a form for an email address is no use to someone who shares links on WhatsApp.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
