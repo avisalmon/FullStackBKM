@@ -655,4 +655,11 @@ repeating it.
     value a person typed is sent as typed: a browser range input quietly clamps its value to its own minimum and
     maximum.
 
+81. **Model the object first; send "cannot be right" findings back; say the limits.** *Rule:* an AI that
+    builds something around a real object (a case, a holder) first models that object in one fixed frame and
+    derives everything from it, never placing features by eye. A check that says "this cannot be right" (parts
+    overlap) goes back to the model to fix before the answer, like a build error. A ray-casting geometry test
+    starts a hair off the point, or a vertex on the other part's face reads as inside. And the product says
+    early, in its own words, what it does not do well and where to finish the job instead.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
