@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-30
 
+- **Stand-ins take `**kwargs`; typed values skip range inputs.**
+  [mistake 80](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A phone photo is turned upright before anything else.**
   [mistake 79](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Test a control in the state people use it in.**

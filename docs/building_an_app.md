@@ -650,4 +650,9 @@ repeating it.
     model, on its side. And look at screens as pictures at a phone, a tablet and a computer width, not only test that
     nothing scrolls sideways.
 
+80. **Stand-ins take `**kwargs`; typed values skip range inputs.** *Rule:* a test stand-in that replaces a
+    function accepts `**kwargs`, so adding an option to the real function does not break every test at once. And a
+    value a person typed is sent as typed: a browser range input quietly clamps its value to its own minimum and
+    maximum.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
