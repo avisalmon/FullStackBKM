@@ -645,4 +645,9 @@ repeating it.
     And when the owner is the one who sends something (an invitation), ask how they send it before building the
     sending: a form for an email address is no use to someone who shares links on WhatsApp.
 
+79. **A phone photo is turned upright before anything else.** *Rule:* every script that reads a phone photo
+    applies its rotation marker first (in Python, `ImageOps.exif_transpose`); otherwise it shows, and goes to an AI
+    model, on its side. And look at screens as pictures at a phone, a tablet and a computer width, not only test that
+    nothing scrolls sideways.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
