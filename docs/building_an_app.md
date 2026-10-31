@@ -662,4 +662,11 @@ repeating it.
     starts a hair off the point, or a vertex on the other part's face reads as inside. And the product says
     early, in its own words, what it does not do well and where to finish the job instead.
 
+82. **An automatic check is a speaker too: mark it, give it the history, let it see.** *Rule:* when your
+    code adds its own instruction to an AI conversation, mark it as coming from the system and say which
+    message sets the reply's language, or the AI answers your instruction instead of the person. Give a
+    checker the earlier requests in short form, not only the last one, and show it a view in which the
+    thing it checks is visible. Run every new kind of item through all the existing checks, and test a
+    conversation feature with a follow-up turn in a language other than English.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
