@@ -669,4 +669,10 @@ repeating it.
     thing it checks is visible. Run every new kind of item through all the existing checks, and test a
     conversation feature with a follow-up turn in a language other than English.
 
+83. **The device first, and a sibling app's decision stands.** *Rule:* before paying a service for a
+    capability (speech to text, a camera, location, sharing), check what the person's device already does
+    for free, and check what another app in the same repo already decided about the same question: that
+    decision stands unless the owner says otherwise. If a paid path is kept at all, it is a fallback behind
+    a switch that is off by default.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

@@ -6,6 +6,8 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-10-31
 
+- **The device first, and a sibling app's decision stands.**
+  [mistake 83](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **An automatic check is a speaker too: mark it, give it the history, let it see.**
   [mistake 82](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
