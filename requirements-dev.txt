@@ -3,5 +3,5 @@
 pytest>=8,<9
 pytest-django>=4.9,<5
 ruff>=0.4,<1
-pre-commit>=3.7,<5
+pre-commit>=4.7.0,<5
 PyYAML>=6,<7
