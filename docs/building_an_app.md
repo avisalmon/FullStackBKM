@@ -343,7 +343,8 @@ repeating it.
     forgot could make real, billed calls, and the background threads those features start outlived browser tests and
     locked the test database. *Rule:* one shared test fixture blanks every paid key and switches off background work
     for all of the app's tests; a test that needs a key sets a fake one and replaces the client. Never rely on each
-    test file remembering.
+    test file remembering. Put that fixture in place with the app's first test, before any AI feature exists: a later
+    sprint puts a model behind a path that an older test already walks, and that older test then reaches the real key.
 
 35. **Test the task on a phone, not only the pages.** A "start reading" feature passed every page check: the start
     page, the timer page and the summary each fitted, had labels and big enough buttons. The owner tried it on his

@@ -8,6 +8,8 @@ an AI engineer, and most of them came from something going wrong.
 
 - **Text people type gets `dir="auto"`, aligned with the page.** Mixed-language titles read backwards otherwise.
   [mistake 38](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Blank the paid keys from an app's first test, before any AI feature exists.** Old tests walk new model calls.
+  [mistake 34](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
 ## 2026-10-31
 
