@@ -376,7 +376,10 @@ repeating it.
     which way things move or where a minus sign lands in right-to-left text. *Rule:* lay out any widget with a
     direction (ruler, slider, carousel, page turn) from the reader's side, so in Hebrew or Arabic what is ahead comes
     from the left; give any label that is a signed number or a range `dir="ltr"`; and check both on a right-to-left
-    screenshot before shipping.
+    screenshot before shipping. The same goes for text people type: a title like "BKM: GitHub Pages" followed by
+    a Hebrew word reads backwards inside a Hebrew page. Give every element that shows typed text (titles, names,
+    descriptions, comments) `dir="auto"` from the first template, and align it with the page in CSS so a card does
+    not zigzag.
 
 39. **A ring drawn with a radial mask needs `closest-side`.** A progress ring passed its tests (the element was in
     the page, its percentage and label were right) and was invisible on the screenshot. In CSS,
