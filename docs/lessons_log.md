@@ -10,6 +10,9 @@ an AI engineer, and most of them came from something going wrong.
   [mistake 38](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Blank the paid keys from an app's first test, before any AI feature exists.** Old tests walk new model calls.
   [mistake 34](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+- **Run each security and screen check in the sprint that creates its subject.** A paid call gets its daily caps
+  the day it lands; a copied look gets its contrast checked the day it is copied.
+  [mistake 60](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
 ## 2026-10-31
 

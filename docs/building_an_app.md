@@ -535,6 +535,9 @@ repeating it.
     with no ceiling); every login form (failures counted and locked, django-axes covers them all); public write
     endpoints (per-address throttle); headers (CSP, nosniff, frame options); and the tree for key shapes.
     *Rule:* keep the list, run it at every launch, and write a failing test for each finding before fixing it.
+    Run each item in the sprint that creates its subject, not only at the end: the sprint that adds a paid call
+    checks that call's daily caps, and the sprint that copies another app's look runs the screen checks (contrast,
+    tap targets) on the copy. Found at the end, both are already built into everything around them.
 
 61. **A new form control runs the narrowest-phone test the day it ships.** A select went out with 14px text; on an
     iPhone any field under 16px zooms the page in when touched, then the page slides sideways: a failure an earlier
