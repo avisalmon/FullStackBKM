@@ -682,4 +682,11 @@ repeating it.
     decision stands unless the owner says otherwise. If a paid path is kept at all, it is a fallback behind
     a switch that is off by default.
 
+84. **An approval with open questions left unanswered is not an answer to them.** The owner approved a data model
+    that ended with three open questions, without answering them; the defaults were built, and one of them (a kind
+    of card the owner never wanted) came back as a correction once the app was live. *Rule:* when a document is
+    approved with its questions unanswered, ask those questions once more, in one short message, before building
+    on the defaults; and the screen's tools (search, filters) fold behind a button on a phone from the first build,
+    so the content is what the person sees first.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
