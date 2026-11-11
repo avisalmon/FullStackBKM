@@ -689,4 +689,11 @@ repeating it.
     on the defaults; and the screen's tools (search, filters) fold behind a button on a phone from the first build,
     so the content is what the person sees first.
 
+85. **Something every app must show comes from one list, guarded by one test.** The owner wanted every official
+    app on the site to carry the same "more apps" menu, and a newly official app to appear in all of them. Each app
+    has its own hand-made frame, so a copy in each would drift the first time one was forgotten. *Rule:* keep the
+    list in one place, hand it to every frame (a context processor), let each frame draw it in its own look, and
+    write a test that fails while any listed app lacks it. An app's own "no link out" test removes that one block
+    and checks the rest unchanged.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

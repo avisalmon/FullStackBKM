@@ -4,6 +4,11 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-11-11
+
+- **Something every app must show comes from one list, guarded by one test.** No copies to drift.
+  [mistake 85](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-11-10
 
 - **An approval with open questions left unanswered is not an answer to them.** Ask them once more before building.
