@@ -713,4 +713,14 @@ repeating it.
     their text, empty boxes and lonely buttons. Turn every flaw found that way into a line in the contract (the bar
     is at most two rows on a phone; brand and sign-in share a line), so it cannot come back unseen.
 
+88. **Escape through the framework; open the third-party URL first; no backslash through a heredoc.** A page
+    received its data as `json.dumps(...)|safe`, where a `<` in a value would have closed the script tag; a map
+    was built on a free tile service that had started demanding an API key, seen only in the first screenshot;
+    and two patches sent through a shell heredoc turned `
+` into a line break and an octal escape into a
+    control byte. *Rule:* data rendered into a page goes through the framework's escaping helper (Django's
+    `json_script`), never a raw dump marked safe, and the sprint that adds it greps for `|safe` before its own
+    tests; a third-party endpoint is opened in the browser or fetched before code depends on it; a patch that
+    contains a backslash goes through the file editor, never a heredoc.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
