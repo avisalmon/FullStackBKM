@@ -744,4 +744,15 @@ repeating it.
     every string that starts with the prefix. And the sprint that adds a private-files setting adds the ignore line
     for that folder the same day, not when the first upload arrives.
 
+91. **Declare a control by the shape of the answer, scope the generic input rule away from boxes, and give a file
+    its parent before it is named.** An editor built from model forms drew a one-line field as a text box because
+    the column was a long-text column; the stylesheet's rule for text inputs also sized the radios and boxes of the
+    first choice field, which only the screenshot showed; an upload named after its parent record landed in a
+    `None` folder because the form saved the file before the view set the parent; and two tests used the
+    superuser as "a stranger", who by the app's own rule sees drafts. *Rule:* a model form names a widget for every
+    field whose shape differs from its column. The day a choice field appears, the generic input rule is scoped
+    away from radios and boxes and the page gets its phone screenshot. A file named after its parent is saved
+    through a form whose instance already carries the parent. The test's stranger is a plain account, never the
+    superuser.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
