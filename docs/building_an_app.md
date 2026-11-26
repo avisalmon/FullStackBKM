@@ -716,11 +716,18 @@ repeating it.
 88. **Escape through the framework; open the third-party URL first; no backslash through a heredoc.** A page
     received its data as `json.dumps(...)|safe`, where a `<` in a value would have closed the script tag; a map
     was built on a free tile service that had started demanding an API key, seen only in the first screenshot;
-    and two patches sent through a shell heredoc turned `
-` into a line break and an octal escape into a
+    and two patches sent through a shell heredoc turned a backslash-n into a line break and an octal escape into a
     control byte. *Rule:* data rendered into a page goes through the framework's escaping helper (Django's
     `json_script`), never a raw dump marked safe, and the sprint that adds it greps for `|safe` before its own
     tests; a third-party endpoint is opened in the browser or fetched before code depends on it; a patch that
     contains a backslash goes through the file editor, never a heredoc.
+
+89. **A template fallback is resolved whether or not it is needed.** A page chose between two relations with
+    `{{ a.x|default:b.y }}`; the template engine resolves a filter's argument before the filter runs, so a row
+    whose `b` was empty raised inside the template and the whole page failed. The line had sat on another page
+    for an epic, where no test rendered both shapes of row at once. *Rule:* choose between two relations with an
+    explicit `if`, never with a fallback filter's argument. A page that lists rows of mixed shapes is tested with
+    every shape on it at once. And text in another script going into a shell on Windows goes as a script file run
+    in UTF-8 mode, never through the shell's standard input, which mangles it.
 
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
