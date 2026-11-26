@@ -704,4 +704,13 @@ repeating it.
     must change, stop the run and start it again. And a multi-line code patch goes through the file editor,
     never a shell heredoc (mistake 22 again: it mangled a regex into a control byte).
 
+87. **Look at the phone page before calling a screen done; make what you find measurable.** A screen contract
+    passed at five phone widths (overflow, field sizes, tap targets, contrast) and the owner's first word was that
+    the site did not open nicely on the phone: the top bar wrapped into three ragged rows, links drifted away from
+    their names, empty boxes left gaps. A contract measures what has no taste in it; it cannot measure ugly.
+    *Rule:* before a screen is done, take a full-page screenshot on a real phone profile at a narrow width and a
+    common one, and one on the desktop, and read each top to bottom for wrapped bars, controls that drifted from
+    their text, empty boxes and lonely buttons. Turn every flaw found that way into a line in the contract (the bar
+    is at most two rows on a phone; brand and sign-in share a line), so it cannot come back unseen.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
