@@ -755,4 +755,12 @@ repeating it.
     through a form whose instance already carries the parent. The test's stranger is a plain account, never the
     superuser.
 
+92. **A secret set on the host is proven in the running service before anything leans on it.** After a first
+    release, a token was written to the hosting platform's environment through its API, and an old note said that
+    change redeploys the service. It did not: the process kept its old environment and refused the token. A
+    one-request probe run before the data migration caught it; a deploy was started by hand and the probe passed
+    before the rows travelled. *Rule:* after setting a secret or a variable on the host, send one request that needs
+    it and read the answer before any step depends on it. A note about a platform's side effects is a hint to
+    verify, not a step to skip, and a note that proves wrong is corrected the same hour.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
