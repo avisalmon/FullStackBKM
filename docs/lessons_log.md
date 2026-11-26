@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-11-26
 
+- **A shared helper reads what both requests carry; a hidden legend is not hidden; a screenshot proves itself.** [mistake 93](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A secret set on the host is proven in the running service before anything leans on it; a platform note is a hint to verify, not a step to skip.** [mistake 92](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Declare a control by the shape of the answer, not the column; scope the generic input rule away from boxes; give a file its parent before it is named; the test's stranger is a plain account.** [mistake 91](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Compose a document before you draw it, and test every promise on the composition, not the file.** A secret kept off a page is at least a word; line breaks come from one place; a class sweep reads the calls. [mistake 90](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)

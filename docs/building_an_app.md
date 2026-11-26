@@ -763,4 +763,14 @@ repeating it.
     it and read the answer before any step depends on it. A note about a platform's side effects is a hint to
     verify, not a step to skip, and a note that proves wrong is corrected the same hour.
 
+93. **A helper shared by pages and the API reads only what both requests carry; a hidden legend is not hidden; a
+    screenshot proves itself.** A change logger written for the REST layer read the framework's request wrapper and
+    crashed every page that reused it, until the page tests ran. A visually hidden `legend` inside a fieldset sat
+    outside the page and made the phone layout wider; after the fix a dev server started without auto-reload kept
+    serving the old template, so the next screenshots still showed the bug. *Rule:* a helper used by pages and the
+    API reads only the plain request's fields, and one page test drives it. A hidden label for a group of controls
+    is an `aria-label` on the group, never a visually hidden legend. A screenshot proves itself: the server was
+    started after the last edit and the picture shows something only the new code has. A number shown to people
+    comes from a normalized decimal, and a "waiting for you" rule names the states in which the thing can still wait.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
