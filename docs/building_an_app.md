@@ -696,4 +696,12 @@ repeating it.
     write a test that fails while any listed app lacks it. An app's own "no link out" test removes that one block
     and checks the rest unchanged.
 
+86. **A test run owns the tree it reads.** A long suite ran in the background while the next sprint went on
+    in the same working tree. A route was added before the view it named existed; the framework loads routes
+    on the first request, which came after the edit, and dozens of unrelated tests failed and had to be
+    rerun. *Rule:* while a suite runs, change nothing it imports or renders (the app's code, templates, static
+    files). Work meanwhile on docs, on new files nothing imports yet, or on another app; if a file it reads
+    must change, stop the run and start it again. And a multi-line code patch goes through the file editor,
+    never a shell heredoc (mistake 22 again: it mangled a regex into a control byte).
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
