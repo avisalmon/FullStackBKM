@@ -730,4 +730,18 @@ repeating it.
     every shape on it at once. And text in another script going into a shell on Windows goes as a script file run
     in UTF-8 mode, never through the shell's standard input, which mangles it.
 
+90. **Compose a document before you draw it, and promise things about the composition.** A generated file
+    (a PDF, a printout) came with a promise: one part of it must never contain certain strings. Testing that on
+    the drawn file means parsing it, and right-to-left text comes back reversed, so the promise was tested on a
+    plain list of text blocks that the drawing step reads afterwards. The first run of that test failed for a
+    good reason: one of the secrets was a single character, which is in any text, and the content was fixed to
+    say a sentence, not the test loosened. Two small ones from the same week: a text field was double-spaced
+    because the template made paragraphs out of blank lines and the stylesheet kept them again, which only the
+    screenshot showed; and a sweep over a script matched every string with the class prefix and so failed on
+    element ids. *Rule:* a document is built as content first and drawn second, and every promise about what it
+    says is tested on the content. A secret that must stay out of a page is at least a word. A text field gets its
+    line breaks from exactly one place. A class sweep over a script matches the calls that apply a class, never
+    every string that starts with the prefix. And the sprint that adds a private-files setting adds the ignore line
+    for that folder the same day, not when the first upload arrives.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

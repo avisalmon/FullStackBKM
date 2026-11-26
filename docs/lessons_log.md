@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-11-26
 
+- **Compose a document before you draw it, and test every promise on the composition, not the file.** A secret kept off a page is at least a word; line breaks come from one place; a class sweep reads the calls. [mistake 90](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A template fallback is resolved whether or not it is needed; pick between relations with an explicit if.** [mistake 89](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Escape through the framework, open the third-party URL first, no backslash through a heredoc.**
   [mistake 88](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
