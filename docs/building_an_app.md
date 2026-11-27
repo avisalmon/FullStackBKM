@@ -784,4 +784,15 @@ repeating it.
     and a refused install fails the run and says why before any test starts. "Requirements changed, run
     everything" is only half the rule.
 
+95. **A reader of other people's files runs in a child process with a cap; a batch job's first production run is
+    one item.** The first production run of a text extraction answered 502 on every call: one 3 MB spreadsheet,
+    parsed as a whole XML tree inside the single web worker, took the small instance's memory, the worker was
+    killed, and every retry began with the same file. In development the same batch had taken 200 seconds on a PC
+    with memory to spare and never hinted at it. *Rule:* anything that parses uploaded files (PDF, spreadsheets,
+    Word, images) runs in a child process with a time limit and, where the platform allows, a memory cap; a crash
+    or a timeout becomes a note on the row, the web worker lives, and the queue moves past the bad file instead of
+    retrying it forever. Parsers of uploaded XML stream and drop what they have read. The first production run of
+    a batch job is one item, watched, before the batch. A measurement in development says how fast a reader is on
+    the PC, not whether it fits the production instance.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
