@@ -826,4 +826,29 @@ repeating it.
     ordering and in every explicit ordering a screen depends on. A test that asserts an order must pass when every
     row shares one timestamp; if it cannot, the order it tests is not the order the code promises.
 
+99. **Generated pages are read by meaning, with a tag walk, and a parser ships with its count.** An import read a
+    few dozen pages that had each been generated on their own, with their own class names, by one page's class
+    names: it kept names and links, silently dropped the metrics, publications and prizes, and took section
+    headings for people. Its test, "it runs twice and the second run changes nothing", was true of a parser that
+    read almost nothing. The second attempt started with a regex that stopped at the first closing tag, so a
+    wrapper swallowed its children and a label's value sat invisible beside it. *Rule:* pages generated separately
+    are read by what they say (a person is a name with a title, a metric is a number beside its word, a prize is a
+    badge-like line that starts with the word), with a real tag walk, never a regex that ends at the first closing
+    tag. A parser over a corpus ships with a count test against the real corpus (at least what was measured by
+    hand) and a sample test that pins a few known rows exactly, and the builder reads a handful of parsed rows next
+    to their source before landing them. An import fills only what is empty and never overwrites, so a better
+    reading can run over a worse one. Idempotence proves nothing about coverage.
+
+99. **Walk the job as the role, with the printer in the room.** A printable kit shipped exact and tested, and
+    the first look as its user found it hard to use: one file mixed two kinds of paper and multiplied itself by
+    the number of copies, so the printer could not be loaded right nor told "4 copies"; the one question was asked
+    twice; the page had seven sections and no order of work; and the answers were open to anyone signed in,
+    including the people they were meant to be hidden from. Nothing was broken; the spec was written from the data
+    outward, not from the user's day inward. *Rule:* before a screen for a role ships, walk that role's job start
+    to finish with the physical world in it: what they hold, which machine they use and what it cannot do, who
+    else is in the room. One question is asked once. A document people print is split the way the printer needs
+    it (by paper, by copies), not the way the data is grouped. "Who may see this" is asked per page against the
+    people it is for, never inherited from the site's sign-in. A flow test proves a flow completes; only the walk
+    proves it is the right flow.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
