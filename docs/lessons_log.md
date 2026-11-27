@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-11-27
 
+- **"Newest first" is a tiebreak away from a coin toss.** Every ordering by a timestamp carries the primary key as its tiebreak, and a test that asserts an order must pass when every row shares one timestamp. [mistake 98](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Generated pages are read as pictures; bidi is decided per string; the pen records what it draws.** A string without a right-to-left letter skips the bidi pass, a symbol outside the font is a shape, the generator's pen records its words for the content tests, and every generated page is read as a picture before done; seeded production content is rewritten only by an explicit, named flag. [mistake 97](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A cleanup on a shared database names its rows.** An explicit list and a printed count before the write; a pattern that can match more than you made is a bug. [mistake 96](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A reader of other people's files runs in a child process with a cap; a batch job's first production run is one item.** A crash or a timeout is a note on the row, the web worker lives, the queue moves on; XML parsers stream. [mistake 95](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)

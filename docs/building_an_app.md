@@ -817,4 +817,13 @@ repeating it.
     content that already exists in production is rewritten only by an explicit flag that names the record, on the
     owner's word, through a deploy line removed on the next ship; it keeps the row and bumps its version.
 
+98. **"Newest first" is a tiebreak away from a coin toss.** A list ordered by its creation time alone passed its
+    "the newer row comes first" test on the development machine in every run, then failed on the release machine:
+    there the two rows were created in the same clock tick, tied on the timestamp, and the database returned the
+    older one first. A timestamp is not unique; one operating system hands out the same value for several
+    milliseconds, a test fixture inserts rows faster than the clock moves, and a bulk insert gives them all one
+    instant. *Rule:* every ordering by a timestamp carries the primary key as its tiebreak, in the model's default
+    ordering and in every explicit ordering a screen depends on. A test that asserts an order must pass when every
+    row shares one timestamp; if it cannot, the order it tests is not the order the code promises.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
