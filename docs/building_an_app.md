@@ -851,4 +851,13 @@ repeating it.
     people it is for, never inherited from the site's sign-in. A flow test proves a flow completes; only the walk
     proves it is the right flow.
 
+101. **A gate hands out rights, so ask the approver what they hand out.** An approval door went up as a yes/no
+    question (may this person come in?) and the owner asked the next morning for two levels behind it, because the
+    next epic was for one kind of approved person only. The backlog already said so; the gate and the epic were
+    never read together. *Rule:* when one person approves others, ask at design time what the approver hands out
+    with the approval: which rights, how many levels, whether a level changes later. Read the next epic's audience
+    against the gate's audience before the gate ships. The level is chosen on the approval screen in the same
+    click and changed on the same screen later; a yes/no door with rights on a second screen costs the approver a
+    second visit per person.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
