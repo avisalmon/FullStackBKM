@@ -802,4 +802,19 @@ repeating it.
     ids) and prints the count before it writes. A pattern that can match more than the rows you made is a bug,
     not a shortcut, and a count that surprises you is read before anything else runs.
 
+97. **Generated pages are read as pictures; bidi is decided per string; the pen records what it draws; seeded
+    content is rewritten only by name.** A set of printable worksheets drawn as vector graphics by code printed a
+    bit pattern backwards (the right-to-left pass laid its spaced digit runs in reverse), drew boxes for two
+    symbols the shipped font does not have, and put a label on top of its own arrow; only rendering every page to
+    a picture and reading it found them. A new kind of attachment then took one of two code paths and produced an
+    empty cover page. And seeded content that already existed in production had to be rewritten for the first
+    time. *Rule:* a string without a right-to-left letter skips the bidi pass. A symbol outside the shipped font is
+    drawn as a shape or left out. A document generator records the words it draws through the same pen it draws
+    with (a pen without a canvas records only), so the content tests read generated pages too; geometry that
+    encodes an answer is tested right at the answer and wrong everywhere else; and every generated page is
+    rendered to a picture and read before the work is called done, because a bounds check cannot see overlap. A
+    new kind of attachment runs through every path that handles attachments before its first render. Seeded
+    content that already exists in production is rewritten only by an explicit flag that names the record, on the
+    owner's word, through a deploy line removed on the next ship; it keeps the row and bumps its version.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
