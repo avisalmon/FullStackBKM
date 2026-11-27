@@ -773,4 +773,15 @@ repeating it.
     started after the last edit and the picture shows something only the new code has. A number shown to people
     comes from a normalized decimal, and a "waiting for you" rule names the states in which the thing can still wait.
 
+94. **The environment that runs the tests installs the candidate's requirements first.** A sprint added a library to
+    the requirements file. The developer's tree had it and every test passed there; the release train, which tests
+    in its own clone with its own virtualenv, failed ten tests with "No module named ...", and the next team's train,
+    queued behind it, was about to fail the same way on a package it never touched. The train's setup had installed
+    the requirements once, and nothing installed into that environment afterwards. *Rule:* a new requirement is a
+    change to the environment, not only to the code, and the process that ships it owns both. Any environment that
+    runs tests on a candidate (a train, a nightly, a CI job, a bot's clone) installs the candidate's requirement files
+    before anything imports them: a hash of the files against the one last installed, pip only when they differ,
+    and a refused install fails the run and says why before any test starts. "Requirements changed, run
+    everything" is only half the rule.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

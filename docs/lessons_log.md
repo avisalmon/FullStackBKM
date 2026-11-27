@@ -4,6 +4,10 @@ The short version of every lesson added to this blueprint, newest first, so you 
 last looked. Each line points to where the full rule lives. They come from building a real production site with
 an AI engineer, and most of them came from something going wrong.
 
+## 2026-11-27
+
+- **The environment that runs the tests installs the candidate's requirements first.** A new requirement is a change to the environment, not only to the code; a train, a nightly or a CI job hashes the requirement files and runs pip when they changed, before any test imports them. [mistake 94](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
+
 ## 2026-11-26
 
 - **A shared helper reads what both requests carry; a hidden legend is not hidden; a screenshot proves itself.** [mistake 93](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
