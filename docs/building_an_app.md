@@ -839,7 +839,7 @@ repeating it.
     to their source before landing them. An import fills only what is empty and never overwrites, so a better
     reading can run over a worse one. Idempotence proves nothing about coverage.
 
-99. **Walk the job as the role, with the printer in the room.** A printable kit shipped exact and tested, and
+100. **Walk the job as the role, with the printer in the room.** A printable kit shipped exact and tested, and
     the first look as its user found it hard to use: one file mixed two kinds of paper and multiplied itself by
     the number of copies, so the printer could not be loaded right nor told "4 copies"; the one question was asked
     twice; the page had seven sections and no order of work; and the answers were open to anyone signed in,
