@@ -860,4 +860,11 @@ repeating it.
     click and changed on the same screen later; a yes/no door with rights on a second screen costs the approver a
     second visit per person.
 
+102. **Research by agents lands through a review, and a page address is unique where the page looks.** Several
+    agents researched one subject each into files, and a loader landed them. Every number, year and prize is read
+    against its source before landing; anything counted, inferred or vague is dropped and stays a visible gap. The
+    loader fills only empty fields. The field a URL resolves by is unique over the URL's whole scope, not per
+    parent, and every new row's page is rendered after a bulk landing. Parallel agents share the network's quotas,
+    so one agent does the rate-limited API work or a backfill runs after the reset.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
