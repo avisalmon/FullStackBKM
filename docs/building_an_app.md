@@ -795,4 +795,11 @@ repeating it.
     a batch job is one item, watched, before the batch. A measurement in development says how fast a reader is on
     the PC, not whether it fits the production instance.
 
+96. **A cleanup on a shared database names its rows.** Turning off the screenshot accounts after a sprint, one
+    blanket update on "every account ending in the test domain" caught dozens of demo accounts that other work
+    keeps on the shared development database; the count gave it away and the rows were restored within the
+    minute. *Rule:* on a database other work shares, a cleanup names its rows (an explicit list of accounts or
+    ids) and prints the count before it writes. A pattern that can match more than the rows you made is a bug,
+    not a shortcut, and a count that surprises you is read before anything else runs.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
