@@ -867,4 +867,10 @@ repeating it.
     parent, and every new row's page is rendered after a bulk landing. Parallel agents share the network's quotas,
     so one agent does the rate-limited API work or a backfill runs after the reset.
 
+103. **One Count per to-many relation per query.** A summary list annotated several related counts on one query.
+    On thin test data it was instant; on real data the joins multiplied into millions of rows and the server timed
+    out. *Rule:* count each to-many relation in its own grouped query and merge in code; never stack counts over
+    different relations on one query. A summary screen gets a query-count test, and after a bulk data load every
+    screen that aggregates the new rows is timed.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
