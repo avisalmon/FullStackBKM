@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-11-28
 
+- **Imported knowledge is unverified until each fact is checked.** A document that is not a primary source is not a source: check each fact before the public sees it, recheck by row id with the quoted current value, and log every change. [mistake 105](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A markdown field renders as markdown everywhere, and third parties are checked live.** Render markdown fields through one sanitized renderer with a test for raw markup, read screenshots for stray markup, and open pages that load third parties live after a deploy. [mistake 104](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 
 ## 2026-11-27

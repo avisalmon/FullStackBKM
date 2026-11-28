@@ -880,4 +880,12 @@ repeating it.
     are read for stray markup too; a page that loads a third party is opened live after a deploy, and its requests
     carry what that party's usage policy asks for.
 
+105. **Imported knowledge is unverified until each fact is checked.** Facts imported from a document that was not a
+    primary source (one an AI helped write) reached the public site with a source line that made them look checked;
+    a later recheck found invented people, prizes, papers and numbers. *Rule:* such a document is not a source: each
+    fact is checked against a page that states it before the public sees it, or is shown as unchecked. A recheck
+    returns corrections by row id quoting the current value; the applier changes a field only while it still holds
+    that value, hides before it deletes, and logs every change. Numbers about people come from the one database that
+    states them, fetched centrally.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
