@@ -888,4 +888,11 @@ repeating it.
     that value, hides before it deletes, and logs every change. Numbers about people come from the one database that
     states them, fetched centrally.
 
+106. **A step that saves through its own copy leaves the caller's copy stale.** A function loaded a record fresh,
+    changed it and saved it, while the caller kept its older copy and acted on it next as if nothing had changed.
+    Code that reloads on every request never sees this; a caller holding one object across two calls does.
+    *Rule:* a function that saves through a copy it loaded itself refreshes the caller's object before it
+    returns, or takes only an id and returns the fresh object. A test that holds the object across two calls is
+    the test for it. Read a screenshot against what that state should show, not only for breakage.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
