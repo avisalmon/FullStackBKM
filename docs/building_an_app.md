@@ -913,5 +913,20 @@ repeating it.
     the guard left it green. *Rule:* test a guard for a rare case (a random result that must not happen, a
     collision, an empty pick) with inputs where the case does happen: many seeds, or an input built to force it.
     Then remove the guard once and watch the test fail.
+110. **An AI that changes things is told its limits and its last action.** A writing assistant that could change
+    only text was asked for pictures; it wrote "diagrams" out of arrows and brackets and said done, and when told
+    "I don't see it" it invented a cause and proposed the same thing again. Nothing in its prompt said what it
+    could change or what had happened to its last proposal. *Rule:* the prompt names exactly what the AI can
+    change and says nothing else exists; a request outside that gets a plain sentence and the nearest thing it
+    can do, never a substitute handed over as the thing asked for. Every turn carries the state of its last
+    action (applied, waiting, declined, and what it was). A question the user does not answer is not asked
+    again. Read the first real session of a new AI feature turn by turn, looking for the request it could not
+    meet.
+111. **Text that lands in another renderer is checked for what it can show.** Arrows and box lines written by a
+    model went into a PDF whose font had no such glyphs: the change printed as blank lines, and every test
+    stayed green because the tests read words, never glyphs. *Rule:* when text written in one place is rendered
+    in another (a PDF font, a terminal, a label printer), check in code what that renderer can show: a coverage
+    check against the font, a fallback for the common cases (a symbols font, run by run), a named warning for
+    what remains, and a test that renders the awkward characters and reads the result back.
 
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
