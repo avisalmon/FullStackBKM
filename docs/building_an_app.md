@@ -902,4 +902,10 @@ repeating it.
     unmatched, never made into a new record. After a load that adds people, look for empty rows and same-id pairs
     before publishing.
 
+108. **Look for the harvesting interface before scraping, and let a partial list confirm only.** Sites that block
+    automated page reads often publish a machine interface for harvesting (OAI-PMH, a public API) that returns the
+    same official data. *Rule:* use that interface first. A partial official list confirms that someone is on it and
+    never proves that someone is not. Match records about a person by a registry id when one exists, and show on the
+    page which source confirmed the fact and when.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
