@@ -928,5 +928,11 @@ repeating it.
     in another (a PDF font, a terminal, a label printer), check in code what that renderer can show: a coverage
     check against the font, a fallback for the common cases (a symbols font, run by run), a named warning for
     what remains, and a test that renders the awkward characters and reads the result back.
+112. **Code that touches a process-wide registry is tested with the other tenants already there.** A PDF module
+    registered its fonts only when its main font was missing from the registry. Alone, its tests were green;
+    in the full run another app had registered that font first, the new symbols font never got in, and six
+    tests failed on the release train. *Rule:* anything that writes to a registry shared by the whole process
+    (fonts, signal handlers, codecs, global caches) registers each item on its own, never behind "if the first
+    one is missing", and has a test that fills the registry the way a neighbour would before calling it.
 
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
