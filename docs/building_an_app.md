@@ -908,4 +908,10 @@ repeating it.
     never proves that someone is not. Match records about a person by a registry id when one exists, and show on the
     page which source confirmed the fact and when.
 
+109. **A guard for a rare case is tested where the case happens.** Cards printed in a shuffle had a guard against
+    the shuffle landing in the right order. The test used one seed per count; none landed in order, so removing
+    the guard left it green. *Rule:* test a guard for a rare case (a random result that must not happen, a
+    collision, an empty pick) with inputs where the case does happen: many seeds, or an input built to force it.
+    Then remove the guard once and watch the test fail.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-11-28
 
+- **A guard for a rare case is tested where the case happens.** Test it with inputs where the rare case occurs (many seeds, or a forced input), then remove the guard once and watch the test fail. [mistake 109](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Look for the harvesting interface before scraping, and let a partial list confirm only.** Use a site's published machine interface first; a partial official list proves presence, never absence; match people by a registry id. [mistake 108](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Something that only attaches to a record never creates the record.** Match by a stable id before a name; an entry that only attaches data to someone not found is reported as unmatched; after a load, look for empty rows and same-id pairs. [mistake 107](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A step that saves through its own copy leaves the caller's copy stale.** Refresh the caller's object before returning, or take an id and return the fresh object; test by holding one object across two calls. [mistake 106](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
