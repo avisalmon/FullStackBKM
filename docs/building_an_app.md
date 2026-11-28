@@ -873,4 +873,11 @@ repeating it.
     different relations on one query. A summary screen gets a query-count test, and after a bulk data load every
     screen that aggregates the new rows is timed.
 
+104. **A markdown field renders as markdown everywhere, and third parties are checked live.** Text stored as
+    markdown was shown as plain text, so asterisks and dashes reached the page, and a map showed a provider's
+    "access blocked" tiles because the site sent no referrer. *Rule:* a field declared as markdown goes through the
+    app's one sanitized renderer wherever it is shown, with a test that finds no raw markup on the page; screenshots
+    are read for stray markup too; a page that loads a third party is opened live after a deploy, and its requests
+    carry what that party's usage policy asks for.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*
