@@ -895,4 +895,11 @@ repeating it.
     returns, or takes only an id and returns the fresh object. A test that holds the object across two calls is
     the test for it. Read a screenshot against what that state should show, not only for breakage.
 
+107. **Something that only attaches to a record never creates the record.** A load added a prize for a person whose
+    stored name was spelt differently, and a metrics pass matched people by name while its source spelt them
+    another way. Each made a second copy of the same person on the public site. *Rule:* match by a stable id
+    before a name. An entry that only attaches data (a prize, numbers, a link) to someone not found is reported as
+    unmatched, never made into a new record. After a load that adds people, look for empty rows and same-id pairs
+    before publishing.
+
 *Add new entries here as you make them, and a line in [lessons_log.md](lessons_log.md).*

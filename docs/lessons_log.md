@@ -6,6 +6,7 @@ an AI engineer, and most of them came from something going wrong.
 
 ## 2026-11-28
 
+- **Something that only attaches to a record never creates the record.** Match by a stable id before a name; an entry that only attaches data to someone not found is reported as unmatched; after a load, look for empty rows and same-id pairs. [mistake 107](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A step that saves through its own copy leaves the caller's copy stale.** Refresh the caller's object before returning, or take an id and return the fresh object; test by holding one object across two calls. [mistake 106](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **Imported knowledge is unverified until each fact is checked.** A document that is not a primary source is not a source: check each fact before the public sees it, recheck by row id with the quoted current value, and log every change. [mistake 105](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
 - **A markdown field renders as markdown everywhere, and third parties are checked live.** Render markdown fields through one sanitized renderer with a test for raw markup, read screenshots for stray markup, and open pages that load third parties live after a deploy. [mistake 104](building_an_app.md#mistakes-we-actually-made-and-the-rules-that-came-out-of-them)
